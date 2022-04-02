@@ -145,7 +145,7 @@ logplot[a_,b_,opts___]:=
 (*LogLogPlot*)
 
 Options[loglogplot]= {FrameLabel->None,PLOT`additionalticks
-     -> {}}
+     -> {{},{}}}
 
 loglogplot[a_,b_,opts___]:=
 	LogLogPlot[a,b,Evaluate @ DeleteCases[{opts}, (FrameLabel -> __ )| (additionalticks -> __)], FrameLabel
