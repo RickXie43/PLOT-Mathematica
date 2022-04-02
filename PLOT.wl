@@ -12,6 +12,18 @@ openmarkerlegend::usage = "Graphics List of the Openmarker for Making Plot Legen
 
 plot::usage = "Same as Plot"
 
+logplot::usage= "
+New Options 
+	additionalticks->
+		{1,4,5...} which add more ticks in the y axes 
+Same as LogPlot"
+
+loglogplot::usage= "
+New Options 
+	additionalticks->
+		{{1,4,5...},{5...}} which add more ticks in the x and y axes 
+Same as LogLogPlot"
+
 listplot::usage = "
 New Options 
 	PlotLegends->
@@ -112,6 +124,43 @@ plot[a_, b_, opts___] :=
         ])], PlotStyle -> colorlist, Frame -> True, LabelStyle -> Directive[Black,
          12, FontFamily -> "Myriad Pro"], Axes -> False, FrameStyle -> Directive[
         Black, Thickness[.0020]]]
+(*LogPlot*)
+
+Options[logplot]= {FrameLabel->None,PLOT`additionalticks
+     -> {}}
+
+logplot[a_,b_,opts___]:=
+	LogPlot[a,b,Evaluate @ DeleteCases[{opts}, (FrameLabel -> __ )| (additionalticks -> __)], FrameLabel
+         -> Evaluate[Style[#, Italic]& /@ (FrameLabel /. {opts} /. Options[logplot
+        ])], PlotStyle -> colorlist, Frame -> True, LabelStyle -> Directive[Black,
+         12, FontFamily -> "Myriad Pro"], Axes -> False, FrameStyle -> Directive[
+        Black, Thickness[.0020]],
+        FrameTicks -> {{Table[{10^i, Superscript[10, i], 0.013}, {i, 
+            -20, 15}] ~ Join ~ Flatten[Table[{k * 10^j, ToString[k]<>" \[Times]" Superscript[10, j], 0.013
+            }, {k, (additionalticks /. {opts} /. Options[logplot])}, {j, -20,
+             15}], 1] ~ Join ~ Flatten[Table[{k * 10^j, Null, 0.004}, {k, 2, 9}, 
+            {j, -20, 15}], 1], None}, {Automatic, None}}
+	]
+
+(*LogLogPlot*)
+
+Options[loglogplot]= {FrameLabel->None,PLOT`additionalticks
+     -> {}}
+
+loglogplot[a_,b_,opts___]:=
+	LogLogPlot[a,b,Evaluate @ DeleteCases[{opts}, (FrameLabel -> __ )| (additionalticks -> __)], FrameLabel
+         -> Evaluate[Style[#, Italic]& /@ (FrameLabel /. {opts} /. Options[loglogplot
+        ])], PlotStyle -> colorlist, Frame -> True, LabelStyle -> Directive[Black,
+         12, FontFamily -> "Myriad Pro"], Axes -> False, FrameStyle -> Directive[
+        Black, Thickness[.0020]],  FrameTicks -> {{Table[{10^i, Superscript[10, i], 0.013}, {i, 
+            -20, 15}] ~ Join ~ Flatten[Table[{k * 10^j, ToString[k]<>" \[Times]" Superscript[10, j], 0.013
+            }, {k, (additionalticks /. {opts} /. Options[loglogplot])[[2]]}, 
+            {j, -20, 15}], 1] ~ Join ~ Flatten[Table[{k * 10^j, Null, 0.004}, {k,
+             2, 9}, {j, -20, 15}], 1], None}, {Table[{10^i, Superscript[10, i], 0.013
+            }, {i, -20, 15}] ~ Join ~ Flatten[Table[{k * 10^j, ToString[k]<>" \[Times]" Superscript[10, j], 0.013}, {k, (additionalticks /. {opts} /. Options[loglogplot
+            ])[[1]]}, {j, -20, 15}], 1] ~ Join ~ Flatten[Table[{k * 10^j, Null, 0.004
+            }, {k, 2, 9}, {j, -20, 15}], 1], None}}
+	]
 
 (*ListPlot*)
 
@@ -214,13 +263,13 @@ listlogplot[a_, opts___] :=
         FrameStyle -> Directive[Black, Thickness[.0020]]
         ,
         FrameTicks -> {{Table[{10^i, Superscript[10, i], 0.013}, {i, 
-            -20, 15}] ~ Join ~ Flatten[Table[{k * 10^j, k . Superscript[10, j], 0.013
+            -20, 15}] ~ Join ~ Flatten[Table[{k * 10^j, ToString[k]<>" \[Times]" Superscript[10, j], 0.013
             }, {k, (additionalticks /. {opts} /. Options[listlogplot])}, {j, -20,
              15}], 1] ~ Join ~ Flatten[Table[{k * 10^j, Null, 0.004}, {k, 2, 9}, 
             {j, -20, 15}], 1], None}, {Automatic, None}}
     ]
 
-(*ListLogLogPlot&PlotTicks*)
+(*ListLogLogPlot*)
 
 Options[listloglogplot] = {FrameLabel -> None, PlotLegends -> False, 
     PLOT`additionalticks -> {{}, {}}}
@@ -271,12 +320,11 @@ listloglogplot[a_, opts___] :=
         FrameStyle -> Directive[Black, Thickness[.0020]]
         ,
         FrameTicks -> {{Table[{10^i, Superscript[10, i], 0.013}, {i, 
-            -20, 15}] ~ Join ~ Flatten[Table[{k * 10^j, k . Superscript[10, j], 0.013
+            -20, 15}] ~ Join ~ Flatten[Table[{k * 10^j, ToString[k]<>" \[Times]" Superscript[10, j], 0.013
             }, {k, (additionalticks /. {opts} /. Options[listloglogplot])[[2]]}, 
             {j, -20, 15}], 1] ~ Join ~ Flatten[Table[{k * 10^j, Null, 0.004}, {k,
              2, 9}, {j, -20, 15}], 1], None}, {Table[{10^i, Superscript[10, i], 0.013
-            }, {i, -20, 15}] ~ Join ~ Flatten[Table[{k * 10^j, k . Superscript[10,
-             j], 0.013}, {k, (additionalticks /. {opts} /. Options[listloglogplot
+            }, {i, -20, 15}] ~ Join ~ Flatten[Table[{k * 10^j, ToString[k]<>" \[Times]" Superscript[10, j], 0.013}, {k, (additionalticks /. {opts} /. Options[listloglogplot
             ])[[1]]}, {j, -20, 15}], 1] ~ Join ~ Flatten[Table[{k * 10^j, Null, 0.004
             }, {k, 2, 9}, {j, -20, 15}], 1], None}}
     ]
