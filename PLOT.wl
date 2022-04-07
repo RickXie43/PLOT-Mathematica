@@ -1,6 +1,7 @@
 (* ::Package:: *)
 
-(*Author:Rick*)
+(*Author: Rick*)
+(*Email: xie_jinxiao@126.com*)
 
 BeginPackage["PLOT`"]
 
