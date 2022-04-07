@@ -30,7 +30,9 @@ New Options
 		{
 			{'LegendLabel1','LegendLabel2'...},
 			{{LegendOffset ({0,0} set plot legend at the right top side of the plot),LegendLabelMargin}
-		}
+		},
+	errorinterval->{errordata1,errordata2...}
+		(errordata1={{downerrorpoint1,uperrorpoint1},{downerrorpoint2,uperrorpoint2},...})
 Other options are same as ListPlot"
 
 listlogplot::usage = "
@@ -41,7 +43,9 @@ New Options
 			{LegendOffset ({0,0} set plot legend at the right top side of the plot),LegendLabelMargin}
 		}
 	additionalticks->
-		{1,4,5...} which add more ticks in the y axes 
+		{1,4,5...} which add more ticks in the y axes ,
+	errorinterval->{errordata1,errordata2...}
+		(errordata1={{downerrorpoint1,uperrorpoint1},{downerrorpoint2,uperrorpoint2},...})
 Other options are same as ListLogPlot"
 
 listloglogplot::usage = "
@@ -52,7 +56,9 @@ New Options
 			{LegendOffset ({0,0} set plot legend at the right top side of the plot),LegendLabelMargin}
 		}
 	additionalticks->
-		{{1,4,5...},{5...}} which add more ticks in the x and y axes 
+		{{1,4,5...},{5...}} which add more ticks in the x and y axes,
+	errorinterval->{errordata1,errordata2...}
+		(errordata1={{downerrorpoint1,uperrorpoint1},{downerrorpoint2,uperrorpoint2},...})
 Other options are same as ListLogLogPlot"
 
 listlineplot::usage = "
@@ -164,17 +170,21 @@ loglogplot[a_,b_,opts___]:=
 
 (*ListPlot*)
 
-Options[listplot] = {FrameLabel -> None, PlotLegends -> False}
+Options[listplot] = {FrameLabel -> None, PlotLegends -> False, PLOT`errorinterval->False}
 
 listplot[a_, opts___] :=
     ListPlot[
-        a
+    If[errorinterval/.{opts}/.Options[listplot]
+        ,a,a,
+        Table[{a[[i,j,1]],Around[a[[i,j,2]],(errorinterval/.{opts}/.Options[listplot])[[i,j]]]},
+        {i,1,Length[a]},{j,1,Length[a[[i]]]}]]
         ,
         Evaluate @ DeleteCases[{opts}, (FrameLabel -> __) | (PlotLegends
-             -> __)]
+             -> __)|(errorinterval->__)]
         ,
         FrameLabel -> Evaluate[Style[#, Italic]& /@ (FrameLabel /. {opts
-            } /. Options[listplot])]
+            } /. Options[listplot])],
+        IntervalMarkersStyle->Directive[Thickness[0.002]]
         ,
         Epilog ->
             If[PlotLegends /. {opts} /. Options[listplot],
@@ -215,18 +225,22 @@ listplot[a_, opts___] :=
 (*ListLogPlot*)
 
 Options[listlogplot] = {FrameLabel -> None, PlotLegends -> False, PLOT`additionalticks
-     -> {}}
+     -> {}, PLOT`errorinterval->False}
 
 listlogplot[a_, opts___] :=
     ListLogPlot[
-        a
+        If[errorinterval/.{opts}/.Options[listlogplot]
+        ,a,a,
+        Table[{a[[i,j,1]],Around[a[[i,j,2]],(errorinterval/.{opts}/.Options[listlogplot])[[i,j]]]},
+        {i,1,Length[a]},{j,1,Length[a[[i]]]}]]
         ,
         Evaluate @ DeleteCases[{opts}, (FrameLabel -> __) | (PlotLegends
-             -> __) | (additionalticks -> __)]
+             -> __) | (additionalticks -> __)|(errorinterval->__)]
         ,
         FrameLabel -> Evaluate[Style[#, Italic]& /@ (FrameLabel /. {opts
             } /. Options[listlogplot])]
         ,
+        IntervalMarkersStyle->Directive[Thickness[0.002]],
         Epilog ->
             If[PlotLegends /. {opts} /. Options[listlogplot],
                 Inset[Style[Framed[Grid[{openmarkerlegend[[1 ;; Length[
@@ -272,18 +286,22 @@ listlogplot[a_, opts___] :=
 (*ListLogLogPlot*)
 
 Options[listloglogplot] = {FrameLabel -> None, PlotLegends -> False, 
-    PLOT`additionalticks -> {{}, {}}}
+    PLOT`additionalticks -> {{}, {}},PLOT`errorinterval->False}
 
 listloglogplot[a_, opts___] :=
     ListLogLogPlot[
-        a
+        If[errorinterval/.{opts}/.Options[listloglogplot]
+        ,a,a,
+        Table[{a[[i,j,1]],Around[a[[i,j,2]],(errorinterval/.{opts}/.Options[listloglogplot])[[i,j]]]},
+        {i,1,Length[a]},{j,1,Length[a[[i]]]}]]
         ,
         Evaluate @ DeleteCases[{opts}, (FrameLabel -> __) | (PlotLegends
-             -> __) | (additionalticks -> __)]
+             -> __) | (additionalticks -> __)|(errorinterval->__)]
         ,
         FrameLabel -> Evaluate[Style[#, Italic]& /@ (FrameLabel /. {opts
             } /. Options[listloglogplot])]
         ,
+        IntervalMarkersStyle->Directive[Thickness[0.002]],
         Epilog ->
             If[PlotLegends /. {opts} /. Options[listloglogplot],
                 Inset[Style[Framed[Grid[{openmarkerlegend[[1 ;; Length[
