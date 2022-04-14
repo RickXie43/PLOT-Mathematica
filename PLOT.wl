@@ -83,6 +83,9 @@ New Options
 	legendlabel->'LegendlabelString'
 Other options are same as listdensityplot"
 
+listlineplot3d::usage ="A function to draw ridgeline plot. different listlineplots were painted on y axis.
+Use Option PlotLegends to add legends on y axis."
+
 Begin["Private`"]
 
 colorlist = {RGBColor["#ED2A28"], RGBColor["#3F7CAC"], RGBColor["#F6A13A"
@@ -434,6 +437,36 @@ listdensityplot[a_, opts___] :=
              -> Placed[Style[(legendlabel /. {opts} /. Options[listdensityplot]),
              Italic], Right, Rotate[#, -90 Degree]&]], (plotlegends /. {opts} /. 
             Options[listdensityplot])[[3]] + {1, 0.54}]
+    ]
+    
+(*listlineplot3d*)
+
+Options[listlineplot3d]={AxesLabel->None,PlotLegends->Table[Null,{i,1,10}],Filling->Bottom,Mesh->Full}
+
+listlineplot3d[a_, opts___] :=
+    ListLinePlot3D[
+    Table[{a[[i]]\[Transpose][[1]],Table[i,{j,1,Length[a[[i]]\[Transpose][[1]]]}],a[[i]]\[Transpose][[2]]}\[Transpose],{i,1,Length@a}]
+        ,
+        Evaluate @ DeleteCases[{opts}, (AxesLabel -> __) | (PlotLegends
+             -> __)|(Filling->__)|(Mesh->__)]
+        ,
+        AxesLabel -> Evaluate[Style[#, Italic]& /@ (AxesLabel /. {opts
+            } /. Options[listlineplot3d])]
+        ,
+        PlotStyle -> Table[Directive[colorlist[[Mod[i - 1, 10] + 1]],
+             Thickness[0.003]], {i, 1, 20}]
+        ,
+        Ticks->{Automatic,{Range[Length[a]],(PlotLegends/.{opts}/.Options[listlineplot3d])[[1;;Length[a]]]}\[Transpose],Automatic}
+        ,
+        LabelStyle -> Directive[Black, 12, FontFamily -> "Myriad Pro"]
+        ,
+        AxesStyle -> Directive[Black, 12, Italic,Thickness[.0020],FontFamily->"Myriad Pro"]
+        ,
+        Boxed->False
+        ,
+        AxesEdge->{{-1,-1},{1,-1},{-1,-1}},
+        Filling->(Filling/.{opts}/.Options[listlineplot3d]),
+        Mesh->(Mesh/.{opts}/.Options[listlineplot3d])
     ]
 
 End[]
