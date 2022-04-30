@@ -1,5 +1,5 @@
 # PLOT Mathematica
- A Mathematica package for making beautiful plot.
+ A Mathematica package for making beautiful plots.
  
 ## Usage
 ```mathematica
