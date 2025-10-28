@@ -700,13 +700,13 @@ listdensityplot[a_, opts___] :=
         (*Color*)
         ColorFunctionScaling -> False
         ,
-        ColorFunction -> (Blend[{RGBColor["#004D98"], White, RGBColor[
-            "#A70042"]}, Rescale[#, (plotlegends /. {opts} /. Options[listdensityplot
+        ColorFunction -> (Blend[{RGBColor["#0000FF"], White, RGBColor[
+            "#FF0000"]}, Rescale[#, (plotlegends /. {opts} /. Options[listdensityplot
             ])[[1]]]]&)
         ,
         (*Legend*)
-        PlotLegends -> Placed[BarLegend[{(Blend[{RGBColor["#004D98"],
-             White, RGBColor["#A70042"]}, Rescale[#, (plotlegends /. {opts} /. Options[
+        PlotLegends -> Placed[BarLegend[{(Blend[{RGBColor["#0000FF"],
+             White, RGBColor["#FF0000"]}, Rescale[#, (plotlegends /. {opts} /. Options[
             listdensityplot])[[1]]]]&), (plotlegends /. {opts} /. Options[listdensityplot
             ])[[1]]}, LegendMarkerSize -> (plotlegends /. {opts} /. Options[listdensityplot
             ])[[2]] + 255, LegendLayout -> "Column", LegendMargins -> -3, LegendLabel
