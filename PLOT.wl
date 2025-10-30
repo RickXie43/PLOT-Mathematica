@@ -6,12 +6,6 @@
 
 BeginPackage["PLOT`"]
 
-colorlist::usage = "An colorlist copy from NATURE"
-
-openmarkerlist::usage = "An Option for PlotMarkers"
-
-openmarkerlegend::usage = "Graphics List of the Openmarker for Making Plot Legend"
-
 plot::usage = "Same as Plot"
 
 logplot::usage = "
@@ -89,316 +83,107 @@ Other options are same as listdensityplot"
 
 listlineplot3d::usage = "A function to draw ridgeline plot. different listlineplots were painted on y axis.
 Use Option PlotLegends to add legends on y axis."
+(*\:5185\:7f6e\:9ed8\:8ba4\:53c2\:6570*)
+colorlistdefault::usage = "An colorlist copy from NATURE"
+regionlistdefault::usage = "An markerlist copy from Science"
+gradientcolorlist::usage = "An gradient colorlist generator"
 
 Begin["Private`"]
+openregion[region_]:=Module[{innerregion,outerregion,finalshape,areafactor,rootfactor,interfactor,finalregion,compactness},
+(*\:8c03\:6574\:5916\:90e8\:9762\:79ef\:7684\:5927\:5c0f\:ff0c\:5148\:9762\:79ef\:5f52\:4e00\:5316\:ff0c\:518d\:6839\:636e\:7d27\:51d1\:5ea6\:6307\:6570\:7f29\:653e\:ff0c\:56e0\:4e3a\:677e\:6563\:7684\:56fe\:5f62\:89c6\:89c9\:6548\:679c\:5927*)
+areafactor=1/Sqrt[Area[region]];
+compactness=((4\[Pi] Area[region])/Perimeter[region]^2)^0.35;
+outerregion=RegionResize[region,Scaled[compactness*areafactor]];
+rootfactor=
+FindRoot[(Area[outerregion]-Area[RegionResize[outerregion,Scaled[interfactor]]])/(Perimeter[outerregion]+Perimeter[RegionResize[outerregion,Scaled[interfactor]]])==0.11,{interfactor,0.5}];
+innerregion=RegionResize[outerregion,Scaled[interfactor/.rootfactor[[1]]]];
+outerregion=TransformedRegion[outerregion,TranslationTransform[-RegionCentroid@outerregion]];
 
-colorlist = {RGBColor["#ED2A28"], RGBColor["#3F7CAC"], RGBColor["#F6A13A"
+innerregion=TransformedRegion[innerregion,TranslationTransform[-RegionCentroid@innerregion]];
+finalregion=RegionDifference[BoundaryDiscretizeRegion[outerregion],BoundaryDiscretizeRegion[innerregion]]
+];
+openregionInner[region_]:=Module[{innerregion,outerregion,finalshape,areafactor,rootfactor,interfactor,finalregion,compactness},
+(*\:8c03\:6574\:5916\:90e8\:9762\:79ef\:7684\:5927\:5c0f\:ff0c\:5148\:9762\:79ef\:5f52\:4e00\:5316\:ff0c\:518d\:6839\:636e\:7d27\:51d1\:5ea6\:6307\:6570\:7f29\:653e\:ff0c\:56e0\:4e3a\:677e\:6563\:7684\:56fe\:5f62\:89c6\:89c9\:6548\:679c\:5927*)
+areafactor=1/Sqrt[Area[region]];
+compactness=((4\[Pi] Area[region])/Perimeter[region]^2)^0.35;
+outerregion=RegionResize[region,Scaled[compactness*areafactor]];
+rootfactor=
+FindRoot[(Area[outerregion]-Area[RegionResize[outerregion,Scaled[interfactor]]])/(Perimeter[outerregion]+Perimeter[RegionResize[outerregion,Scaled[interfactor]]])==0.11,{interfactor,0.5}];
+innerregion=RegionResize[outerregion,Scaled[interfactor/.rootfactor[[1]]]];
+innerregion=TransformedRegion[innerregion,TranslationTransform[-RegionCentroid@innerregion]];
+BoundaryDiscretizeRegion[innerregion]
+];
+closeregion[region_]:=Module[{innerregion,outerregion,finalshape,areafactor,rootfactor,interfactor,finalregion,compactness},
+(*\:8c03\:6574\:5916\:90e8\:9762\:79ef\:7684\:5927\:5c0f\:ff0c\:5148\:9762\:79ef\:5f52\:4e00\:5316\:ff0c\:518d\:6839\:636e\:7d27\:51d1\:5ea6\:6307\:6570\:7f29\:653e\:ff0c\:56e0\:4e3a\:677e\:6563\:7684\:56fe\:5f62\:89c6\:89c9\:6548\:679c\:5927*)
+areafactor=1/Sqrt[Area[region]];
+compactness=((4\[Pi] Area[region])/Perimeter[region]^2)^0.35;
+outerregion=RegionResize[region,Scaled[compactness*areafactor]]
+];
+
+colorlistdefault= {RGBColor["#ED2A28"], RGBColor["#3F7CAC"], RGBColor["#F6A13A"
     ], RGBColor["#9E9E49"], RGBColor["#874F9E"], RGBColor["#E96DA8"], RGBColor[
     "#F27C2F"], RGBColor["#2ABCB8"], RGBColor["#D81859"], RGBColor["#367E44"
-    ], RGBColor["#4E4E4E"], RGBColor["#FFD700"], RGBColor["#A0522D"]}
+    ], RGBColor["#4E4E4E"], RGBColor["#FFD700"], RGBColor["#A0522D"]};
+regionlistdefault={
+RegularPolygon[3],
+RegularPolygon[4],
+Polygon[Table[0.8 {0.7 Sqrt[4 / (4 * Cot[Pi / 4])] Sin[2 \[Pi] k / 4], Sqrt[4 / (4* Cot[Pi /4])] Cos[2 \[Pi] k /4]}, {k, 1,4}]],
+RegularPolygon[6],
+Disk[],
+RegularPolygon[5]};
 
-openmarkerlist =
-    {
-        {
-            Graphics[
-                {
-                    n = 3;
-                    Polygon[Table[0.8 {Sqrt[4 / (n * Cot[Pi / n])] Sin[
-                        2 \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, n}]]
-                    ,
-                    White
-                    ,
-                    Polygon[0.34 * Table[{Sqrt[4 / (n * Cot[Pi / n])]
-                         Sin[2 \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, 
-                        n}]]
-                }
-            ]
-            ,
-            Scaled[0.025]
-        }
-        ,
-        {
-            Graphics[
-                {
-                    n = 4;
-                    Polygon[Table[0.8 {Sqrt[4 / (n * Cot[Pi / n])] Sin[
-                        2 \[Pi] k / n + \[Pi] / 4], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n + \[Pi] / 4
-                        ]}, {k, 1, n}]]
-                    ,
-                    White
-                    ,
-                    Polygon[0.46 * Table[{Sqrt[4 / (n * Cot[Pi / n])]
-                         Sin[2 \[Pi] k / n + \[Pi] / 4], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n + 
-                        \[Pi] / 4]}, {k, 1, n}]]
-                }
-            ]
-            ,
-            Scaled[0.021]
-        }
-        ,
-        {
-            Graphics[
-                {
-                    n = 4;
-                    Polygon[Table[0.8 {0.7 Sqrt[4 / (n * Cot[Pi / n])
-                        ] Sin[2 \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1,
-                         n}]]
-                    ,
-                    White
-                    ,
-                    Polygon[0.43 * Table[{0.7 Sqrt[4 / (n * Cot[Pi / 
-                        n])] Sin[2 \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k,
-                         1, n}]]
-                }
-            ]
-            ,
-            Scaled[0.033]
-        }
-        ,
-        {
-            Graphics[
-                {
-                    n = 6;
-                    Polygon[Table[0.8 {Sqrt[4 / (n * Cot[Pi / n])] Sin[
-                        2 \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, n}]]
-                    ,
-                    White
-                    ,
-                    Polygon[0.48 * Table[{Sqrt[4 / (n * Cot[Pi / n])]
-                         Sin[2 \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, 
-                        n}]]
-                }
-            ]
-            ,
-            Scaled[0.023]
-        }
-        ,
-        {Graphics[{Disk[{0, 0}, 1], White, Disk[{0, 0}, 0.58]}], Scaled[
-            0.022]}
-        ,
-        {
-            Graphics[
-                {
-                    n = 5;
-                    Polygon[Table[0.8 {Sqrt[4 / (n * Cot[Pi / n])] Sin[
-                        2 \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, n}]]
-                    ,
-                    White
-                    ,
-                    Polygon[0.47 * Table[{Sqrt[4 / (n * Cot[Pi / n])]
-                         Sin[2 \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, 
-                        n}]]
-                }
-            ]
-            ,
-            Scaled[0.023]
-        }
-    }
-
-openmarkerlegend =
-    {
-        Graphics[
-            {
-                colorlist[[1]]
-                ,
-                n = 3;
-                Polygon[Table[0.8 {Sqrt[4 / (n * Cot[Pi / n])] Sin[2 
-                    \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, n}]]
-                ,
-                White
-                ,
-                Polygon[0.34 * Table[{Sqrt[4 / (n * Cot[Pi / n])] Sin[
-                    2 \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, n}]]
-            }
-            ,
-            ImageSize -> 5 * 1.287
-        ]
-        ,
-        Graphics[
-            {
-                colorlist[[2]]
-                ,
-                n = 4;
-                Polygon[Table[0.8 {Sqrt[4 / (n * Cot[Pi / n])] Sin[2 
-                    \[Pi] k / n + \[Pi] / 4], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n + \[Pi] / 4]},
-                     {k, 1, n}]]
-                ,
-                White
-                ,
-                Polygon[0.46 * Table[{Sqrt[4 / (n * Cot[Pi / n])] Sin[
-                    2 \[Pi] k / n + \[Pi] / 4], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n + \[Pi] / 4
-                    ]}, {k, 1, n}]]
-            }
-            ,
-            ImageSize -> 5 * 0.913
-        ]
-        ,
-        Graphics[
-            {
-                colorlist[[3]]
-                ,
-                n = 4;
-                Polygon[Table[0.8 {0.7 Sqrt[4 / (n * Cot[Pi / n])] Sin[
-                    2 \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, n}]]
-                ,
-                White
-                ,
-                Polygon[0.43 * Table[{0.7 Sqrt[4 / (n * Cot[Pi / n])]
-                     Sin[2 \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, 
-                    n}]]
-            }
-            ,
-            ImageSize -> 5 * 1.035
-        ]
-        ,
-        Graphics[
-            {
-                colorlist[[4]]
-                ,
-                n = 6;
-                Polygon[Table[0.8 {Sqrt[4 / (n * Cot[Pi / n])] Sin[2 
-                    \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, n}]]
-                ,
-                White
-                ,
-                Polygon[0.48 * Table[{Sqrt[4 / (n * Cot[Pi / n])] Sin[
-                    2 \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, n}]]
-            }
-            ,
-            ImageSize -> 5
-        ]
-        ,
-        Graphics[{colorlist[[5]], Disk[{0, 0}, 1], White, Disk[{0, 0},
-             0.58]}, ImageSize -> 5.5]
-        ,
-        Graphics[
-            {
-                colorlist[[6]]
-                ,
-                n = 5;
-                Polygon[Table[0.8 {Sqrt[4 / (n * Cot[Pi / n])] Sin[2 
-                    \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, n}]]
-                ,
-                White
-                ,
-                Polygon[0.47 * Table[{Sqrt[4 / (n * Cot[Pi / n])] Sin[
-                    2 \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, n}]]
-            }
-            ,
-            ImageSize -> 5
-        ]
-        ,
-        Graphics[
-            {
-                colorlist[[7]]
-                ,
-                n = 3;
-                Polygon[Table[0.8 {Sqrt[4 / (n * Cot[Pi / n])] Sin[2 
-                    \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, n}]]
-                ,
-                White
-                ,
-                Polygon[0.34 * Table[{Sqrt[4 / (n * Cot[Pi / n])] Sin[
-                    2 \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, n}]]
-            }
-            ,
-            ImageSize -> 5 * 1.287
-        ]
-        ,
-        Graphics[
-            {
-                colorlist[[8]]
-                ,
-                n = 4;
-                Polygon[Table[0.8 {Sqrt[4 / (n * Cot[Pi / n])] Sin[2 
-                    \[Pi] k / n + \[Pi] / 4], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n + \[Pi] / 4]},
-                     {k, 1, n}]]
-                ,
-                White
-                ,
-                Polygon[0.46 * Table[{Sqrt[4 / (n * Cot[Pi / n])] Sin[
-                    2 \[Pi] k / n + \[Pi] / 4], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n + \[Pi] / 4
-                    ]}, {k, 1, n}]]
-            }
-            ,
-            ImageSize -> 5 * 0.913
-        ]
-        ,
-        Graphics[
-            {
-                colorlist[[9]]
-                ,
-                n = 4;
-                Polygon[Table[0.8 {0.7 Sqrt[4 / (n * Cot[Pi / n])] Sin[
-                    2 \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, n}]]
-                ,
-                White
-                ,
-                Polygon[0.43 * Table[{0.7 Sqrt[4 / (n * Cot[Pi / n])]
-                     Sin[2 \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, 
-                    n}]]
-            }
-            ,
-            ImageSize -> 5 * 1.035
-        ]
-        ,
-        Graphics[
-            {
-                colorlist[[10]]
-                ,
-                n = 6;
-                Polygon[Table[0.8 {Sqrt[4 / (n * Cot[Pi / n])] Sin[2 
-                    \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, n}]]
-                ,
-                White
-                ,
-                Polygon[0.48 * Table[{Sqrt[4 / (n * Cot[Pi / n])] Sin[
-                    2 \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, n}]]
-            }
-            ,
-            ImageSize -> 5
-        ]
-        ,
-        Graphics[{colorlist[[11]], Disk[{0, 0}, 1], White, Disk[{0, 0
-            }, 0.58]}, ImageSize -> 5.5]
-        ,
-        Graphics[
-            {
-                colorlist[[12]]
-                ,
-                n = 5;
-                Polygon[Table[0.8 {Sqrt[4 / (n * Cot[Pi / n])] Sin[2 
-                    \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, n}]]
-                ,
-                White
-                ,
-                Polygon[0.47 * Table[{Sqrt[4 / (n * Cot[Pi / n])] Sin[
-                    2 \[Pi] k / n], Sqrt[4 / (n * Cot[Pi / n])] Cos[2 \[Pi] k / n]}, {k, 1, n}]]
-            }
-            ,
-            ImageSize -> 5
-        ]
-    }
+markerlistcreate[n_,regionlist_,colorlist_,factor_:1 ,openness_:True, coverness_:True]:=Module[{colorlistlength=Length@colorlist,regionlistlength=Length@regionlist,bound,markersizefactor,markerregionlist,innerregionlist},
+markerregionlist=If[openness,openregion/@regionlist,closeregion/@regionlist];
+If[coverness,innerregionlist=openregionInner/@regionlist];
+Table[
+bound=RegionBounds[markerregionlist[[Mod[i-1,regionlistlength-1]+1]]]\[Transpose];
+markersizefactor=bound[[1]]-bound[[2]]//Norm;
+{
+If[coverness,
+Graphics[{colorlist[[Mod[i-1,colorlistlength-1]+1]],
+markerregionlist[[Mod[i-1,regionlistlength-1]+1]],
+White,innerregionlist[[Mod[i-1,regionlistlength-1]+1]]
+}]
+,
+Graphics[{colorlist[[Mod[i-1,colorlistlength-1]+1]],
+markerregionlist[[Mod[i-1,regionlistlength-1]+1]]}]]
+,
+Scaled[0.02*markersizefactor*factor]},
+{i,1,n}]
+];
+legendlistcreate[n_,regionlist_,colorlist_,factor_:1,openness_:True, coverness_:True]:=Module[{colorlistlength=Length@colorlist,regionlistlength=Length@regionlist,bound,legendsizefactor,markerregionlist},
+markerregionlist=If[openness,openregion/@regionlist,closeregion/@regionlist];
+Table[
+bound=RegionBounds[markerregionlist[[Mod[i-1,regionlistlength-1]+1]]]\[Transpose];
+legendsizefactor=Abs[(bound[[1]]-bound[[2]])[[1]]];
+Graphics[{colorlist[[Mod[i-1,colorlistlength-1]+1]],
+markerregionlist[[Mod[i-1,regionlistlength-1]+1]]},ImageSize->8*legendsizefactor*factor],
+{i,1,n}]
+];
+stylecolorlistcreate[n_,colorlist_]:=Module[{colorlistlength=Length@colorlist},
+Table[colorlist[[Mod[i-1,colorlistlength-1]+1]],{i,1,n}]];
+gradientcolorlist[colors_List,n_]:=Table[Blend[colors,x],{x,0,1,1/n}];
 
 (*Plot*)
 
-Options[plot] = {FrameLabel -> None}
+Options[plot] = {FrameLabel -> None,PLOT`colorlist -> colorlistdefault}
 
 plot[a_, b_, opts___] :=
-    Plot[a, b, Evaluate @ DeleteCases[{opts}, FrameLabel -> _], FrameLabel
+    Plot[a, b, Evaluate @ DeleteCases[{opts}, (FrameLabel -> __)|(colorlist-> __)], FrameLabel
          -> Evaluate[Style[#, Italic]& /@ (FrameLabel /. {opts} /. Options[plot
-        ])], PlotStyle -> colorlist, Frame -> True, LabelStyle -> Directive[Black,
+        ])], 
+        PlotStyle -> Table[Directive[stylecolorlistcreate[Length[a],colorlist/. {opts} /. Options[plot]][[i]]], {i, 1, Length[a]}], Frame -> True, LabelStyle -> Directive[Black,
          12, FontFamily -> "Myriad Pro"], Axes -> False, FrameStyle -> Directive[
         Black, Thickness[.0020]]]
 
 (*LogPlot*)
 
-Options[logplot] = {FrameLabel -> None, PLOT`additionalticks -> {}}
+Options[logplot] = {FrameLabel -> None, PLOT`additionalticks -> {},PLOT`colorlist -> colorlistdefault}
 
 logplot[a_, b_, opts___] :=
     LogPlot[a, b, Evaluate @ DeleteCases[{opts}, (FrameLabel -> __) |
-         (additionalticks -> __)], FrameLabel -> Evaluate[Style[#, Italic]& /@
-         (FrameLabel /. {opts} /. Options[logplot])], PlotStyle -> colorlist,
+         (additionalticks -> __)|(colorlist-> __)], FrameLabel -> Evaluate[Style[#, Italic]& /@
+         (FrameLabel /. {opts} /. Options[logplot])], PlotStyle -> Table[Directive[stylecolorlistcreate[Length[a],colorlist/. {opts} /. Options[logplot]][[i]]], {i, 1, Length[a]}],
          Frame -> True, LabelStyle -> Directive[Black, 12, FontFamily -> "Myriad Pro"
         ], Axes -> False, FrameStyle -> Directive[Black, Thickness[.0020]], FrameTicks
          -> {{Table[{10^i, Superscript[10, i], 0.013}, {i, -20, 15}] ~ Join ~
@@ -409,13 +194,12 @@ logplot[a_, b_, opts___] :=
 
 (*LogLogPlot*)
 
-Options[loglogplot] = {FrameLabel -> None, PLOT`additionalticks -> {{
-    }, {}}}
+Options[loglogplot] = {FrameLabel -> None, PLOT`additionalticks -> {{}, {}}, PLOT`colorlist -> colorlistdefault}
 
 loglogplot[a_, b_, opts___] :=
     LogLogPlot[a, b, Evaluate @ DeleteCases[{opts}, (FrameLabel -> __
-        ) | (additionalticks -> __)], FrameLabel -> Evaluate[Style[#, Italic]&
-         /@ (FrameLabel /. {opts} /. Options[loglogplot])], PlotStyle -> colorlist,
+        ) | (additionalticks -> __)|(colorlist-> __)], FrameLabel -> Evaluate[Style[#, Italic]&
+         /@ (FrameLabel /. {opts} /. Options[loglogplot])], PlotStyle -> Table[Directive[stylecolorlistcreate[Length[a],colorlist/. {opts} /. Options[loglogplot]][[i]]], {i, 1, Length[a]}],
          Frame -> True, LabelStyle -> Directive[Black, 12, FontFamily -> "Myriad Pro"
         ], Axes -> False, FrameStyle -> Directive[Black, Thickness[.0020]], FrameTicks
          -> {{Table[{10^i, Superscript[10, i], 0.013}, {i, -20, 15}] ~ Join ~
@@ -431,7 +215,7 @@ loglogplot[a_, b_, opts___] :=
 (*ListPlot*)
 
 Options[listplot] = {FrameLabel -> None, PlotLegends -> False, PLOT`errorinterval
-     -> False, PLOT`markersize->1}
+     -> False, PLOT`markersize->1, PLOT`markerlist -> regionlistdefault, PLOT`colorlist -> colorlistdefault, PLOT`legendsize -> 1, PLOT`markeropenness->True, PLOT`markercoverness->True}
 
 listplot[a_, opts___] :=
     ListPlot[
@@ -446,7 +230,7 @@ listplot[a_, opts___] :=
         ]
         ,
         Evaluate @ DeleteCases[{opts}, (FrameLabel -> __) | (PlotLegends
-             -> __) | (errorinterval -> __) | (markersize -> __)]
+             -> __) | (errorinterval -> __) | (markersize -> __)|(markerlist->__)|(colorlist-> __)|(legendsize -> __)|(markeropenness->__)|(markercoverness->__)]
         ,
         FrameLabel -> Evaluate[Style[#, Italic]& /@ (FrameLabel /. {opts
             } /. Options[listplot])]
@@ -455,8 +239,11 @@ listplot[a_, opts___] :=
         ,
         Epilog ->
             If[PlotLegends /. {opts} /. Options[listplot],
-                Inset[Style[Framed[Grid[{openmarkerlegend[[1 ;; Length[
-                    a]]], Style[#, Black, 10, FontFamily -> "Myriad Pro"]& /@ ({"Legend 1",
+                Inset[Style[Framed[Grid[{
+                legendlistcreate[Length[a],markerlist/. {opts} /. Options[listplot],colorlist/. {opts} /. Options[listplot],legendsize/. {opts} /. Options[listplot], 
+        markeropenness/.{opts} /. Options[listplot],
+        markercoverness/.{opts} /. Options[listplot]],
+                 Style[#, Black, 10, FontFamily -> "Myriad Pro"]& /@ ({"Legend 1",
                      "Legend 2", "Legend 3", "Legend 4", "Legend 5", "Legend 6", "Legend 7",
                      "Legend 8", "Legend 9", "Legend 10"}[[1 ;; Length[a]]])}\[Transpose]], FrameMargins
                      -> 5, ImageMargins -> Automatic, ContentPadding -> False, FrameStyle
@@ -465,8 +252,11 @@ listplot[a_, opts___] :=
                 ,
                 {}
                 ,
-                Inset[Style[Framed[Grid[{openmarkerlegend[[1 ;; Length[
-                    a]]], Style[#, Black, 10, FontFamily -> "Myriad Pro"]& /@ ((PlotLegends
+                Inset[Style[Framed[Grid[{
+                legendlistcreate[Length[a],markerlist/. {opts} /. Options[listplot],colorlist/. {opts} /. Options[listplot],legendsize/. {opts} /. Options[listplot], 
+        markeropenness/.{opts} /. Options[listplot],
+        markercoverness/.{opts} /. Options[listplot]],
+                 Style[#, Black, 10, FontFamily -> "Myriad Pro"]& /@ ((PlotLegends
                      /. {opts})[[1]][[1 ;; Length[a]]])}\[Transpose], Spacings -> Automatic], FrameMargins
                      -> 5 + (PlotLegends /. {opts})[[2, 2]], ImageMargins -> Automatic, ContentPadding
                      -> False, FrameStyle -> Directive[Gray, Thickness[0.5]]], Background
@@ -474,15 +264,19 @@ listplot[a_, opts___] :=
                     {1, 1}]], {Right, Top}]
             ]
         ,
-        PlotMarkers -> (ReplacePart[#,{-1,-1}->#[[-1,-1]]*markersize]&/@openmarkerlist)/. {opts} /. Options[listplot]
+        PlotMarkers -> markerlistcreate[Length[a],
+        markerlist/. {opts} /. Options[listplot],
+        colorlist/. {opts} /. Options[listplot], 
+        markersize/. {opts} /. Options[listplot], 
+        markeropenness/.{opts} /. Options[listplot],
+        markercoverness/.{opts} /. Options[listplot]]
         ,
-        PlotStyle -> Table[Directive[colorlist[[Mod[i - 1, 10] + 1]],
-             Thickness[0.0022]], {i, 1, 20}]
+        PlotStyle -> Table[Directive[stylecolorlistcreate[Length[a],colorlist/. {opts} /. Options[listplot]][[i]],
+        Thickness[0.0022]], {i, 1, Length[a]}]
         ,
         Frame -> True
         ,
-        LabelStyle -> Directive[Black, 12, FontFamily -> "Myriad Pro"
-            ]
+        LabelStyle -> Directive[Black, 12, FontFamily -> "Myriad Pro"]
         ,
         Axes -> False
         ,
@@ -492,7 +286,8 @@ listplot[a_, opts___] :=
 (*ListLogPlot*)
 
 Options[listlogplot] = {FrameLabel -> None, PlotLegends -> False, PLOT`additionalticks
-     -> {}, PLOT`errorinterval -> False, PLOT`markersize->1}
+     -> {}, PLOT`errorinterval -> False, PLOT`markersize->1, PLOT`markerlist -> regionlistdefault, PLOT`colorlist -> colorlistdefault, PLOT`legendsize -> 1, PLOT`markeropenness->True, PLOT`markercoverness->True}
+
 
 listlogplot[a_, opts___] :=
     ListLogPlot[
@@ -507,7 +302,7 @@ listlogplot[a_, opts___] :=
         ]
         ,
         Evaluate @ DeleteCases[{opts}, (FrameLabel -> __) | (PlotLegends
-             -> __) | (additionalticks -> __) | (errorinterval -> __)| (markersize -> __)]
+             -> __) | (additionalticks -> __) | (errorinterval -> __)| (markersize -> __)|(markerlist->__)|(colorlist-> __)|(legendsize -> __)|(markeropenness->__)|(markercoverness->__)]
         ,
         FrameLabel -> Evaluate[Style[#, Italic]& /@ (FrameLabel /. {opts
             } /. Options[listlogplot])]
@@ -516,8 +311,11 @@ listlogplot[a_, opts___] :=
         ,
         Epilog ->
             If[PlotLegends /. {opts} /. Options[listlogplot],
-                Inset[Style[Framed[Grid[{openmarkerlegend[[1 ;; Length[
-                    a]]], Style[#, Black, 10, FontFamily -> "Myriad Pro"]& /@ ({"Legend 1",
+                Inset[Style[Framed[Grid[{
+                legendlistcreate[Length[a],markerlist/. {opts} /. Options[listlogplot],colorlist/. {opts} /. Options[listlogplot],legendsize/. {opts} /. Options[listlogplot], 
+        markeropenness/.{opts} /. Options[listlogplot],
+        markercoverness/.{opts} /. Options[listlogplot]],
+                 Style[#, Black, 10, FontFamily -> "Myriad Pro"]& /@ ({"Legend 1",
                      "Legend 2", "Legend 3", "Legend 4", "Legend 5", "Legend 6", "Legend 7",
                      "Legend 8", "Legend 9", "Legend 10"}[[1 ;; Length[a]]])}\[Transpose]], FrameMargins
                      -> 5, ImageMargins -> Automatic, ContentPadding -> False, FrameStyle
@@ -526,8 +324,11 @@ listlogplot[a_, opts___] :=
                 ,
                 {}
                 ,
-                Inset[Style[Framed[Grid[{openmarkerlegend[[1 ;; Length[
-                    a]]], Style[#, Black, 10, FontFamily -> "Myriad Pro"]& /@ ((PlotLegends
+                Inset[Style[Framed[Grid[{
+                legendlistcreate[Length[a],markerlist/. {opts} /. Options[listlogplot],colorlist/. {opts} /. Options[listlogplot],legendsize/. {opts} /. Options[listlogplot], 
+        markeropenness/.{opts} /. Options[listlogplot],
+        markercoverness/.{opts} /. Options[listlogplot]],
+                 Style[#, Black, 10, FontFamily -> "Myriad Pro"]& /@ ((PlotLegends
                      /. {opts})[[1]][[1 ;; Length[a]]])}\[Transpose], Spacings -> Automatic], FrameMargins
                      -> 5 + (PlotLegends /. {opts})[[2, 2]], ImageMargins -> Automatic, ContentPadding
                      -> False, FrameStyle -> Directive[Gray, Thickness[0.5]]], Background
@@ -535,10 +336,15 @@ listlogplot[a_, opts___] :=
                     {1, 1}]], {Right, Top}]
             ]
         ,
-        PlotMarkers ->(ReplacePart[#,{-1,-1}->#[[-1,-1]]*markersize]&/@openmarkerlist)/. {opts} /. Options[listlogplot]
+        PlotMarkers -> markerlistcreate[Length[a],
+        markerlist/. {opts} /. Options[listlogplot],
+        colorlist/. {opts} /. Options[listlogplot], 
+        markersize/. {opts} /. Options[listlogplot], 
+        markeropenness/.{opts} /. Options[listlogplot],
+        markercoverness/.{opts} /. Options[listlogplot]]
         ,
-        PlotStyle -> Table[Directive[colorlist[[Mod[i - 1, 10] + 1]],
-             Thickness[0.0022]], {i, 1, 20}]
+        PlotStyle -> Table[Directive[stylecolorlistcreate[Length[a],colorlist/. {opts} /. Options[listlogplot]][[i]],
+        Thickness[0.0022]], {i, 1, Length[a]}]
         ,
         Frame -> True
         ,
@@ -559,7 +365,8 @@ listlogplot[a_, opts___] :=
 (*ListLogLogPlot*)
 
 Options[listloglogplot] = {FrameLabel -> None, PlotLegends -> False, 
-    PLOT`additionalticks -> {{}, {}}, PLOT`errorinterval -> False, PLOT`markersize->1}
+    PLOT`additionalticks -> {{}, {}}, PLOT`errorinterval -> False, PLOT`markersize->1, PLOT`markerlist -> regionlistdefault, PLOT`colorlist -> colorlistdefault, PLOT`legendsize -> 1, PLOT`markeropenness->True, PLOT`markercoverness->True}
+
 
 listloglogplot[a_, opts___] :=
     ListLogLogPlot[
@@ -574,7 +381,7 @@ listloglogplot[a_, opts___] :=
         ]
         ,
         Evaluate @ DeleteCases[{opts}, (FrameLabel -> __) | (PlotLegends
-             -> __) | (additionalticks -> __) | (errorinterval -> __)| (markersize -> __)]
+             -> __) | (additionalticks -> __) | (errorinterval -> __)| (markersize -> __)|(markerlist->__)|(colorlist-> __)|(legendsize -> __)|(markeropenness->__)|(markercoverness->__)]
         ,
         FrameLabel -> Evaluate[Style[#, Italic]& /@ (FrameLabel /. {opts
             } /. Options[listloglogplot])]
@@ -583,8 +390,11 @@ listloglogplot[a_, opts___] :=
         ,
         Epilog ->
             If[PlotLegends /. {opts} /. Options[listloglogplot],
-                Inset[Style[Framed[Grid[{openmarkerlegend[[1 ;; Length[
-                    a]]], Style[#, Black, 10, FontFamily -> "Myriad Pro"]& /@ ({"Legend 1",
+                Inset[Style[Framed[Grid[{
+                legendlistcreate[Length[a],markerlist/. {opts} /. Options[listloglogplot],colorlist/. {opts} /. Options[listloglogplot],legendsize/. {opts} /. Options[listloglogplot], 
+        markeropenness/.{opts} /. Options[listloglogplot],
+        markercoverness/.{opts} /. Options[listloglogplot]],
+                 Style[#, Black, 10, FontFamily -> "Myriad Pro"]& /@ ({"Legend 1",
                      "Legend 2", "Legend 3", "Legend 4", "Legend 5", "Legend 6", "Legend 7",
                      "Legend 8", "Legend 9", "Legend 10"}[[1 ;; Length[a]]])}\[Transpose]], FrameMargins
                      -> 5, ImageMargins -> Automatic, ContentPadding -> False, FrameStyle
@@ -593,8 +403,11 @@ listloglogplot[a_, opts___] :=
                 ,
                 {}
                 ,
-                Inset[Style[Framed[Grid[{openmarkerlegend[[1 ;; Length[
-                    a]]], Style[#, Black, 10, FontFamily -> "Myriad Pro"]& /@ ((PlotLegends
+                Inset[Style[Framed[Grid[{
+                legendlistcreate[Length[a],markerlist/. {opts} /. Options[listloglogplot],colorlist/. {opts} /. Options[listloglogplot],legendsize/. {opts} /. Options[listloglogplot], 
+        markeropenness/.{opts} /. Options[listloglogplot],
+        markercoverness/.{opts} /. Options[listloglogplot]],
+                 Style[#, Black, 10, FontFamily -> "Myriad Pro"]& /@ ((PlotLegends
                      /. {opts})[[1]][[1 ;; Length[a]]])}\[Transpose], Spacings -> Automatic], FrameMargins
                      -> 5 + (PlotLegends /. {opts})[[2, 2]], ImageMargins -> Automatic, ContentPadding
                      -> False, FrameStyle -> Directive[Gray, Thickness[0.5]]], Background
@@ -602,10 +415,15 @@ listloglogplot[a_, opts___] :=
                     {1, 1}]], {Right, Top}]
             ]
         ,
-        PlotMarkers ->(ReplacePart[#,{-1,-1}->#[[-1,-1]]*markersize]&/@openmarkerlist)/. {opts} /. Options[listloglogplot]
+        PlotMarkers -> markerlistcreate[Length[a],
+        markerlist/. {opts} /. Options[listloglogplot],
+        colorlist/. {opts} /. Options[listloglogplot], 
+        markersize/. {opts} /. Options[listloglogplot], 
+        markeropenness/.{opts} /. Options[listloglogplot],
+        markercoverness/.{opts} /. Options[listloglogplot]]
         ,
-        PlotStyle -> Table[Directive[colorlist[[Mod[i - 1, 10] + 1]],
-             Thickness[0.0022]], {i, 1, 20}]
+        PlotStyle -> Table[Directive[stylecolorlistcreate[Length[a],colorlist/. {opts} /. Options[listloglogplot]][[i]],
+        Thickness[0.0022]], {i, 1, Length[a]}]
         ,
         Frame -> True
         ,
@@ -629,14 +447,14 @@ listloglogplot[a_, opts___] :=
 
 (*ListLinePlot*)
 
-Options[listlineplot] = {FrameLabel -> None, PlotLegends -> False}
+Options[listlineplot] = {FrameLabel -> None, PlotLegends -> False, PLOT`colorlist -> colorlistdefault}
 
 listlineplot[a_, opts___] :=
     ListLinePlot[
         a
         ,
         Evaluate @ DeleteCases[{opts}, (FrameLabel -> __) | (PlotLegends
-             -> __)]
+             -> __)|(colorlist-> __)]
         ,
         FrameLabel -> Evaluate[Style[#, Italic]& /@ (FrameLabel /. {opts
             } /. Options[listlineplot])]
@@ -644,7 +462,7 @@ listlineplot[a_, opts___] :=
         Epilog ->
             If[PlotLegends /. {opts} /. Options[listlineplot],
                 Inset[Style[Framed[Grid[{(Graphics[{#, Thickness[0.07
-                    ], Line[{{0, 0}, {1, 0}}]}, AspectRatio -> .1, ImageSize -> 20]& /@ colorlist
+                    ], Line[{{0, 0}, {1, 0}}]}, AspectRatio -> .1, ImageSize -> 20]& /@ (stylecolorlistcreate[Length[a],colorlist/. {opts} /. Options[listlineplot]])
                     )[[1 ;; Length[a]]], Style[#, Black, 10, FontFamily -> "Myriad Pro"]&
                      /@ ({"Legend 1", "Legend 2", "Legend 3", "Legend 4", "Legend 5", "Legend 6",
                      "Legend 7", "Legend 8", "Legend 9", "Legend 10"}[[1 ;; Length[a]]])}
@@ -655,7 +473,7 @@ listlineplot[a_, opts___] :=
                 {}
                 ,
                 Inset[Style[Framed[Grid[{(Graphics[{#, Thickness[0.07
-                    ], Line[{{0, 0}, {1, 0}}]}, AspectRatio -> .1, ImageSize -> 20]& /@ colorlist
+                    ], Line[{{0, 0}, {1, 0}}]}, AspectRatio -> .1, ImageSize -> 20]& /@ (stylecolorlistcreate[Length[a],colorlist/. {opts} /. Options[listlineplot]])
                     )[[1 ;; Length[a]]], Style[#, Black, 10, FontFamily -> "Myriad Pro"]&
                      /@ ((PlotLegends /. {opts})[[1]][[1 ;; Length[a]]])}\[Transpose], Spacings -> Automatic
                     ], FrameMargins -> 5 + (PlotLegends /. {opts})[[2, 2]], ImageMargins 
@@ -664,8 +482,8 @@ listlineplot[a_, opts___] :=
                      /. {opts})[[2, 1]], Scaled[{1, 1}]], {Right, Top}]
             ]
         ,
-        PlotStyle -> Table[Directive[colorlist[[Mod[i - 1, 10] + 1]],
-             Thickness[0.0020]], {i, 1, 20}]
+        PlotStyle -> Table[Directive[stylecolorlistcreate[Length[a],colorlist/. {opts} /. Options[listlineplot]][[i]],
+        Thickness[0.0022]], {i, 1, Length[a]}]
         ,
         Frame -> True
         ,
@@ -718,15 +536,15 @@ listdensityplot[a_, opts___] :=
 (*listlineplot3d*)
 
 Options[listlineplot3d] = {AxesLabel -> None, PlotLegends -> Table[Null,
-     {i, 1, 10}], Filling -> Bottom, Mesh -> Full}
+     {i, 1, 10}], Filling -> Bottom, Mesh -> Full, PLOT`colorlist -> colorlistdefault}
 
 listlineplot3d[a_, opts___] :=
     ListLinePlot3D[Table[{a[[i]]\[Transpose][[1]], Table[i, {j, 1, Length[a[[i]]
         \[Transpose][[1]]]}], a[[i]]\[Transpose][[2]]}\[Transpose], {i, 1, Length @ a}], Evaluate @ DeleteCases[
         {opts}, (AxesLabel -> __) | (PlotLegends -> __) | (Filling -> __) | (
-        Mesh -> __)], AxesLabel -> Evaluate[Style[#, Italic]& /@ (AxesLabel /.
-         {opts} /. Options[listlineplot3d])], PlotStyle -> Table[Directive[colorlist
-        [[Mod[i - 1, 10] + 1]], Thickness[0.003]], {i, 1, 20}], Ticks -> {Automatic,
+        Mesh -> __)|(colorlist-> __)], AxesLabel -> Evaluate[Style[#, Italic]& /@ (AxesLabel /.
+         {opts} /. Options[listlineplot3d])], PlotStyle -> Table[Directive[stylecolorlistcreate[Length[a],colorlist/. {opts} /. Options[listlineplot3d]][[i]],
+        Thickness[0.003]], {i, 1, Length[a]}], Ticks -> {Automatic,
          {Range[Length[a]], (PlotLegends /. {opts} /. Options[listlineplot3d]
         )[[1 ;; Length[a]]]}\[Transpose], Automatic}, LabelStyle -> Directive[Black, 12,
          FontFamily -> "Myriad Pro"], AxesStyle -> Directive[Black, 12, Italic,

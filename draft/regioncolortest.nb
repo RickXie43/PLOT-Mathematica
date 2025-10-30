@@ -1,0 +1,3617 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 14.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[    191889,       3609]
+NotebookOptionsPosition[    189618,       3559]
+NotebookOutlinePosition[    190064,       3577]
+CellTagsIndexPosition[    190021,       3574]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["\:6d4b\:8bd5", "Section",
+ CellChangeTimes->{
+  3.9707159419998837`*^9},ExpressionUUID->"b0dd8e1f-21cc-5643-a059-\
+eeeee7c6ca1c"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"n", " ", "=", "10"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"region", "=", " ", 
+   RowBox[{"Polygon", "[", 
+    RowBox[{"Table", "[", 
+     RowBox[{
+      RowBox[{"0.8", " ", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Sqrt", "[", 
+           RowBox[{"4", " ", "/", " ", 
+            RowBox[{"(", 
+             RowBox[{"n", " ", "*", " ", 
+              RowBox[{"Cot", "[", 
+               RowBox[{"Pi", " ", "/", " ", "n"}], "]"}]}], ")"}]}], "]"}], 
+          " ", 
+          RowBox[{"Sin", "[", "\n", "                        ", 
+           RowBox[{"2", " ", "\[Pi]", " ", 
+            RowBox[{"k", " ", "/", " ", "n"}]}], "]"}]}], ",", " ", 
+         RowBox[{
+          RowBox[{"Sqrt", "[", 
+           RowBox[{"4", " ", "/", " ", 
+            RowBox[{"(", 
+             RowBox[{"n", " ", "*", " ", 
+              RowBox[{"Cot", "[", 
+               RowBox[{"Pi", " ", "/", " ", "n"}], "]"}]}], ")"}]}], "]"}], 
+          " ", 
+          RowBox[{"Cos", "[", 
+           RowBox[{"2", " ", "\[Pi]", " ", 
+            RowBox[{"k", " ", "/", " ", "n"}]}], "]"}]}]}], "}"}]}], ",", " ", 
+      RowBox[{"{", 
+       RowBox[{"k", ",", " ", "1", ",", " ", "n"}], "}"}]}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"areafactor", "=", 
+   RowBox[{"1", "/", 
+    SqrtBox[
+     RowBox[{"Area", "[", "region", "]"}]]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"outerregion", "=", 
+   RowBox[{"RegionResize", "[", 
+    RowBox[{"region", ",", 
+     RowBox[{"Scaled", "[", "areafactor", "]"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rootfactor", "=", "\[IndentingNewLine]", 
+   RowBox[{"FindRoot", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"Area", "[", "outerregion", "]"}], "-", 
+         RowBox[{"Area", "[", 
+          RowBox[{"RegionResize", "[", 
+           RowBox[{"outerregion", ",", 
+            RowBox[{"Scaled", "[", "interfactor", "]"}]}], "]"}], "]"}]}], 
+        ")"}], "/", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"Perimeter", "[", "outerregion", "]"}], "+", 
+         RowBox[{"Perimeter", "[", 
+          RowBox[{"RegionResize", "[", 
+           RowBox[{"outerregion", ",", 
+            RowBox[{"Scaled", "[", "interfactor", "]"}]}], "]"}], "]"}]}], 
+        ")"}]}], "==", "0.11"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"interfactor", ",", "0.5"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"innerregion", "=", 
+   RowBox[{"RegionResize", "[", 
+    RowBox[{"outerregion", ",", 
+     RowBox[{"Scaled", "[", 
+      RowBox[{"interfactor", "/.", 
+       RowBox[{"rootfactor", "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}], "]"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"outerregion", "=", 
+    RowBox[{"TransformedRegion", "[", 
+     RowBox[{"outerregion", ",", 
+      RowBox[{"TranslationTransform", "[", 
+       RowBox[{"-", 
+        RowBox[{"RegionCentroid", "@", "outerregion"}]}], "]"}]}], "]"}]}], 
+   ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"innerregion", "=", 
+   RowBox[{"TransformedRegion", "[", 
+    RowBox[{"innerregion", ",", 
+     RowBox[{"TranslationTransform", "[", 
+      RowBox[{"-", 
+       RowBox[{"RegionCentroid", "@", "innerregion"}]}], "]"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"finalregion", "=", 
+   RowBox[{"RegionDifference", "[", 
+    RowBox[{
+     RowBox[{"BoundaryDiscretizeRegion", "[", "outerregion", "]"}], ",", 
+     RowBox[{"BoundaryDiscretizeRegion", "[", "innerregion", "]"}]}], "]"}]}],
+   ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Graphics", "[", 
+  RowBox[{"{", 
+   RowBox[{"Orange", ",", "finalregion"}], "}"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.9706287040589943`*^9, 3.9706288471696644`*^9}, {
+   3.970628964747095*^9, 3.9706290491658*^9}, {3.970629109823057*^9, 
+   3.97062933959194*^9}, {3.970629995795803*^9, 3.970630073744648*^9}, {
+   3.97063010871278*^9, 3.970630123883751*^9}, {3.970630797188357*^9, 
+   3.9706308125657864`*^9}, {3.970630912787905*^9, 3.9706309169214287`*^9}, {
+   3.970631057350283*^9, 3.970631441433346*^9}, {3.970640011428375*^9, 
+   3.970640053945687*^9}, {3.9706401452208*^9, 3.9706402168831463`*^9}, {
+   3.9706402559806023`*^9, 3.970640312593065*^9}, {3.970640391257452*^9, 
+   3.970640463765678*^9}, {3.970640675367691*^9, 3.970640933005232*^9}, 
+   3.97064096334845*^9, {3.970641069944893*^9, 3.970641075805887*^9}, {
+   3.970641201199785*^9, 3.97064127106135*^9}, {3.97064441420809*^9, 
+   3.970644451152765*^9}, {3.970644516627844*^9, 3.970644568062683*^9}, {
+   3.970644780837633*^9, 3.970644873980274*^9}, {3.970644944415296*^9, 
+   3.970644990023245*^9}, {3.970645079775212*^9, 3.97064508296394*^9}, {
+   3.970645122937301*^9, 3.970645123297792*^9}, {3.970645181855713*^9, 
+   3.970645327038679*^9}, {3.970645402482647*^9, 3.970645537234913*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"0b24f646-19c8-d14e-a3f3-e1bb914f2a4e"],
+
+Cell[BoxData[
+ GraphicsBox[
+  {RGBColor[1, 0.5, 0], 
+   TagBox[
+    DynamicModuleBox[{Typeset`mesh = HoldComplete[
+      BoundaryMeshRegion[CompressedData["
+1:eJxdkl9IU2EYxqflRQZRojFyic6yBCG0mwrsDYkQ86ZICiNN8U+BpjehYRk0
+MJ0UIVJirlSwwiTbhSBMejRL0crUbbZS9EyW0EhKCbF1U3m+98D3DQ7j4T3n
++57n97wJhRWni8NNJlPRv+f//1iFJ6970I+Un13Jy70usI5vvzKSebXT0NG6
+JtZ79fcNHZ8Zud4aNUrOtZ5ATbGG+pvtixH2CUr7E+ltjZ5H9fmHJf0mN4Vv
+GdDS82aRUrU0Wz4wQ1M7y79rT33QmlJPJVZ/oY49ceu2FS+aX1wf8R2cp9hg
+IGXT3SkcX/tt/dq+QPvyzw5vzhlH6JEL63Ua7dqYD8GdEVquTfcL7cTzpUOW
+iF9+MomfzV6V1di9SGZ9TjwX3xN/L84n+fwp4vuFP2J/wj+x/zA9H3E+kZ84
+v+BDzEfwI+bHer/Ml8wyf7LI/VCy3B9Z9fPA9zXo90Hxg3DZL5Q8UPIiVuaB
+ZJkXLDJPoQ3eUPqAWe4LSp9Q+hZzYx+g7AuUfUKYvG+cH9dEft5Xu+DD+8z8
+tvrnan1jbqxW1gad5a/Rcu9cwqekabx6c8ca92MEScc8w17bJOxmR6698h1K
+Fh6/fzb0ATllPU1rKx9x6+iDHU9qxrFdu1DsPDyNSy1R2/oPvIXPPWgNxbjR
+FoiNaR4FOkYTtYxVN0o35n247KpzNE54xPtdSOv9luvp9hr8Qp3Z5t23Z3hO
+PNd1H/H3Dv184vPF/cT3C3/E/kp1/3RG+Bf5qF7kE/lpQOQXfGhF8LmRWjD3
+ucxL2Ufmixp9LkMXNPRXxPe9NLSv4GTQe+K+oSd1Tawv6u8bOks/j5T7SPFD
+il8qkfOQkpcUHtQm86JSmScpvEnpg5S+hDb6JIfcNyn7QMq+kOgD7J/3jfPx
+PnJ+3lfmI/iB+bHOl/lC4Q+lHxTK/YH7/Qul8mpr
+       "], {
+        Line[{{1, 50}, {50, 49}, {49, 48}, {48, 47}, {47, 46}, {46, 45}, {45, 
+         44}, {44, 43}, {43, 42}, {42, 41}, {41, 40}, {40, 39}, {39, 38}, {38,
+          37}, {37, 36}, {36, 35}, {35, 34}, {34, 33}, {33, 32}, {32, 31}, {
+         31, 30}, {30, 29}, {29, 28}, {28, 27}, {27, 26}, {26, 25}, {25, 
+         24}, {24, 23}, {23, 22}, {22, 21}, {21, 20}, {20, 19}, {19, 18}, {18,
+          17}, {17, 16}, {16, 15}, {15, 14}, {14, 13}, {13, 12}, {12, 11}, {
+         11, 10}, {10, 9}, {9, 8}, {8, 7}, {7, 6}, {6, 5}, {5, 4}, {4, 3}, {3,
+          2}, {2, 1}}]}, {
+        Line[{{99, 100}, {100, 51}, {51, 52}, {52, 53}, {53, 54}, {54, 55}, {
+         55, 56}, {56, 57}, {57, 58}, {58, 59}, {59, 60}, {60, 61}, {61, 
+         62}, {62, 63}, {63, 64}, {64, 65}, {65, 66}, {66, 67}, {67, 68}, {68,
+          69}, {69, 70}, {70, 71}, {71, 72}, {72, 73}, {73, 74}, {74, 75}, {
+         75, 76}, {76, 77}, {77, 78}, {78, 79}, {79, 80}, {80, 81}, {81, 
+         82}, {82, 83}, {83, 84}, {84, 85}, {85, 86}, {86, 87}, {87, 88}, {88,
+          89}, {89, 90}, {90, 91}, {91, 92}, {92, 93}, {93, 94}, {94, 95}, {
+         95, 96}, {96, 97}, {97, 98}, {98, 99}}]}, 
+       Method -> {
+        "EliminateUnusedCoordinates" -> True, "DeleteDuplicateCoordinates" -> 
+         Automatic, "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+         Identity, "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+         Automatic, "CheckIntersections" -> Automatic, 
+         "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> False,
+          "TJunction" -> Automatic, "PropagateMarkers" -> True, "ZeroTest" -> 
+         Automatic, "Hash" -> 2326782942503130671}, {PlotTheme -> None}]]}, 
+     TagBox[GraphicsComplexBox[CompressedData["
+1:eJxdkl9IU2EYxqflRQZRojFyic6yBCG0mwrsDYkQ86ZICiNN8U+BpjehYRk0
+MJ0UIVJirlSwwiTbhSBMejRL0crUbbZS9EyW0EhKCbF1U3m+98D3DQ7j4T3n
++57n97wJhRWni8NNJlPRv+f//1iFJ6970I+Un13Jy70usI5vvzKSebXT0NG6
+JtZ79fcNHZ8Zud4aNUrOtZ5ATbGG+pvtixH2CUr7E+ltjZ5H9fmHJf0mN4Vv
+GdDS82aRUrU0Wz4wQ1M7y79rT33QmlJPJVZ/oY49ceu2FS+aX1wf8R2cp9hg
+IGXT3SkcX/tt/dq+QPvyzw5vzhlH6JEL63Ua7dqYD8GdEVquTfcL7cTzpUOW
+iF9+MomfzV6V1di9SGZ9TjwX3xN/L84n+fwp4vuFP2J/wj+x/zA9H3E+kZ84
+v+BDzEfwI+bHer/Ml8wyf7LI/VCy3B9Z9fPA9zXo90Hxg3DZL5Q8UPIiVuaB
+ZJkXLDJPoQ3eUPqAWe4LSp9Q+hZzYx+g7AuUfUKYvG+cH9dEft5Xu+DD+8z8
+tvrnan1jbqxW1gad5a/Rcu9cwqekabx6c8ca92MEScc8w17bJOxmR6698h1K
+Fh6/fzb0ATllPU1rKx9x6+iDHU9qxrFdu1DsPDyNSy1R2/oPvIXPPWgNxbjR
+FoiNaR4FOkYTtYxVN0o35n247KpzNE54xPtdSOv9luvp9hr8Qp3Z5t23Z3hO
+PNd1H/H3Dv184vPF/cT3C3/E/kp1/3RG+Bf5qF7kE/lpQOQXfGhF8LmRWjD3
+ucxL2Ufmixp9LkMXNPRXxPe9NLSv4GTQe+K+oSd1Tawv6u8bOks/j5T7SPFD
+il8qkfOQkpcUHtQm86JSmScpvEnpg5S+hDb6JIfcNyn7QMq+kOgD7J/3jfPx
+PnJ+3lfmI/iB+bHOl/lC4Q+lHxTK/YH7/Qul8mpr
+       "], {{}, 
+        TagBox[
+         FilledCurveBox[{{
+           Line[{1, 50, 49, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 
+             36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 
+             20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 
+             2}]}, {
+           Line[{99, 100, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 
+             64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 
+             80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 
+             96, 97, 98}]}}],
+         Annotation[#, "Geometry"]& ]}],
+      MouseAppearanceTag["LinkHand"]],
+     AllowKernelInitialization->False],
+    "BoundaryMeshRegion"]}]], "Output",
+ CellChangeTimes->{
+  3.970640146160616*^9, 3.970640218665928*^9, {3.9706402564778824`*^9, 
+   3.970640313045768*^9}, {3.970640403121498*^9, 3.97064043779669*^9}, 
+   3.970640553568487*^9, {3.970640679571577*^9, 3.970640933381048*^9}, {
+   3.970641204245889*^9, 3.9706412714554253`*^9}, {3.970644417048605*^9, 
+   3.9706444516109924`*^9}, {3.9706445210056267`*^9, 3.97064454710841*^9}, {
+   3.970644816862978*^9, 3.9706448422087975`*^9}, 3.970644885540294*^9, {
+   3.970644958359049*^9, 3.970644984170961*^9}, 3.970645094715593*^9, 
+   3.970645134991632*^9, {3.97064519681969*^9, 3.970645235705417*^9}, {
+   3.970645268169634*^9, 3.970645318848759*^9}, 3.970645357650303*^9, 
+   3.9706454113197985`*^9, {3.970645452613064*^9, 3.97064549693771*^9}, 
+   3.970645537850902*^9, 3.970718487430635*^9, {3.970719792776119*^9, 
+   3.970719817868065*^9}, 3.9707209036941357`*^9, 3.970721464944233*^9, 
+   3.97073377746016*^9, 3.9708016854096775`*^9},
+ CellLabel->"Out[10]=",ExpressionUUID->"d422b263-bea4-6e47-a0bc-c52bb52e9661"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\:81ea\:52a8\:751f\:6210\:5f62\:72b6\:5217\:8868", "Section",
+ CellChangeTimes->{{3.97062785064785*^9, 
+  3.970627859635273*^9}},ExpressionUUID->"4b7aa6ca-6557-834b-9096-\
+76ee8e6fb7df"],
+
+Cell[CellGroupData[{
+
+Cell["\:9ed8\:8ba4\:989c\:8272/\:5f62\:72b6\:5217\:8868", "Subsection",
+ CellChangeTimes->{{3.9706424324891434`*^9, 3.970642438565067*^9}, {
+  3.970801763880642*^9, 
+  3.9708017690933304`*^9}},ExpressionUUID->"53b0ea72-5438-674f-a6cf-\
+9dd1b5c7b28f"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"colorlistdefault", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"RGBColor", "[", "\"\<#ED2A28\>\"", "]"}], ",", " ", 
+     RowBox[{"RGBColor", "[", "\"\<#3F7CAC\>\"", "]"}], ",", " ", 
+     RowBox[{"RGBColor", "[", "\"\<#F6A13A\>\"", "\n", "    ", "]"}], ",", 
+     " ", 
+     RowBox[{"RGBColor", "[", "\"\<#9E9E49\>\"", "]"}], ",", " ", 
+     RowBox[{"RGBColor", "[", "\"\<#874F9E\>\"", "]"}], ",", " ", 
+     RowBox[{"RGBColor", "[", "\"\<#E96DA8\>\"", "]"}], ",", " ", 
+     RowBox[{"RGBColor", "[", "\n", "    ", "\"\<#F27C2F\>\"", "]"}], ",", 
+     " ", 
+     RowBox[{"RGBColor", "[", "\"\<#2ABCB8\>\"", "]"}], ",", " ", 
+     RowBox[{"RGBColor", "[", "\"\<#D81859\>\"", "]"}], ",", " ", 
+     RowBox[{"RGBColor", "[", "\"\<#367E44\>\"", "\n", "    ", "]"}], ",", 
+     " ", 
+     RowBox[{"RGBColor", "[", "\"\<#4E4E4E\>\"", "]"}], ",", " ", 
+     RowBox[{"RGBColor", "[", "\"\<#FFD700\>\"", "]"}], ",", " ", 
+     RowBox[{"RGBColor", "[", "\"\<#A0522D\>\"", "]"}]}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"regionlistdefault", "=", 
+   RowBox[{"{", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"RegularPolygon", "[", "3", "]"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"RegularPolygon", "[", "4", "]"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"Polygon", "[", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"0.8", " ", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"0.7", " ", 
+            RowBox[{"Sqrt", "[", 
+             RowBox[{"4", " ", "/", " ", 
+              RowBox[{"(", 
+               RowBox[{"4", " ", "*", " ", 
+                RowBox[{"Cot", "[", 
+                 RowBox[{"Pi", " ", "/", " ", "4"}], "]"}]}], ")"}]}], "]"}], 
+            " ", 
+            RowBox[{"Sin", "[", 
+             RowBox[{"2", " ", "\[Pi]", " ", 
+              RowBox[{"k", " ", "/", " ", "4"}]}], "]"}]}], ",", " ", 
+           RowBox[{
+            RowBox[{"Sqrt", "[", 
+             RowBox[{"4", " ", "/", " ", 
+              RowBox[{"(", 
+               RowBox[{"4", "*", " ", 
+                RowBox[{"Cot", "[", 
+                 RowBox[{"Pi", " ", "/", "4"}], "]"}]}], ")"}]}], "]"}], " ", 
+            RowBox[{"Cos", "[", 
+             RowBox[{"2", " ", "\[Pi]", " ", 
+              RowBox[{"k", " ", "/", "4"}]}], "]"}]}]}], "}"}]}], ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"k", ",", " ", "1", ",", "4"}], "}"}]}], "]"}], "]"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"RegularPolygon", "[", "6", "]"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"Disk", "[", "]"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"RegularPolygon", "[", "5", "]"}]}], "}"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.970642409835251*^9, 3.970642412709842*^9}, {
+   3.970642443461447*^9, 3.970642446943874*^9}, {3.970642618750963*^9, 
+   3.970642635990202*^9}, 3.9707158043055725`*^9, {3.9708017602921658`*^9, 
+   3.9708017607098713`*^9}},ExpressionUUID->"2dccf90c-a4bf-bd44-b090-\
+12625eaef94c"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\:81ea\:52a8\:4ece\:533a\:57df\:751f\:6210\:6807\:51c6\:5927\:5c0f\:7684\
+\:7a7a\:5fc3\:5f62\:72b6", "Subsection",
+ CellChangeTimes->{{3.970629426138546*^9, 3.970629453010099*^9}, {
+  3.970635844530788*^9, 
+  3.970635846576212*^9}},ExpressionUUID->"7058adbc-25a6-3640-9191-\
+f07104158f73"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"openregion", "[", "region_", "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "innerregion", ",", "outerregion", ",", "finalshape", ",", "areafactor",
+        ",", "rootfactor", ",", "interfactor", ",", "finalregion", ",", 
+       "compactness"}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+      "\:8c03\:6574\:5916\:90e8\:9762\:79ef\:7684\:5927\:5c0f", "\:ff0c", 
+       "\:5148\:9762\:79ef\:5f52\:4e00\:5316", "\:ff0c", 
+       "\:518d\:6839\:636e\:7d27\:51d1\:5ea6\:6307\:6570\:7f29\:653e", 
+       "\:ff0c", 
+       "\:56e0\:4e3a\:677e\:6563\:7684\:56fe\:5f62\:89c6\:89c9\:6548\:679c\
+\:5927"}], "*)"}], "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"areafactor", "=", 
+       RowBox[{"1", "/", 
+        SqrtBox[
+         RowBox[{"Area", "[", "region", "]"}]]}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"compactness", "=", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"4", "\[Pi]", " ", 
+            RowBox[{"Area", "[", "region", "]"}]}], ")"}], "/", 
+          SuperscriptBox[
+           RowBox[{"Perimeter", "[", "region", "]"}], "2"]}], ")"}], "^", 
+        "0.35"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"outerregion", "=", 
+       RowBox[{"RegionResize", "[", 
+        RowBox[{"region", ",", 
+         RowBox[{"Scaled", "[", 
+          RowBox[{"compactness", "*", "areafactor"}], "]"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"rootfactor", "=", "\[IndentingNewLine]", 
+       RowBox[{"FindRoot", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"Area", "[", "outerregion", "]"}], "-", 
+             RowBox[{"Area", "[", 
+              RowBox[{"RegionResize", "[", 
+               RowBox[{"outerregion", ",", 
+                RowBox[{"Scaled", "[", "interfactor", "]"}]}], "]"}], "]"}]}],
+             ")"}], "/", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"Perimeter", "[", "outerregion", "]"}], "+", 
+             RowBox[{"Perimeter", "[", 
+              RowBox[{"RegionResize", "[", 
+               RowBox[{"outerregion", ",", 
+                RowBox[{"Scaled", "[", "interfactor", "]"}]}], "]"}], "]"}]}],
+             ")"}]}], "==", "0.11"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"interfactor", ",", "0.5"}], "}"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"innerregion", "=", 
+       RowBox[{"RegionResize", "[", 
+        RowBox[{"outerregion", ",", 
+         RowBox[{"Scaled", "[", 
+          RowBox[{"interfactor", "/.", 
+           RowBox[{"rootfactor", "[", 
+            RowBox[{"[", "1", "]"}], "]"}]}], "]"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"outerregion", "=", 
+       RowBox[{"TransformedRegion", "[", 
+        RowBox[{"outerregion", ",", 
+         RowBox[{"TranslationTransform", "[", 
+          RowBox[{"-", 
+           RowBox[{"RegionCentroid", "@", "outerregion"}]}], "]"}]}], "]"}]}],
+       ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"innerregion", "=", 
+       RowBox[{"TransformedRegion", "[", 
+        RowBox[{"innerregion", ",", 
+         RowBox[{"TranslationTransform", "[", 
+          RowBox[{"-", 
+           RowBox[{"RegionCentroid", "@", "innerregion"}]}], "]"}]}], "]"}]}],
+       ";", "\[IndentingNewLine]", 
+      RowBox[{"finalregion", "=", 
+       RowBox[{"RegionDifference", "[", 
+        RowBox[{
+         RowBox[{"BoundaryDiscretizeRegion", "[", "outerregion", "]"}], ",", 
+         RowBox[{"BoundaryDiscretizeRegion", "[", "innerregion", "]"}]}], 
+        "]"}]}]}]}], "\[IndentingNewLine]", "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"openregionInner", "[", "region_", "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "innerregion", ",", "outerregion", ",", "finalshape", ",", "areafactor",
+        ",", "rootfactor", ",", "interfactor", ",", "finalregion", ",", 
+       "compactness"}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+      "\:8c03\:6574\:5916\:90e8\:9762\:79ef\:7684\:5927\:5c0f", "\:ff0c", 
+       "\:5148\:9762\:79ef\:5f52\:4e00\:5316", "\:ff0c", 
+       "\:518d\:6839\:636e\:7d27\:51d1\:5ea6\:6307\:6570\:7f29\:653e", 
+       "\:ff0c", 
+       "\:56e0\:4e3a\:677e\:6563\:7684\:56fe\:5f62\:89c6\:89c9\:6548\:679c\
+\:5927"}], "*)"}], "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"areafactor", "=", 
+       RowBox[{"1", "/", 
+        SqrtBox[
+         RowBox[{"Area", "[", "region", "]"}]]}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"compactness", "=", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"4", "\[Pi]", " ", 
+            RowBox[{"Area", "[", "region", "]"}]}], ")"}], "/", 
+          SuperscriptBox[
+           RowBox[{"Perimeter", "[", "region", "]"}], "2"]}], ")"}], "^", 
+        "0.35"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"outerregion", "=", 
+       RowBox[{"RegionResize", "[", 
+        RowBox[{"region", ",", 
+         RowBox[{"Scaled", "[", 
+          RowBox[{"compactness", "*", "areafactor"}], "]"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"rootfactor", "=", "\[IndentingNewLine]", 
+       RowBox[{"FindRoot", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"Area", "[", "outerregion", "]"}], "-", 
+             RowBox[{"Area", "[", 
+              RowBox[{"RegionResize", "[", 
+               RowBox[{"outerregion", ",", 
+                RowBox[{"Scaled", "[", "interfactor", "]"}]}], "]"}], "]"}]}],
+             ")"}], "/", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"Perimeter", "[", "outerregion", "]"}], "+", 
+             RowBox[{"Perimeter", "[", 
+              RowBox[{"RegionResize", "[", 
+               RowBox[{"outerregion", ",", 
+                RowBox[{"Scaled", "[", "interfactor", "]"}]}], "]"}], "]"}]}],
+             ")"}]}], "==", "0.11"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"interfactor", ",", "0.5"}], "}"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"innerregion", "=", 
+       RowBox[{"RegionResize", "[", 
+        RowBox[{"outerregion", ",", 
+         RowBox[{"Scaled", "[", 
+          RowBox[{"interfactor", "/.", 
+           RowBox[{"rootfactor", "[", 
+            RowBox[{"[", "1", "]"}], "]"}]}], "]"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"innerregion", "=", 
+       RowBox[{"TransformedRegion", "[", 
+        RowBox[{"innerregion", ",", 
+         RowBox[{"TranslationTransform", "[", 
+          RowBox[{"-", 
+           RowBox[{"RegionCentroid", "@", "innerregion"}]}], "]"}]}], "]"}]}],
+       ";", "\[IndentingNewLine]", 
+      RowBox[{"BoundaryDiscretizeRegion", "[", "innerregion", "]"}]}]}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"closeregion", "[", "region_", "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "innerregion", ",", "outerregion", ",", "finalshape", ",", "areafactor",
+        ",", "rootfactor", ",", "interfactor", ",", "finalregion", ",", 
+       "compactness"}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+      "\:8c03\:6574\:5916\:90e8\:9762\:79ef\:7684\:5927\:5c0f", "\:ff0c", 
+       "\:5148\:9762\:79ef\:5f52\:4e00\:5316", "\:ff0c", 
+       "\:518d\:6839\:636e\:7d27\:51d1\:5ea6\:6307\:6570\:7f29\:653e", 
+       "\:ff0c", 
+       "\:56e0\:4e3a\:677e\:6563\:7684\:56fe\:5f62\:89c6\:89c9\:6548\:679c\
+\:5927"}], "*)"}], "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"areafactor", "=", 
+       RowBox[{"1", "/", 
+        SqrtBox[
+         RowBox[{"Area", "[", "region", "]"}]]}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"compactness", "=", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"4", "\[Pi]", " ", 
+            RowBox[{"Area", "[", "region", "]"}]}], ")"}], "/", 
+          SuperscriptBox[
+           RowBox[{"Perimeter", "[", "region", "]"}], "2"]}], ")"}], "^", 
+        "0.35"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"outerregion", "=", 
+       RowBox[{"RegionResize", "[", 
+        RowBox[{"region", ",", 
+         RowBox[{"Scaled", "[", 
+          RowBox[{"compactness", "*", "areafactor"}], "]"}]}], "]"}]}]}]}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.970635851992878*^9, 3.9706358675850506`*^9}, {
+   3.9706361769471817`*^9, 3.970636179001869*^9}, {3.970638385184572*^9, 
+   3.9706384016719437`*^9}, {3.970638565193729*^9, 3.970638636163311*^9}, {
+   3.970638686153927*^9, 3.970638717006939*^9}, {3.970638779444334*^9, 
+   3.970638785305847*^9}, {3.970638920087293*^9, 3.970638926100187*^9}, {
+   3.970639003048595*^9, 3.9706390070017185`*^9}, {3.970642150675527*^9, 
+   3.970642153661268*^9}, {3.970715015394489*^9, 3.9707150207418365`*^9}, 
+   3.97071505663398*^9, {3.970715122064089*^9, 3.9707151511055336`*^9}, {
+   3.9707152480797195`*^9, 3.970715260131359*^9}, 3.9707153452833004`*^9, 
+   3.9707156773478775`*^9, {3.9707228803941574`*^9, 3.970723053941134*^9}, {
+   3.9708013032753944`*^9, 3.970801360163643*^9}, {3.9708017347611046`*^9, 
+   3.9708017426881027`*^9}},ExpressionUUID->"5fd02d22-c438-8d41-a816-\
+ba99ddddd921"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\:5f62\:72b6\:5217\:8868", "Subsection",
+ CellChangeTimes->{{3.970716749953026*^9, 
+  3.9707167593084507`*^9}},ExpressionUUID->"a88d027e-ade3-a94a-8172-\
+791655359e6c"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"openmarkerlist", "=", 
+   RowBox[{"openregion", "/@", "regionlistdefault"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Graphics", "[", 
+  RowBox[{
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"colorlistdefault", "[", 
+        RowBox[{"[", "i", "]"}], "]"}], ",", 
+       RowBox[{"Translate", "[", 
+        RowBox[{
+         RowBox[{"openmarkerlist", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"2", "*", "i"}], ",", "0"}], "}"}]}], "]"}], ",", 
+       RowBox[{"(*", "\:6c34\:5e73\:4f4d\:7f6e", "*)"}], 
+       RowBox[{"Text", "[", 
+        RowBox[{
+         RowBox[{"\"\<Shape \>\"", "<>", 
+          RowBox[{"ToString", "[", "i", "]"}]}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"2", "*", "i"}], ",", 
+           RowBox[{"-", "2.5"}]}], "}"}]}], "]"}]}], "     ", 
+      RowBox[{"(*", "\:6dfb\:52a0\:6807\:7b7e", "*)"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", 
+       RowBox[{"Length", "[", "openmarkerlist", "]"}]}], "}"}]}], "]"}], ",", 
+   RowBox[{"PlotRange", "->", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "1"}], ",", 
+        RowBox[{
+         RowBox[{"2", "*", 
+          RowBox[{"Length", "[", "openmarkerlist", "]"}]}], "+", "2"}]}], 
+       "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "3"}], ",", "3"}], "}"}]}], "}"}]}], ",", 
+   RowBox[{"Axes", "->", "True"}], ",", 
+   RowBox[{"GridLines", "->", "Automatic"}], ",", 
+   RowBox[{"Frame", "->", "True"}], ",", 
+   RowBox[{"ImageSize", "->", "600"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.9707167662531376`*^9, 3.9707167885406*^9}, {
+  3.970716909335974*^9, 3.97071698444594*^9}, {3.970722532691351*^9, 
+  3.970722554885763*^9}, {3.9707972450391865`*^9, 3.9707972931859665`*^9}, {
+  3.9707973468013496`*^9, 3.9707974484821224`*^9}, {3.970801754138403*^9, 
+  3.970801755346201*^9}},
+ CellLabel->"In[24]:=",ExpressionUUID->"a7361a5c-5934-5f4c-9979-b3e2adc37163"],
+
+Cell[BoxData[
+ GraphicsBox[{
+   {RGBColor[0.9294117647058824, 0.16470588235294117`, 0.1568627450980392], 
+    TagBox[
+     DynamicModuleBox[{Typeset`mesh = HoldComplete[
+       BoundaryMeshRegion[CompressedData["
+1:eJw9kw1MzHEYx///OpSdUF4Oh6JVq5B1eVt6fpPUstEyLyOvW8ZhecnKe0bh
+bBbKyFhyXueuHBfL6U9ihUVNShm9navcqVNd5d5w/+f3v+12++z5/Z7f9/l+
+n/PbkpKY7MYwzNp/3/+/m436a01yETHFZoe0KOq4rV0de/Q6d4Hlv00xnV7u
+xIic0mee0LXJTeDUgT5Tj4YlP5HTrYMvB0Qs6UQ+4rDn2lcxAovcRZ9EiU7o
+QB7hKT7sZbELPG7kGH9Jng3akX3HSt/7RVnBgBw8yT81pGVQ4HC/UGlE1gD8
+QI4MlJVHBfcLvGRG5M64qj7QIy8Knnc5+rAFHu/cpzteW8MtxPPi6aq8ReQ9
+N88/rHt+fT88cNXLOBn2z3exhps1JSguTDYIDH6onnq+DgES3/yA7D9Qwd8H
+P9QfxPcHqbdkQGq0wiv+fZDgvGZeH/iIRyX4xNnB13X+K4xEf4KcbSerDzbB
+8KEedz2VDuBc91tgKPq5qoHtnR2mp7rIL1c/AxxF/1di3WazhlhVDHmO9w9g
+XgHYv3+wf7VlHUuk+D7NF/OG35aeE2ZPN6JD/btxH6Q4n6mnq9D4hNbLYAfu
+jw79ae/+2WhIdifUP7pvL9DfNpNhWKuPiHDoP93PKZjP987W8G8vRaQU80vq
+aK5slAzBeeu43IB3azI6WJI5VWsqii3ltlYMSTvzhiXKulhNubaYmysnuRdu
+siTLVVdzHuJDj65msOS0i69z9SpttXI9K+i7t7y7S7WAJRl8HQ6ag72ejKes
+hqUXk0Nf9DKkgO8P0oj8+MpqBvuXgvFzw7YaNUMehZ/PqTKWwfP0sacazzLk
+puv8Gzg3MeFW2zaGXDzk+FBy9C1s1ClemWIY1F8Fsza8brZMY0hJszZzhUe1
+kC/frwYKovdHepc44RnWo091pvunOiEL7+vfbtTOmemES9g/y6vWHNfugNv4
+flBi/Mx1BQ7Qor7KXE6+K8kBCtS/44vszrFxDriP84kn3289/9EOOTi/etNU
+X6XCDkXoz3JlTlLxYrvw/zAbPK9UOGyQgP5eCDlW2/DUBrvRf1lK72jTXhvk
+YD61mu3LnKE2SMf80izfFKMNVnjA6xPOU6b9VchUD2U56lcjB+K8lNvQn0Lk
+G+gnZep/ETLNizLN9yEy3QfKdH80yMNw3yjT/cT94MpPZi9IE7sJ/BeVOeTU
+
+        "], {
+         Line[{{1, 45}, {45, 44}, {44, 43}, {43, 42}, {42, 41}, {41, 40}, {40,
+           39}, {39, 38}, {38, 37}, {37, 36}, {36, 35}, {35, 34}, {34, 33}, {
+          33, 32}, {32, 31}, {31, 30}, {30, 29}, {29, 28}, {28, 27}, {27, 
+          26}, {26, 25}, {25, 24}, {24, 23}, {23, 22}, {22, 21}, {21, 20}, {
+          20, 19}, {19, 18}, {18, 17}, {17, 16}, {16, 15}, {15, 14}, {14, 
+          13}, {13, 12}, {12, 11}, {11, 10}, {10, 9}, {9, 8}, {8, 7}, {7, 
+          6}, {6, 5}, {5, 4}, {4, 3}, {3, 2}, {2, 1}}]}, {
+         Line[{{89, 90}, {90, 46}, {46, 47}, {47, 48}, {48, 49}, {49, 50}, {
+          50, 51}, {51, 52}, {52, 53}, {53, 54}, {54, 55}, {55, 56}, {56, 
+          57}, {57, 58}, {58, 59}, {59, 60}, {60, 61}, {61, 62}, {62, 63}, {
+          63, 64}, {64, 65}, {65, 66}, {66, 67}, {67, 68}, {68, 69}, {69, 
+          70}, {70, 71}, {71, 72}, {72, 73}, {73, 74}, {74, 75}, {75, 76}, {
+          76, 77}, {77, 78}, {78, 79}, {79, 80}, {80, 81}, {81, 82}, {82, 
+          83}, {83, 84}, {84, 85}, {85, 86}, {86, 87}, {87, 88}, {88, 89}}]}, 
+        Method -> {
+         "EliminateUnusedCoordinates" -> True, "DeleteDuplicateCoordinates" -> 
+          Automatic, "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+          Identity, "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+          Automatic, "CheckIntersections" -> Automatic, 
+          "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+          False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+          "ZeroTest" -> Automatic, "Hash" -> 6725926556747404480}, {
+        PlotTheme -> None}]]}, 
+      TagBox[GraphicsComplexBox[CompressedData["
+1:eJw9kw1MzHEYx///OpSdUF4Oh6JVq5B1eVt6fpPUstEyLyOvW8ZhecnKe0bh
+bBbKyFhyXueuHBfL6U9ihUVNShm9navcqVNd5d5w/+f3v+12++z5/Z7f9/l+
+n/PbkpKY7MYwzNp/3/+/m436a01yETHFZoe0KOq4rV0de/Q6d4Hlv00xnV7u
+xIic0mee0LXJTeDUgT5Tj4YlP5HTrYMvB0Qs6UQ+4rDn2lcxAovcRZ9EiU7o
+QB7hKT7sZbELPG7kGH9Jng3akX3HSt/7RVnBgBw8yT81pGVQ4HC/UGlE1gD8
+QI4MlJVHBfcLvGRG5M64qj7QIy8Knnc5+rAFHu/cpzteW8MtxPPi6aq8ReQ9
+N88/rHt+fT88cNXLOBn2z3exhps1JSguTDYIDH6onnq+DgES3/yA7D9Qwd8H
+P9QfxPcHqbdkQGq0wiv+fZDgvGZeH/iIRyX4xNnB13X+K4xEf4KcbSerDzbB
+8KEedz2VDuBc91tgKPq5qoHtnR2mp7rIL1c/AxxF/1di3WazhlhVDHmO9w9g
+XgHYv3+wf7VlHUuk+D7NF/OG35aeE2ZPN6JD/btxH6Q4n6mnq9D4hNbLYAfu
+jw79ae/+2WhIdifUP7pvL9DfNpNhWKuPiHDoP93PKZjP987W8G8vRaQU80vq
+aK5slAzBeeu43IB3azI6WJI5VWsqii3ltlYMSTvzhiXKulhNubaYmysnuRdu
+siTLVVdzHuJDj65msOS0i69z9SpttXI9K+i7t7y7S7WAJRl8HQ6ag72ejKes
+hqUXk0Nf9DKkgO8P0oj8+MpqBvuXgvFzw7YaNUMehZ/PqTKWwfP0sacazzLk
+puv8Gzg3MeFW2zaGXDzk+FBy9C1s1ClemWIY1F8Fsza8brZMY0hJszZzhUe1
+kC/frwYKovdHepc44RnWo091pvunOiEL7+vfbtTOmemES9g/y6vWHNfugNv4
+flBi/Mx1BQ7Qor7KXE6+K8kBCtS/44vszrFxDriP84kn3289/9EOOTi/etNU
+X6XCDkXoz3JlTlLxYrvw/zAbPK9UOGyQgP5eCDlW2/DUBrvRf1lK72jTXhvk
+YD61mu3LnKE2SMf80izfFKMNVnjA6xPOU6b9VchUD2U56lcjB+K8lNvQn0Lk
+G+gnZep/ETLNizLN9yEy3QfKdH80yMNw3yjT/cT94MpPZi9IE7sJ/BeVOeTU
+
+        "], {{}, 
+         TagBox[
+          FilledCurveBox[{{
+            Line[{1, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 
+              31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 
+              15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+            Line[{89, 90, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 
+              59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 
+              75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88}]}}],
+          Annotation[#, "Geometry"]& ]}],
+       MouseAppearanceTag["LinkHand"]],
+      AllowKernelInitialization->False],
+     "BoundaryMeshRegion"], InsetBox["\<\"Shape 1\"\>", {2, -2.5}]}, 
+   {RGBColor[0.24705882352941178`, 0.48627450980392156`, 0.6745098039215687], 
+    TagBox[
+     DynamicModuleBox[{Typeset`mesh = HoldComplete[
+       BoundaryMeshRegion[CompressedData["
+1:eJxl0l1Ik2EUB/AV0dfWti6kMBqVOAgqCmRUlM8ibBcShULY7APEiEGWOSi7
+6KKWI6ohuBtJKmwku7B9YfVq0OtHXmySbPYBViaC6+OmLar7au/5n4eevTDG
+j/Pu2XPO/2xuudBwZqnJZGr/+/n3HY2Yd3nCa93F74Hwh7NzesvK+aj9qPSG
+ttSm9xbpN7mu3kjazg65jtvbgtKevm03XQelTaVHuiM9UOi5YnMXyPmew/PV
+P63sphO/prVz0pnqvhf1n9ew9xcOxD6dlo5rX+9dnLWwt1zvDi1rLPeNvSN2
+f80se32wGFq95C17MOc0P3yVVd5PK/VRdrTkBNtED5ww6gKOGb9nB43zlXqW
+XWncj91l3J9N8xQJ6h/GfGDMD8Z8Ycwf9lM+sJKfUPIVSv5C2Q+h7I9Q9kso
++ycKtbuHr74rN+XHpvzYlJ/yflqpj7IpPzbygyk/Hab82JSfUs+yKT825acr
+/enWl1Vm12+72+x0HMvUZdinMhOe14uT7NR5356PgTG2pfT+CHuoVE8q7mej
+P3jQqIv/z0+ylxvns5PG/7NPGvcTyv3Zz651to4NTIudPxINO2akGx21d51x
+6Uv1UwuOO9K9nU1b1/mknz/Kt9sOSc/NdGgrqqSxn3Cdt7K7OGxj3x6qcSz4
+pbPWI49z26UrfL5941+sbO9EYCrVL/1g431vpFk6f1n7Fq4oN/qHKT825cem
+/NiUH1ujfGDkB1N+Ohyj/GHKjx2n/VkkN9N+wato/+AnRn86+ocxHxjzgzHf
+p+RbNH8Y+cDID0a+MPKHsR+wsj+6sl+6sn+6sp/6H/fXU5A=
+        "], {
+         Line[{{1, 56}, {56, 55}, {55, 54}, {54, 53}, {53, 52}, {52, 51}, {51,
+           50}, {50, 49}, {49, 48}, {48, 47}, {47, 46}, {46, 45}, {45, 44}, {
+          44, 43}, {43, 42}, {42, 41}, {41, 40}, {40, 39}, {39, 38}, {38, 
+          37}, {37, 36}, {36, 35}, {35, 34}, {34, 33}, {33, 32}, {32, 31}, {
+          31, 30}, {30, 29}, {29, 28}, {28, 27}, {27, 26}, {26, 25}, {25, 
+          24}, {24, 23}, {23, 22}, {22, 21}, {21, 20}, {20, 19}, {19, 18}, {
+          18, 17}, {17, 16}, {16, 15}, {15, 14}, {14, 13}, {13, 12}, {12, 
+          11}, {11, 10}, {10, 9}, {9, 8}, {8, 7}, {7, 6}, {6, 5}, {5, 4}, {4, 
+          3}, {3, 2}, {2, 1}}]}, {
+         Line[{{111, 112}, {112, 57}, {57, 58}, {58, 59}, {59, 60}, {60, 
+          61}, {61, 62}, {62, 63}, {63, 64}, {64, 65}, {65, 66}, {66, 67}, {
+          67, 68}, {68, 69}, {69, 70}, {70, 71}, {71, 72}, {72, 73}, {73, 
+          74}, {74, 75}, {75, 76}, {76, 77}, {77, 78}, {78, 79}, {79, 80}, {
+          80, 81}, {81, 82}, {82, 83}, {83, 84}, {84, 85}, {85, 86}, {86, 
+          87}, {87, 88}, {88, 89}, {89, 90}, {90, 91}, {91, 92}, {92, 93}, {
+          93, 94}, {94, 95}, {95, 96}, {96, 97}, {97, 98}, {98, 99}, {99, 
+          100}, {100, 101}, {101, 102}, {102, 103}, {103, 104}, {104, 105}, {
+          105, 106}, {106, 107}, {107, 108}, {108, 109}, {109, 110}, {110, 
+          111}}]}, 
+        Method -> {
+         "EliminateUnusedCoordinates" -> True, "DeleteDuplicateCoordinates" -> 
+          Automatic, "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+          Identity, "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+          Automatic, "CheckIntersections" -> Automatic, 
+          "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+          False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+          "ZeroTest" -> Automatic, "Hash" -> 8771522498407308704}, {
+        PlotTheme -> None}]]}, 
+      TagBox[GraphicsComplexBox[CompressedData["
+1:eJxl0l1Ik2EUB/AV0dfWti6kMBqVOAgqCmRUlM8ibBcShULY7APEiEGWOSi7
+6KKWI6ohuBtJKmwku7B9YfVq0OtHXmySbPYBViaC6+OmLar7au/5n4eevTDG
+j/Pu2XPO/2xuudBwZqnJZGr/+/n3HY2Yd3nCa93F74Hwh7NzesvK+aj9qPSG
+ttSm9xbpN7mu3kjazg65jtvbgtKevm03XQelTaVHuiM9UOi5YnMXyPmew/PV
+P63sphO/prVz0pnqvhf1n9ew9xcOxD6dlo5rX+9dnLWwt1zvDi1rLPeNvSN2
+f80se32wGFq95C17MOc0P3yVVd5PK/VRdrTkBNtED5ww6gKOGb9nB43zlXqW
+XWncj91l3J9N8xQJ6h/GfGDMD8Z8Ycwf9lM+sJKfUPIVSv5C2Q+h7I9Q9kso
++ycKtbuHr74rN+XHpvzYlJ/yflqpj7IpPzbygyk/Hab82JSfUs+yKT825acr
+/enWl1Vm12+72+x0HMvUZdinMhOe14uT7NR5356PgTG2pfT+CHuoVE8q7mej
+P3jQqIv/z0+ylxvns5PG/7NPGvcTyv3Zz651to4NTIudPxINO2akGx21d51x
+6Uv1UwuOO9K9nU1b1/mknz/Kt9sOSc/NdGgrqqSxn3Cdt7K7OGxj3x6qcSz4
+pbPWI49z26UrfL5941+sbO9EYCrVL/1g431vpFk6f1n7Fq4oN/qHKT825cem
+/NiUH1ujfGDkB1N+Ohyj/GHKjx2n/VkkN9N+wato/+AnRn86+ocxHxjzgzHf
+p+RbNH8Y+cDID0a+MPKHsR+wsj+6sl+6sn+6sp/6H/fXU5A=
+        "], {{}, 
+         TagBox[
+          FilledCurveBox[{{
+            Line[{1, 56, 55, 54, 53, 52, 51, 50, 49, 48, 47, 46, 45, 44, 43, 
+              42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 
+              26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 
+              10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+            Line[{111, 112, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 
+              69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 
+              85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100,
+               101, 102, 103, 104, 105, 106, 107, 108, 109, 110}]}}],
+          Annotation[#, "Geometry"]& ]}],
+       MouseAppearanceTag["LinkHand"]],
+      AllowKernelInitialization->False],
+     "BoundaryMeshRegion"], InsetBox["\<\"Shape 2\"\>", {4, -2.5}]}, 
+   {RGBColor[0.9647058823529412, 0.6313725490196078, 0.22745098039215686`], 
+    TagBox[
+     DynamicModuleBox[{Typeset`mesh = HoldComplete[
+       BoundaryMeshRegion[CompressedData["
+1:eJxdkltIVGEQx7eLSYVukZ5zdoO8PJgPqXkHEecjSx+yWAMRSruR2sUosHJ9
+6KUHtcuTitkGhi2BZCi1PezK0iCL4apba1KuRJrFllSgLWoaEdU2c8Dvg8Ph
+Y76Z+c/vPwknLxyqWmswGCx/v39/W76xdyhWEcvu5+pKnQOmsp02UaKIhfDd
+A4lpJ5qc1xRxcftD+2KKD6qTN13a7VLEUjg+Dj0JjuPdc4rIqHVW/rAEYM5c
+cSA+SaX37yAzJiKvo0IV5UHfQkPEDNRH9SZtaVUp/yO4N5Rva/aqoq0N86wf
+gmAIH01khuvNwt6V7m/1OZoebw6VTs7Vanq+7+vPwRq7ptffGrQ/mZ7U9P5l
+UyX3yreYRBbps00s3nxZZNL1T/k7rcVXTfp8icPFVejguAeqPfOluV/47oAe
+952CvnizMNDhOPFDzid+KNVHqT+yPuKHkn6U5sPrq+dHiQ9K/FDii9bV/FHy
+ByX/kP0lfij5j9J+IO8P8UPeL+KHZYXVA5bpWJ3fWX90TlGUKsYiY4wthXbc
+45o/XZDMdwea77+6m1Ooiv7NncqRoBtDN56+SD3KcQ9669rX7GxQxeDGyZYr
+MUPYVWHNimvj96PYsO9wjdqnionGdF/cWz+WpubbjMOcP47J6g5fZFAVo81L
+lvWPXuv8/tcLYGB2JmPZrIkRiveNearmszU9v6n/QcesRRNvqP4xe9PI+3Oa
+cFH/3FtnfgcaNV1f9OX96WNdmvCT/k+VKae8bk04ab5nRcbbAxMcd2B72nev
+K6SJIeJzXhv/9TjKpPPjOPEDzid+wPWJH3B/4geSPmD9xA94PuIH0vzAfIgf
+SPyA+RI/kPgD+0P8gP0jfiD5C+w/8QPeD+IHvD/ED3i/iB+0ft617mBI0fn9
+AYuXRjA=
+        "], {
+         Line[{{1, 40}, {40, 39}, {39, 38}, {38, 37}, {37, 36}, {36, 35}, {35,
+           34}, {34, 33}, {33, 32}, {32, 31}, {31, 30}, {30, 29}, {29, 28}, {
+          28, 27}, {27, 26}, {26, 25}, {25, 24}, {24, 23}, {23, 22}, {22, 
+          21}, {21, 20}, {20, 19}, {19, 18}, {18, 17}, {17, 16}, {16, 15}, {
+          15, 14}, {14, 13}, {13, 12}, {12, 11}, {11, 10}, {10, 9}, {9, 8}, {
+          8, 7}, {7, 6}, {6, 5}, {5, 4}, {4, 3}, {3, 2}, {2, 1}}]}, {
+         Line[{{79, 80}, {80, 41}, {41, 42}, {42, 43}, {43, 44}, {44, 45}, {
+          45, 46}, {46, 47}, {47, 48}, {48, 49}, {49, 50}, {50, 51}, {51, 
+          52}, {52, 53}, {53, 54}, {54, 55}, {55, 56}, {56, 57}, {57, 58}, {
+          58, 59}, {59, 60}, {60, 61}, {61, 62}, {62, 63}, {63, 64}, {64, 
+          65}, {65, 66}, {66, 67}, {67, 68}, {68, 69}, {69, 70}, {70, 71}, {
+          71, 72}, {72, 73}, {73, 74}, {74, 75}, {75, 76}, {76, 77}, {77, 
+          78}, {78, 79}}]}, 
+        Method -> {
+         "EliminateUnusedCoordinates" -> True, "DeleteDuplicateCoordinates" -> 
+          Automatic, "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+          Identity, "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+          Automatic, "CheckIntersections" -> Automatic, 
+          "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+          False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+          "ZeroTest" -> Automatic, "Hash" -> 4336237023775872969}, {
+        PlotTheme -> None}]]}, 
+      TagBox[GraphicsComplexBox[CompressedData["
+1:eJxdkltIVGEQx7eLSYVukZ5zdoO8PJgPqXkHEecjSx+yWAMRSruR2sUosHJ9
+6KUHtcuTitkGhi2BZCi1PezK0iCL4apba1KuRJrFllSgLWoaEdU2c8Dvg8Ph
+Y76Z+c/vPwknLxyqWmswGCx/v39/W76xdyhWEcvu5+pKnQOmsp02UaKIhfDd
+A4lpJ5qc1xRxcftD+2KKD6qTN13a7VLEUjg+Dj0JjuPdc4rIqHVW/rAEYM5c
+cSA+SaX37yAzJiKvo0IV5UHfQkPEDNRH9SZtaVUp/yO4N5Rva/aqoq0N86wf
+gmAIH01khuvNwt6V7m/1OZoebw6VTs7Vanq+7+vPwRq7ptffGrQ/mZ7U9P5l
+UyX3yreYRBbps00s3nxZZNL1T/k7rcVXTfp8icPFVejguAeqPfOluV/47oAe
+952CvnizMNDhOPFDzid+KNVHqT+yPuKHkn6U5sPrq+dHiQ9K/FDii9bV/FHy
+ByX/kP0lfij5j9J+IO8P8UPeL+KHZYXVA5bpWJ3fWX90TlGUKsYiY4wthXbc
+45o/XZDMdwea77+6m1Ooiv7NncqRoBtDN56+SD3KcQ9669rX7GxQxeDGyZYr
+MUPYVWHNimvj96PYsO9wjdqnionGdF/cWz+WpubbjMOcP47J6g5fZFAVo81L
+lvWPXuv8/tcLYGB2JmPZrIkRiveNearmszU9v6n/QcesRRNvqP4xe9PI+3Oa
+cFH/3FtnfgcaNV1f9OX96WNdmvCT/k+VKae8bk04ab5nRcbbAxMcd2B72nev
+K6SJIeJzXhv/9TjKpPPjOPEDzid+wPWJH3B/4geSPmD9xA94PuIH0vzAfIgf
+SPyA+RI/kPgD+0P8gP0jfiD5C+w/8QPeD+IHvD/ED3i/iB+0ft617mBI0fn9
+AYuXRjA=
+        "], {{}, 
+         TagBox[
+          FilledCurveBox[{{
+            Line[{1, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 
+              26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 
+              10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+            Line[{79, 80, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 
+              54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 
+              70, 71, 72, 73, 74, 75, 76, 77, 78}]}}],
+          Annotation[#, "Geometry"]& ]}],
+       MouseAppearanceTag["LinkHand"]],
+      AllowKernelInitialization->False],
+     "BoundaryMeshRegion"], InsetBox["\<\"Shape 3\"\>", {6, -2.5}]}, 
+   {RGBColor[0.6196078431372549, 0.6196078431372549, 0.28627450980392155`], 
+    TagBox[
+     DynamicModuleBox[{Typeset`mesh = HoldComplete[
+       BoundaryMeshRegion[CompressedData["
+1:eJxdkn1Ik1EUxldSlqkgow/DvXvN7xKt7R/N4l4UojS1MuwDMlM2+lBTJE00
+s9DKyCyC2Gaa5ReilLZKrcmdaE5llaDUMMVVOgQtwqKwLLPtnvel+8IYP849
+557nea53yul9qqUSiSR58ffv/2hZit4rm8f52zL7MyutBCXNmDt3i8yH5tiS
+/EWW2D+Ru+5JlZF6ucAXowLUxWqRIye3ans9RXa6HGde8ZITeOKAZbKxnsOW
+E8XJJdIx0hOYshBdxOGOw4EhQTMWUjc3vW7mEId1MeZf5p5hUjJwRlGmhP5B
+oq5YiAlx43Cb/Xwf2ZFWqnptk+E8e91IArZLz2caZTjXzi3E2b1S46GTYQn9
+oF7kqCPoL3T0I5hvcMxHcH+B437E7IeY/RGjDzH6UdT//iDGP8T4ixj/EZMP
+YvJDTL6o0GDR5mtFdh+WujU18/gt3a9qOq5ohPC4ne4f4nT168ohXtDXuf6F
+OtwG/YMoViEZOT4H5/vQ2K6IWI2rN60bUfqxHKNJDtyC5s+2Kn8ovAX/oV5A
+84H+ApofM58w9xNmP8LsTxh9hNFPqhW1dy+k8vhSq+qdtmuQ+GQ9XX4jg8cJ
+m1Uuug4zaXjYl16Vtzj/958jki8msvHzyHBzMY8/DGha1f7d5EHwp4jn5Tze
+bz9vIFtOLdzv10FdT540erhY6nhstXMNCZvyybK18IJ+qDvO1yCmH8F8xz4G
+xNyPmP0Qsz9i9CGvbzfDsg9C/xBanZt+MjFSZPefO++EB4vsfM73ldcakeH9
+Ac8ua0vtHZILPLEqw3StQeQ3Hn6bEvJFNq0dve4ZL7JR12acD5ML+3XIbs2O
+b5BTP83oUXWGb7erHFdQfU0+0Yn13zn8keqvrfe7UmrlcCL1pzJoybO0AQ5P
+UP9uN49Oxz/m8BT1tzy0Xaas4gT/oT5K84H+cZofzN9D84X7rTR/2E9D3wfs
+v5e+H9BXQt8X6H/v0E/AH2DwDxj8BWb8J0w+hMmPMPkSJn/yFy380GE=
+        "], {
+         Line[{{1, 48}, {48, 47}, {47, 46}, {46, 45}, {45, 44}, {44, 43}, {43,
+           42}, {42, 41}, {41, 40}, {40, 39}, {39, 38}, {38, 37}, {37, 36}, {
+          36, 35}, {35, 34}, {34, 33}, {33, 32}, {32, 31}, {31, 30}, {30, 
+          29}, {29, 28}, {28, 27}, {27, 26}, {26, 25}, {25, 24}, {24, 23}, {
+          23, 22}, {22, 21}, {21, 20}, {20, 19}, {19, 18}, {18, 17}, {17, 
+          16}, {16, 15}, {15, 14}, {14, 13}, {13, 12}, {12, 11}, {11, 10}, {
+          10, 9}, {9, 8}, {8, 7}, {7, 6}, {6, 5}, {5, 4}, {4, 3}, {3, 2}, {2, 
+          1}}]}, {
+         Line[{{95, 96}, {96, 49}, {49, 50}, {50, 51}, {51, 52}, {52, 53}, {
+          53, 54}, {54, 55}, {55, 56}, {56, 57}, {57, 58}, {58, 59}, {59, 
+          60}, {60, 61}, {61, 62}, {62, 63}, {63, 64}, {64, 65}, {65, 66}, {
+          66, 67}, {67, 68}, {68, 69}, {69, 70}, {70, 71}, {71, 72}, {72, 
+          73}, {73, 74}, {74, 75}, {75, 76}, {76, 77}, {77, 78}, {78, 79}, {
+          79, 80}, {80, 81}, {81, 82}, {82, 83}, {83, 84}, {84, 85}, {85, 
+          86}, {86, 87}, {87, 88}, {88, 89}, {89, 90}, {90, 91}, {91, 92}, {
+          92, 93}, {93, 94}, {94, 95}}]}, 
+        Method -> {
+         "EliminateUnusedCoordinates" -> True, "DeleteDuplicateCoordinates" -> 
+          Automatic, "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+          Identity, "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+          Automatic, "CheckIntersections" -> Automatic, 
+          "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+          False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+          "ZeroTest" -> Automatic, "Hash" -> 4627002535388755203}, {
+        PlotTheme -> None}]]}, 
+      TagBox[GraphicsComplexBox[CompressedData["
+1:eJxdkn1Ik1EUxldSlqkgow/DvXvN7xKt7R/N4l4UojS1MuwDMlM2+lBTJE00
+s9DKyCyC2Gaa5ReilLZKrcmdaE5llaDUMMVVOgQtwqKwLLPtnvel+8IYP849
+557nea53yul9qqUSiSR58ffv/2hZit4rm8f52zL7MyutBCXNmDt3i8yH5tiS
+/EWW2D+Ru+5JlZF6ucAXowLUxWqRIye3ans9RXa6HGde8ZITeOKAZbKxnsOW
+E8XJJdIx0hOYshBdxOGOw4EhQTMWUjc3vW7mEId1MeZf5p5hUjJwRlGmhP5B
+oq5YiAlx43Cb/Xwf2ZFWqnptk+E8e91IArZLz2caZTjXzi3E2b1S46GTYQn9
+oF7kqCPoL3T0I5hvcMxHcH+B437E7IeY/RGjDzH6UdT//iDGP8T4ixj/EZMP
+YvJDTL6o0GDR5mtFdh+WujU18/gt3a9qOq5ohPC4ne4f4nT168ohXtDXuf6F
+OtwG/YMoViEZOT4H5/vQ2K6IWI2rN60bUfqxHKNJDtyC5s+2Kn8ovAX/oV5A
+84H+ApofM58w9xNmP8LsTxh9hNFPqhW1dy+k8vhSq+qdtmuQ+GQ9XX4jg8cJ
+m1Uuug4zaXjYl16Vtzj/958jki8msvHzyHBzMY8/DGha1f7d5EHwp4jn5Tze
+bz9vIFtOLdzv10FdT540erhY6nhstXMNCZvyybK18IJ+qDvO1yCmH8F8xz4G
+xNyPmP0Qsz9i9CGvbzfDsg9C/xBanZt+MjFSZPefO++EB4vsfM73ldcakeH9
+Ac8ua0vtHZILPLEqw3StQeQ3Hn6bEvJFNq0dve4ZL7JR12acD5ML+3XIbs2O
+b5BTP83oUXWGb7erHFdQfU0+0Yn13zn8keqvrfe7UmrlcCL1pzJoybO0AQ5P
+UP9uN49Oxz/m8BT1tzy0Xaas4gT/oT5K84H+cZofzN9D84X7rTR/2E9D3wfs
+v5e+H9BXQt8X6H/v0E/AH2DwDxj8BWb8J0w+hMmPMPkSJn/yFy380GE=
+        "], {{}, 
+         TagBox[
+          FilledCurveBox[{{
+            Line[{1, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 
+              34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 
+              18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+            Line[{95, 96, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 
+              62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 
+              78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 
+              94}]}}],
+          Annotation[#, "Geometry"]& ]}],
+       MouseAppearanceTag["LinkHand"]],
+      AllowKernelInitialization->False],
+     "BoundaryMeshRegion"], InsetBox["\<\"Shape 4\"\>", {8, -2.5}]}, 
+   {RGBColor[0.5294117647058824, 0.30980392156862746`, 0.6196078431372549], 
+    TagBox[
+     DynamicModuleBox[{Typeset`mesh = HoldComplete[
+       BoundaryMeshRegion[CompressedData["
+1:eJxdknlI1EEUx5duwUJR2Uoz25mtRAnDtHa15ummYWaLbbGaCrolEpj+0V10
+aBKVQccfoVttkVepWJYdnhPJmoKaopZUnqF5UbGFB/VHxrxZqIUfy/Bm3vt+
+P9+3ypS+K3mOQqHYPfv9/dfVVZzLW6GGlgkXz+YLz3h8hlK5yFUNqeU6RxZh
+5b2lt9eGzlODryZzMGHPW669UjhS8pVCEM1sXm3s5FUVz5tedVCYngn4seNq
+Ny/Yf6p6eQUFo/t0uiLoE//omlmVdo2C5bDxuC6sj1tiNdaLByhsya6rjm3t
+5/ebE6O2AQX9aEnwZO4Az/OaZDfdKCTeG+gdUwzy+D6HVwfGiP2c4H/3yUtO
+IArvmwobtMduEgjGfnT8dNj1dAI5OG/vraytQ5EEIlBPeGREIPMl8BX1Wg/F
+Knc7E/BDPyrDvve1v1SwBP3mnxkZmRpXQSjyqA2JPBs/qAIz8op49+uyqk8F
+CvzJ+htRZ/J9jHjPZH+V6M8acH6AmM+kvimhj8WhfoPQz9Tozyz8MekfeTLJ
+Z6fgwxL+5cfy/+XL8pA/8mQyn83YT+aXi/NkvnrUI/O3od4g3A9/9CP3R4l+
+5X7pkYfcv2Lk9cJ73pEeL7WdZ26StiakjELr8EZbl66YOeecjkl+QMH8+mdq
+zXQla343Nmm1UBg3dK3OWlHP3DX5FvN1Cgs3L7XFtjcyv3rl3XUZFJ4+NMbp
+plrYpWeGgb6DFEIfRfd/2dTOyOTvVo8YCtpB56Bylw7mVDr8IWmWh0dpjsWU
+0cn6O5MrA9dQyJg/2th2oouV3wmP8VlM4UTjUcf0qS6mN1UWddqI/ezlYw5v
+6ib2+98Ny9SW2Tw8sV+Pw9z1n4uIfd6x7aWeXjcIhKGetuCRxPYzBCpR71BD
+XFJyGgEH9LPB281Bm0TAhn6/pWQWmY0ECpBHisWqq4uerSOvKpcFpgY9sfOU
+9WpR5/J9tnjPZf8h0Z/L+XPFfC71lQl9XOpnQj+X/jTCH5f+3YV/vhL5nBN8
++H/8uOR7Es+S/3m8L/NBnlzmF4zzZL7bUI/Mvwr1yv1wQj9yf6bRr9yvOuQh
+928GeYVPzNzRPKZ2nn8AYCZ5hQ==
+        "], {
+         Line[{{1, 42}, {42, 41}, {41, 40}, {40, 39}, {39, 38}, {38, 37}, {37,
+           36}, {36, 35}, {35, 34}, {34, 33}, {33, 32}, {32, 31}, {31, 30}, {
+          30, 29}, {29, 28}, {28, 27}, {27, 26}, {26, 25}, {25, 24}, {24, 
+          23}, {23, 22}, {22, 21}, {21, 20}, {20, 19}, {19, 18}, {18, 17}, {
+          17, 16}, {16, 15}, {15, 14}, {14, 13}, {13, 12}, {12, 11}, {11, 
+          10}, {10, 9}, {9, 8}, {8, 7}, {7, 6}, {6, 5}, {5, 4}, {4, 3}, {3, 
+          2}, {2, 1}}]}, {
+         Line[{{83, 84}, {84, 43}, {43, 44}, {44, 45}, {45, 46}, {46, 47}, {
+          47, 48}, {48, 49}, {49, 50}, {50, 51}, {51, 52}, {52, 53}, {53, 
+          54}, {54, 55}, {55, 56}, {56, 57}, {57, 58}, {58, 59}, {59, 60}, {
+          60, 61}, {61, 62}, {62, 63}, {63, 64}, {64, 65}, {65, 66}, {66, 
+          67}, {67, 68}, {68, 69}, {69, 70}, {70, 71}, {71, 72}, {72, 73}, {
+          73, 74}, {74, 75}, {75, 76}, {76, 77}, {77, 78}, {78, 79}, {79, 
+          80}, {80, 81}, {81, 82}, {82, 83}}]}, 
+        Method -> {
+         "EliminateUnusedCoordinates" -> True, "DeleteDuplicateCoordinates" -> 
+          Automatic, "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+          Identity, "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+          Automatic, "CheckIntersections" -> Automatic, 
+          "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+          False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+          "ZeroTest" -> Automatic, "Hash" -> 560560389762044142}, {
+        PlotTheme -> None}]]}, 
+      TagBox[GraphicsComplexBox[CompressedData["
+1:eJxdknlI1EEUx5duwUJR2Uoz25mtRAnDtHa15ummYWaLbbGaCrolEpj+0V10
+aBKVQccfoVttkVepWJYdnhPJmoKaopZUnqF5UbGFB/VHxrxZqIUfy/Bm3vt+
+P9+3ypS+K3mOQqHYPfv9/dfVVZzLW6GGlgkXz+YLz3h8hlK5yFUNqeU6RxZh
+5b2lt9eGzlODryZzMGHPW669UjhS8pVCEM1sXm3s5FUVz5tedVCYngn4seNq
+Ny/Yf6p6eQUFo/t0uiLoE//omlmVdo2C5bDxuC6sj1tiNdaLByhsya6rjm3t
+5/ebE6O2AQX9aEnwZO4Az/OaZDfdKCTeG+gdUwzy+D6HVwfGiP2c4H/3yUtO
+IArvmwobtMduEgjGfnT8dNj1dAI5OG/vraytQ5EEIlBPeGREIPMl8BX1Wg/F
+Knc7E/BDPyrDvve1v1SwBP3mnxkZmRpXQSjyqA2JPBs/qAIz8op49+uyqk8F
+CvzJ+htRZ/J9jHjPZH+V6M8acH6AmM+kvimhj8WhfoPQz9Tozyz8MekfeTLJ
+Z6fgwxL+5cfy/+XL8pA/8mQyn83YT+aXi/NkvnrUI/O3od4g3A9/9CP3R4l+
+5X7pkYfcv2Lk9cJ73pEeL7WdZ26StiakjELr8EZbl66YOeecjkl+QMH8+mdq
+zXQla343Nmm1UBg3dK3OWlHP3DX5FvN1Cgs3L7XFtjcyv3rl3XUZFJ4+NMbp
+plrYpWeGgb6DFEIfRfd/2dTOyOTvVo8YCtpB56Bylw7mVDr8IWmWh0dpjsWU
+0cn6O5MrA9dQyJg/2th2oouV3wmP8VlM4UTjUcf0qS6mN1UWddqI/ezlYw5v
+6ib2+98Ny9SW2Tw8sV+Pw9z1n4uIfd6x7aWeXjcIhKGetuCRxPYzBCpR71BD
+XFJyGgEH9LPB281Bm0TAhn6/pWQWmY0ECpBHisWqq4uerSOvKpcFpgY9sfOU
+9WpR5/J9tnjPZf8h0Z/L+XPFfC71lQl9XOpnQj+X/jTCH5f+3YV/vhL5nBN8
++H/8uOR7Es+S/3m8L/NBnlzmF4zzZL7bUI/Mvwr1yv1wQj9yf6bRr9yvOuQh
+928GeYVPzNzRPKZ2nn8AYCZ5hQ==
+        "], {{}, 
+         TagBox[
+          FilledCurveBox[{{
+            Line[{1, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 
+              28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 
+              12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+            Line[{83, 84, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 
+              56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 
+              72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82}]}}],
+          Annotation[#, "Geometry"]& ]}],
+       MouseAppearanceTag["LinkHand"]],
+      AllowKernelInitialization->False],
+     "BoundaryMeshRegion"], InsetBox["\<\"Shape 5\"\>", {10, -2.5}]}, 
+   {RGBColor[0.9137254901960784, 0.42745098039215684`, 0.6588235294117647], 
+    TagBox[
+     DynamicModuleBox[{Typeset`mesh = HoldComplete[
+       BoundaryMeshRegion[CompressedData["
+1:eJxFlAtMU1cYx5EiwTKZQx4bggoMzilB5hNkyM6HurIBbkwLiONZkSqoPAoO
+pTinOEQKFrGmyJwMFKrgZLgyKoOL0ElVYAKDGCtYhyY8Y8Zg+ECybp5wb3Jy
+88uXc873//+/ex2FSVt3GRsZGe0wrP/eYp+EHL4MQ4d56/zFI4+YEnFy50IR
+y61VB6x7fVkeG5REfGfFspX9sfKdowjaKfsKckfcWljeJT21akLBcr5GnqFO
+YrlupoQ5wmcZVju1tXojaJi1kuRxdMwdkbLTdAWCq3/FT3Ac+hjBeY++T5cj
+OP+kfrfEs4sZ6P65X7oYgf0166bhC1pmt5nP099NEczwxCGqS43MhO/NMcuX
+rnBkND3Sw/YiIxH7T4aMu8JzyctnCx3KienljlcKvSvUp6qWXsKNRDawjfOw
+xxUO9dSVxcZqyYQ0YPu6KVcwNhmvXJTcSQQ+flcLbBDwzxX2RZNuUjfsZTzk
+hSC31j38F34vsVV4hPmFI+i806az+Ow+Och3qT53CIHloDAqPkRHdJNL5k2W
+IAh99VrfGDFAfMstQ7c0IujIbf+JW6sn33+xoKpiAMEzaztx3bo/idH/D4Z3
+ykRrhepBIvzxH0G4I56rayLGL9duxHP7XcyfzJrHYRDQ83PUD7btOo5hEb1/
+WNSlbKrA0E77C7DRvrbVYjhB+6/WNG1NGcawieqzEKsq73B5MMt5oz/ZsXrG
+2Z0H6dSfl6GrTUTLeFBN/cuW1ptfseTBEPXXouWjxePzeaCg/iumNXYrX2Aw
+c3uTj9OKQCfxGAYnml+1sItX9whDKc3XUxG26kU3hms0/+aO/vUbbmFoovMR
+wImDr9XsPPqLzli17cfwSbTn21arOhmcWhT9NB2DA+dA73SdllmQdfoKJwvD
+RIWqRLehlRnJKZxyzMYgk4+0Hj7ewNw9LQPIw/Bh/55gfmENU33+VF7UaUO9
+6KLYK+0sU6As6JMUY2jeErXjSoScJF3PdywpxaAJfJe7M7CGBDdJ96orMdib
+FGeVkAbidjmm2EZu0Dexct6XxjfJ/DNrb4mPYvAUyjcNxWmI/rDZ3/eSMAR0
+vzie3tZGbux5uMwjEkPUxiitsdtdIhfUBOUFYEipbeHKpAb/SfbBIS9DPoVF
+FQXT90ig2/aKj10wbLn9m3+vspu4WLv3lFliCJv3fGjJjj/m5ifW2+2k0LyP
+6EZ63CPH0Vxd1VsZfuMBmtsva8781laLYDM9P7Hq8+tpKgRp9H7+WWd9VxmC
+GNrf8m+m3/pAhiCI9v8q8a63NAuBN9XXF3ohfjgBgQvVX+MnLuJvR+BE/SkM
+Sh2IizbMP/VPHJbCOxaPQE/9FQiT037YhyCD+r9uXxLDpCFYTfOxydjPHchE
+cILmN310X8jMUcP3Q/O9n7+31O4kgvdo/mpF4uj6QgSb6HycK0/wDDP8n+oj
+M99X9HYxzvUafsw1lqval4btucXymscZotR+ln+d6v4qc5LlzdwVJ7LNMagp
+dyzNUeQ7sRyy5rHyrDfL/f4+6gvBLMdHyG8rRSz/CxJbpYU=
+        "], {
+         Line[{{1, 45}, {45, 44}, {44, 43}, {43, 42}, {42, 41}, {41, 40}, {40,
+           39}, {39, 38}, {38, 37}, {37, 36}, {36, 35}, {35, 34}, {34, 33}, {
+          33, 32}, {32, 31}, {31, 30}, {30, 29}, {29, 28}, {28, 27}, {27, 
+          26}, {26, 25}, {25, 24}, {24, 23}, {23, 22}, {22, 21}, {21, 20}, {
+          20, 19}, {19, 18}, {18, 17}, {17, 16}, {16, 15}, {15, 14}, {14, 
+          13}, {13, 12}, {12, 11}, {11, 10}, {10, 9}, {9, 8}, {8, 7}, {7, 
+          6}, {6, 5}, {5, 4}, {4, 3}, {3, 2}, {2, 1}}]}, {
+         Line[{{89, 90}, {90, 46}, {46, 47}, {47, 48}, {48, 49}, {49, 50}, {
+          50, 51}, {51, 52}, {52, 53}, {53, 54}, {54, 55}, {55, 56}, {56, 
+          57}, {57, 58}, {58, 59}, {59, 60}, {60, 61}, {61, 62}, {62, 63}, {
+          63, 64}, {64, 65}, {65, 66}, {66, 67}, {67, 68}, {68, 69}, {69, 
+          70}, {70, 71}, {71, 72}, {72, 73}, {73, 74}, {74, 75}, {75, 76}, {
+          76, 77}, {77, 78}, {78, 79}, {79, 80}, {80, 81}, {81, 82}, {82, 
+          83}, {83, 84}, {84, 85}, {85, 86}, {86, 87}, {87, 88}, {88, 89}}]}, 
+        Method -> {
+         "EliminateUnusedCoordinates" -> True, "DeleteDuplicateCoordinates" -> 
+          Automatic, "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+          Identity, "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+          Automatic, "CheckIntersections" -> Automatic, 
+          "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+          False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+          "ZeroTest" -> Automatic, "Hash" -> 27418258015007925}, {
+        PlotTheme -> None}]]}, 
+      TagBox[GraphicsComplexBox[CompressedData["
+1:eJxFlAtMU1cYx5EiwTKZQx4bggoMzilB5hNkyM6HurIBbkwLiONZkSqoPAoO
+pTinOEQKFrGmyJwMFKrgZLgyKoOL0ElVYAKDGCtYhyY8Y8Zg+ECybp5wb3Jy
+88uXc873//+/ex2FSVt3GRsZGe0wrP/eYp+EHL4MQ4d56/zFI4+YEnFy50IR
+y61VB6x7fVkeG5REfGfFspX9sfKdowjaKfsKckfcWljeJT21akLBcr5GnqFO
+YrlupoQ5wmcZVju1tXojaJi1kuRxdMwdkbLTdAWCq3/FT3Ac+hjBeY++T5cj
+OP+kfrfEs4sZ6P65X7oYgf0166bhC1pmt5nP099NEczwxCGqS43MhO/NMcuX
+rnBkND3Sw/YiIxH7T4aMu8JzyctnCx3KienljlcKvSvUp6qWXsKNRDawjfOw
+xxUO9dSVxcZqyYQ0YPu6KVcwNhmvXJTcSQQ+flcLbBDwzxX2RZNuUjfsZTzk
+hSC31j38F34vsVV4hPmFI+i806az+Ow+Och3qT53CIHloDAqPkRHdJNL5k2W
+IAh99VrfGDFAfMstQ7c0IujIbf+JW6sn33+xoKpiAMEzaztx3bo/idH/D4Z3
+ykRrhepBIvzxH0G4I56rayLGL9duxHP7XcyfzJrHYRDQ83PUD7btOo5hEb1/
+WNSlbKrA0E77C7DRvrbVYjhB+6/WNG1NGcawieqzEKsq73B5MMt5oz/ZsXrG
+2Z0H6dSfl6GrTUTLeFBN/cuW1ptfseTBEPXXouWjxePzeaCg/iumNXYrX2Aw
+c3uTj9OKQCfxGAYnml+1sItX9whDKc3XUxG26kU3hms0/+aO/vUbbmFoovMR
+wImDr9XsPPqLzli17cfwSbTn21arOhmcWhT9NB2DA+dA73SdllmQdfoKJwvD
+RIWqRLehlRnJKZxyzMYgk4+0Hj7ewNw9LQPIw/Bh/55gfmENU33+VF7UaUO9
+6KLYK+0sU6As6JMUY2jeErXjSoScJF3PdywpxaAJfJe7M7CGBDdJ96orMdib
+FGeVkAbidjmm2EZu0Dexct6XxjfJ/DNrb4mPYvAUyjcNxWmI/rDZ3/eSMAR0
+vzie3tZGbux5uMwjEkPUxiitsdtdIhfUBOUFYEipbeHKpAb/SfbBIS9DPoVF
+FQXT90ig2/aKj10wbLn9m3+vspu4WLv3lFliCJv3fGjJjj/m5ifW2+2k0LyP
+6EZ63CPH0Vxd1VsZfuMBmtsva8781laLYDM9P7Hq8+tpKgRp9H7+WWd9VxmC
+GNrf8m+m3/pAhiCI9v8q8a63NAuBN9XXF3ohfjgBgQvVX+MnLuJvR+BE/SkM
+Sh2IizbMP/VPHJbCOxaPQE/9FQiT037YhyCD+r9uXxLDpCFYTfOxydjPHchE
+cILmN310X8jMUcP3Q/O9n7+31O4kgvdo/mpF4uj6QgSb6HycK0/wDDP8n+oj
+M99X9HYxzvUafsw1lqval4btucXymscZotR+ln+d6v4qc5LlzdwVJ7LNMagp
+dyzNUeQ7sRyy5rHyrDfL/f4+6gvBLMdHyG8rRSz/CxJbpYU=
+        "], {{}, 
+         TagBox[
+          FilledCurveBox[{{
+            Line[{1, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 
+              31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 
+              15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+            Line[{89, 90, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 
+              59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 
+              75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88}]}}],
+          Annotation[#, "Geometry"]& ]}],
+       MouseAppearanceTag["LinkHand"]],
+      AllowKernelInitialization->False],
+     "BoundaryMeshRegion"], InsetBox["\<\"Shape 6\"\>", {12, -2.5}]}},
+  Axes->True,
+  Frame->True,
+  GridLines->Automatic,
+  ImageSize->600,
+  PlotRange->{{-1, 14}, {-3, 3}}]], "Output",
+ CellChangeTimes->{{3.9707169778218994`*^9, 3.970716985289762*^9}, 
+   3.97071848780896*^9, {3.9707197931762905`*^9, 3.9707198182190857`*^9}, 
+   3.97072090456806*^9, 3.970721465349264*^9, {3.970722535137888*^9, 
+   3.9707225559037666`*^9}, 3.970722988406147*^9, 3.970723047155157*^9, 
+   3.970723190273413*^9, 3.970733792609089*^9, {3.970797312432022*^9, 
+   3.970797321358204*^9}, {3.97079737686318*^9, 3.9707974490196114`*^9}, {
+   3.970798018561884*^9, 3.970798023456604*^9}, 3.970801696406357*^9, 
+   3.970801757347809*^9},
+ CellLabel->"Out[25]=",ExpressionUUID->"cab43d50-a228-bb43-bebf-f80458f12810"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\:81ea\:52a8\:4ece\:533a\:57df\:5217\:8868+\:989c\:8272\:5217\:8868\
+\:751f\:6210 List", "Subsection",
+ CellChangeTimes->{{3.9706294561859818`*^9, 3.970629466044935*^9}, {
+  3.9707157704110165`*^9, 
+  3.9707157883605995`*^9}},ExpressionUUID->"1b6fee66-37f0-fa4e-a313-\
+4b3b28048798"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"markerlistcreate", "[", 
+    RowBox[{"n_", ",", "regionlist_", ",", "colorlist_", ",", 
+     RowBox[{"factor_", ":", "1"}], " ", ",", 
+     RowBox[{"openness_", ":", "True"}], ",", " ", 
+     RowBox[{"coverness_", ":", "True"}]}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"colorlistlength", "=", 
+        RowBox[{"Length", "@", "colorlist"}]}], ",", 
+       RowBox[{"regionlistlength", "=", 
+        RowBox[{"Length", "@", "regionlist"}]}], ",", "bound", ",", 
+       "markersizefactor", ",", "markerregionlist", ",", "innerregionlist"}], 
+      "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"markerregionlist", "=", 
+       RowBox[{"If", "[", 
+        RowBox[{"openness", ",", 
+         RowBox[{"openregion", "/@", "regionlist"}], ",", 
+         RowBox[{"closeregion", "/@", "regionlist"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{"coverness", ",", 
+        RowBox[{"innerregionlist", "=", 
+         RowBox[{"openregionInner", "/@", "regionlist"}]}]}], "]"}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Table", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"bound", "=", 
+          RowBox[{
+           RowBox[{"RegionBounds", "[", 
+            RowBox[{"markerregionlist", "[", 
+             RowBox[{"[", 
+              RowBox[{
+               RowBox[{"Mod", "[", 
+                RowBox[{
+                 RowBox[{"i", "-", "1"}], ",", 
+                 RowBox[{"regionlistlength", "-", "1"}]}], "]"}], "+", "1"}], 
+              "]"}], "]"}], "]"}], "\[Transpose]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"markersizefactor", "=", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"bound", "[", 
+             RowBox[{"[", "1", "]"}], "]"}], "-", 
+            RowBox[{"bound", "[", 
+             RowBox[{"[", "2", "]"}], "]"}]}], "//", "Norm"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"{", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"If", "[", 
+            RowBox[{"coverness", ",", "\[IndentingNewLine]", 
+             RowBox[{"Graphics", "[", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"colorlist", "[", 
+                 RowBox[{"[", 
+                  RowBox[{
+                   RowBox[{"Mod", "[", 
+                    RowBox[{
+                    RowBox[{"i", "-", "1"}], ",", 
+                    RowBox[{"colorlistlength", "-", "1"}]}], "]"}], "+", 
+                   "1"}], "]"}], "]"}], ",", "\[IndentingNewLine]", 
+                RowBox[{"markerregionlist", "[", 
+                 RowBox[{"[", 
+                  RowBox[{
+                   RowBox[{"Mod", "[", 
+                    RowBox[{
+                    RowBox[{"i", "-", "1"}], ",", 
+                    RowBox[{"regionlistlength", "-", "1"}]}], "]"}], "+", 
+                   "1"}], "]"}], "]"}], ",", "\[IndentingNewLine]", "White", 
+                ",", 
+                RowBox[{"innerregionlist", "[", 
+                 RowBox[{"[", 
+                  RowBox[{
+                   RowBox[{"Mod", "[", 
+                    RowBox[{
+                    RowBox[{"i", "-", "1"}], ",", 
+                    RowBox[{"regionlistlength", "-", "1"}]}], "]"}], "+", 
+                   "1"}], "]"}], "]"}]}], "\[IndentingNewLine]", "}"}], "]"}],
+              "\[IndentingNewLine]", ",", "\[IndentingNewLine]", 
+             RowBox[{"Graphics", "[", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"colorlist", "[", 
+                 RowBox[{"[", 
+                  RowBox[{
+                   RowBox[{"Mod", "[", 
+                    RowBox[{
+                    RowBox[{"i", "-", "1"}], ",", 
+                    RowBox[{"colorlistlength", "-", "1"}]}], "]"}], "+", 
+                   "1"}], "]"}], "]"}], ",", "\[IndentingNewLine]", 
+                RowBox[{"markerregionlist", "[", 
+                 RowBox[{"[", 
+                  RowBox[{
+                   RowBox[{"Mod", "[", 
+                    RowBox[{
+                    RowBox[{"i", "-", "1"}], ",", 
+                    RowBox[{"regionlistlength", "-", "1"}]}], "]"}], "+", 
+                   "1"}], "]"}], "]"}]}], "}"}], "]"}]}], "]"}], 
+           "\[IndentingNewLine]", ",", "\[IndentingNewLine]", 
+           RowBox[{"Scaled", "[", 
+            RowBox[{"0.02", "*", "markersizefactor", "*", "factor"}], "]"}]}],
+           "}"}]}], ",", "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "1", ",", "n"}], "}"}]}], "]"}]}]}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"legendlistcreate", "[", 
+    RowBox[{"n_", ",", "regionlist_", ",", "colorlist_", ",", 
+     RowBox[{"factor_", ":", "1"}], ",", 
+     RowBox[{"openness_", ":", "True"}], ",", " ", 
+     RowBox[{"coverness_", ":", "True"}]}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"colorlistlength", "=", 
+        RowBox[{"Length", "@", "colorlist"}]}], ",", 
+       RowBox[{"regionlistlength", "=", 
+        RowBox[{"Length", "@", "regionlist"}]}], ",", "bound", ",", 
+       "legendsizefactor", ",", "markerregionlist"}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"markerregionlist", "=", 
+       RowBox[{"If", "[", 
+        RowBox[{"openness", ",", 
+         RowBox[{"openregion", "/@", "regionlist"}], ",", 
+         RowBox[{"closeregion", "/@", "regionlist"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Table", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"bound", "=", 
+          RowBox[{
+           RowBox[{"RegionBounds", "[", 
+            RowBox[{"markerregionlist", "[", 
+             RowBox[{"[", 
+              RowBox[{
+               RowBox[{"Mod", "[", 
+                RowBox[{
+                 RowBox[{"i", "-", "1"}], ",", 
+                 RowBox[{"regionlistlength", "-", "1"}]}], "]"}], "+", "1"}], 
+              "]"}], "]"}], "]"}], "\[Transpose]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"legendsizefactor", "=", 
+          RowBox[{"Abs", "[", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"bound", "[", 
+               RowBox[{"[", "1", "]"}], "]"}], "-", 
+              RowBox[{"bound", "[", 
+               RowBox[{"[", "2", "]"}], "]"}]}], ")"}], "[", 
+            RowBox[{"[", "1", "]"}], "]"}], "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"Graphics", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"colorlist", "[", 
+              RowBox[{"[", 
+               RowBox[{
+                RowBox[{"Mod", "[", 
+                 RowBox[{
+                  RowBox[{"i", "-", "1"}], ",", 
+                  RowBox[{"colorlistlength", "-", "1"}]}], "]"}], "+", "1"}], 
+               "]"}], "]"}], ",", "\[IndentingNewLine]", 
+             RowBox[{"markerregionlist", "[", 
+              RowBox[{"[", 
+               RowBox[{
+                RowBox[{"Mod", "[", 
+                 RowBox[{
+                  RowBox[{"i", "-", "1"}], ",", 
+                  RowBox[{"regionlistlength", "-", "1"}]}], "]"}], "+", "1"}],
+                "]"}], "]"}]}], "}"}], ",", 
+           RowBox[{"ImageSize", "->", 
+            RowBox[{"15", "*", "legendsizefactor", "*", "factor"}]}]}], 
+          "]"}]}], ",", "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "1", ",", "n"}], "}"}]}], "]"}]}]}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"stylecolorlistcreate", "[", 
+    RowBox[{"n_", ",", "colorlist_"}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"colorlistlength", "=", 
+       RowBox[{"Length", "@", "colorlist"}]}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"colorlist", "[", 
+        RowBox[{"[", 
+         RowBox[{
+          RowBox[{"Mod", "[", 
+           RowBox[{
+            RowBox[{"i", "-", "1"}], ",", 
+            RowBox[{"colorlistlength", "-", "1"}]}], "]"}], "+", "1"}], "]"}],
+         "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "1", ",", "n"}], "}"}]}], "]"}]}], "]"}]}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.970627908283615*^9, 3.970627951253748*^9}, {
+   3.970628243509168*^9, 3.970628285791937*^9}, {3.970628411899885*^9, 
+   3.970628423800117*^9}, {3.970628455738949*^9, 3.970628462884945*^9}, {
+   3.9706285102494926`*^9, 3.970628514319996*^9}, {3.970642229111967*^9, 
+   3.9706422457927437`*^9}, {3.970642662109204*^9, 3.970642892833217*^9}, {
+   3.970642939138456*^9, 3.97064300185016*^9}, {3.970643038464002*^9, 
+   3.970643234573038*^9}, {3.970715397228203*^9, 3.970715452388529*^9}, 
+   3.970715722502512*^9, {3.9707184729627743`*^9, 3.97071847940784*^9}, 
+   3.970720853458166*^9, {3.970720933663643*^9, 3.9707210857116356`*^9}, {
+   3.970721157377939*^9, 3.9707212059938946`*^9}, {3.970721375750643*^9, 
+   3.970721519588476*^9}, {3.9707216546206436`*^9, 3.970721669334797*^9}, 
+   3.970722426247949*^9, {3.970733667225666*^9, 3.970733710998598*^9}, {
+   3.9707340453172007`*^9, 3.970734053623989*^9}, {3.9707967235531273`*^9, 
+   3.9707967548652096`*^9}, {3.970796816394804*^9, 3.970796831029663*^9}, {
+   3.9707968925824203`*^9, 3.97079693055562*^9}, {3.9707975348863792`*^9, 
+   3.970797553277565*^9}, {3.970797596796816*^9, 3.9707976977267113`*^9}, {
+   3.9707978320322914`*^9, 3.970797857459337*^9}, {3.970797897283182*^9, 
+   3.9707979019150867`*^9}, {3.970797948867449*^9, 3.970797997562088*^9}, {
+   3.9708014435674095`*^9, 3.970801523174309*^9}, {3.9708015552073593`*^9, 
+   3.970801610074003*^9}, {3.970801642855463*^9, 3.970801648898554*^9}, {
+   3.9708017110607586`*^9, 
+   3.970801717181082*^9}},ExpressionUUID->"46ba7950-e34c-9c41-8198-\
+c00d48d6c029"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"markerlistcreate", "[", 
+  RowBox[{
+  "10", ",", "regionlistdefault", ",", "colorlistdefault", ",", "1", ",", 
+   "True", ",", "True"}], "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", 
+ RowBox[{"legendlistcreate", "[", 
+  RowBox[{
+  "10", ",", "regionlistdefault", ",", "colorlistdefault", ",", "1", ",", 
+   "True", ",", "True"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"stylecolorlistcreate", "[", 
+  RowBox[{"10", ",", "colorlistdefault"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.970643459870792*^9, 3.970643512539747*^9}, 
+   3.970643580950405*^9, {3.9707153821067944`*^9, 3.970715382807514*^9}, {
+   3.970715511269449*^9, 3.9707155140287*^9}, {3.970715602002453*^9, 
+   3.9707156030430737`*^9}, {3.970715740265215*^9, 3.970715751994375*^9}, {
+   3.970715891729891*^9, 3.970715900560278*^9}, {3.97071848081974*^9, 
+   3.9707184823538036`*^9}, {3.9707209223460655`*^9, 3.970720925002447*^9}, 
+   3.9707214900238743`*^9, 3.97072243517606*^9, {3.970734093220793*^9, 
+   3.970734106976446*^9}, {3.9707980460764523`*^9, 3.9707980758785*^9}, {
+   3.970801661172903*^9, 3.9708016712579155`*^9}},
+ CellLabel->"In[21]:=",ExpressionUUID->"e0a506ab-97cd-a948-a440-f9fb3c17dee3"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     GraphicsBox[{
+       {RGBColor[
+        0.9294117647058824, 0.16470588235294117`, 0.1568627450980392], 
+        TagBox[
+         DynamicModuleBox[{Typeset`mesh = HoldComplete[
+           BoundaryMeshRegion[CompressedData["
+1:eJw9k1tI03EUx1d0hd57SLKQzDBQKaheOiKRL4WiZiGhoQyypC2SHA3TYm41
+JGeulAKt1Aivc7UuajumGWIyLyWKZXnNLioEPfWQ1e98/7/BGB/O75zzPd9z
+tj3bkmJebTKZMv59//862ioLrjZO01KiJ3rGPca77Ull0QuTmpMrLDEpBeO0
+CLY1lg3a1r/TvN+V9flgzFv6AXY8qwkvTeqi7+D4mqIiM9drLhbmb+Aqea/5
+iNTjr8Z76ccL4AzRo3mv6OUvYJfMozm/3rXTkjPH8+BCVW+Wn+Rd6LwyOsJO
+vN8U0XwnIX6APUrPFDepeDfHof49xX4+pPR9YBM+x6FnXOKUq+Yb5T7JJzv0
+R0l9uqHqD3GP9Kd4zPtT9JFZ5ffyNvX+I7nhT9TKnGP40hRlqniAWeXPUBL8
+TJ9Y9Ssudp4MXcuq3gJ54P8xxG2STy+R78W+IlE/T/pTGPofxn6xbxJ/hqgT
++gtxD2GY74zMj3g3peN+OuFPgvindcbi3rrgr/gzRQz/jfvciv2In7MUxP7O
+y35pGftNzfWXrq0KUUl4YMmXGOQs50lr5ekBqhtL9L8OPOW82nVpuw70k1PF
+W9jW5dvXsbGPrimuZudkxpajE71a383fa1Y+NfRQscSpenPrjNX+CtxC6apf
+kB5IfbKq+u2oHyS3qhegx3vKvaHFbqpT+W1Uq96/IZt630AV9j+D7Zf76ZGK
+34f+ED1XXE7t04GS1A3DWpfUG6HrEucOxG9JPjuRb5b6fBv170p/foj+DtHH
+Aeg7K/rZDf3iZ5AbMB/mZy/mhz/sgz8u8U//P+ziLyfD33PiP1vhf7bsh73Y
+j/gZYhv2tyPS8f5FzhA3iT793mCjfjPYCz0Gn4D+FjD2oTkf/rSCffDTYA/8
+94FPYV8GF2O/beA03IPBHtyPH3wR92ZwJu4T98ERMq/mv7ePAqY=
+            "], {
+             
+             Line[{{1, 45}, {45, 44}, {44, 43}, {43, 42}, {42, 41}, {41, 
+              40}, {40, 39}, {39, 38}, {38, 37}, {37, 36}, {36, 35}, {35, 
+              34}, {34, 33}, {33, 32}, {32, 31}, {31, 30}, {30, 29}, {29, 
+              28}, {28, 27}, {27, 26}, {26, 25}, {25, 24}, {24, 23}, {23, 
+              22}, {22, 21}, {21, 20}, {20, 19}, {19, 18}, {18, 17}, {17, 
+              16}, {16, 15}, {15, 14}, {14, 13}, {13, 12}, {12, 11}, {11, 
+              10}, {10, 9}, {9, 8}, {8, 7}, {7, 6}, {6, 5}, {5, 4}, {4, 3}, {
+              3, 2}, {2, 1}}]}, {
+             
+             Line[{{89, 90}, {90, 46}, {46, 47}, {47, 48}, {48, 49}, {49, 
+              50}, {50, 51}, {51, 52}, {52, 53}, {53, 54}, {54, 55}, {55, 
+              56}, {56, 57}, {57, 58}, {58, 59}, {59, 60}, {60, 61}, {61, 
+              62}, {62, 63}, {63, 64}, {64, 65}, {65, 66}, {66, 67}, {67, 
+              68}, {68, 69}, {69, 70}, {70, 71}, {71, 72}, {72, 73}, {73, 
+              74}, {74, 75}, {75, 76}, {76, 77}, {77, 78}, {78, 79}, {79, 
+              80}, {80, 81}, {81, 82}, {82, 83}, {83, 84}, {84, 85}, {85, 
+              86}, {86, 87}, {87, 88}, {88, 89}}]}, 
+            Method -> {
+             "EliminateUnusedCoordinates" -> True, 
+              "DeleteDuplicateCoordinates" -> Automatic, 
+              "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> Identity, 
+              "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+              Automatic, "CheckIntersections" -> Automatic, 
+              "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+              False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+              "ZeroTest" -> Automatic, "Hash" -> 5878561659592949431}, {
+            PlotTheme -> None}]]}, 
+          TagBox[GraphicsComplexBox[CompressedData["
+1:eJw9k1tI03EUx1d0hd57SLKQzDBQKaheOiKRL4WiZiGhoQyypC2SHA3TYm41
+JGeulAKt1Aivc7UuajumGWIyLyWKZXnNLioEPfWQ1e98/7/BGB/O75zzPd9z
+tj3bkmJebTKZMv59//862ioLrjZO01KiJ3rGPca77Ull0QuTmpMrLDEpBeO0
+CLY1lg3a1r/TvN+V9flgzFv6AXY8qwkvTeqi7+D4mqIiM9drLhbmb+Aqea/5
+iNTjr8Z76ccL4AzRo3mv6OUvYJfMozm/3rXTkjPH8+BCVW+Wn+Rd6LwyOsJO
+vN8U0XwnIX6APUrPFDepeDfHof49xX4+pPR9YBM+x6FnXOKUq+Yb5T7JJzv0
+R0l9uqHqD3GP9Kd4zPtT9JFZ5ffyNvX+I7nhT9TKnGP40hRlqniAWeXPUBL8
+TJ9Y9Ssudp4MXcuq3gJ54P8xxG2STy+R78W+IlE/T/pTGPofxn6xbxJ/hqgT
++gtxD2GY74zMj3g3peN+OuFPgvindcbi3rrgr/gzRQz/jfvciv2In7MUxP7O
+y35pGftNzfWXrq0KUUl4YMmXGOQs50lr5ekBqhtL9L8OPOW82nVpuw70k1PF
+W9jW5dvXsbGPrimuZudkxpajE71a383fa1Y+NfRQscSpenPrjNX+CtxC6apf
+kB5IfbKq+u2oHyS3qhegx3vKvaHFbqpT+W1Uq96/IZt630AV9j+D7Zf76ZGK
+34f+ED1XXE7t04GS1A3DWpfUG6HrEucOxG9JPjuRb5b6fBv170p/foj+DtHH
+Aeg7K/rZDf3iZ5AbMB/mZy/mhz/sgz8u8U//P+ziLyfD33PiP1vhf7bsh73Y
+j/gZYhv2tyPS8f5FzhA3iT793mCjfjPYCz0Gn4D+FjD2oTkf/rSCffDTYA/8
+94FPYV8GF2O/beA03IPBHtyPH3wR92ZwJu4T98ERMq/mv7ePAqY=
+            "], {{}, 
+             
+             TagBox[FilledCurveBox[{{
+                Line[{1, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 
+                  32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 
+                  17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+                Line[{89, 90, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 
+                  58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 
+                  73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 
+                  88}]}}],
+              Annotation[#, "Geometry"]& ]}],
+           MouseAppearanceTag["LinkHand"]],
+          AllowKernelInitialization->False],
+         "BoundaryMeshRegion"]}, 
+       {GrayLevel[1], 
+        TagBox[
+         DynamicModuleBox[{Typeset`mesh = HoldComplete[
+           BoundaryMeshRegion[CompressedData["
+1:eJw9kt0rg3EUx5cQf4HkQvJSLly5kFqdy10p2ZIkNK2I2IW0WmkXDEsahpVa
+2JIW85gesdWO97Q0L4lSFNdcKxfefuf789TT06dznu8553tOhXOoxZVnsVjq
+ft+/b2XN2N1BzzXt1s+Gcm/HXOqb+bivCluFb6la4ryJuL0vOV0QztF4uflu
+2DLc5e9wL/VeUuzBljw193ggWuiobcySX8UT7Dk0GtLFFzSpOML+p/aypscz
+suCZ+8z/fo6fkE/iFCnZfnV7j8AJalX1MrQm+uRW+inoZyig9EzdP8XU/zsU
+Vfnn5FH5cZr3fl2lRrO0oeKr6D9H+4pnKfVijtuLbmhKmNPgBclnP/JdoseL
+0FuWeryOemPSD5vop1/65QD6Ff8yHMc8mJdDmBd+sAE/JsQvFrdWrF7xk5vh
+56D4zW747ZR9cAj7EP9y7MG+dFzvU+ttgUOor7kN/SbA8Pufh+HHNtiAf5qD
+8NcAd2Mfmn3Y3w7YgX1rDuI+kuAR3JPmTtyfvt8f87WJug==
+            "], {
+             
+             Line[{{1, 4}, {4, 5}, {5, 6}, {6, 7}, {7, 8}, {8, 9}, {9, 10}, {
+              10, 11}, {11, 12}, {12, 13}, {13, 14}, {14, 15}, {15, 16}, {16, 
+              17}, {17, 2}, {2, 18}, {18, 19}, {19, 20}, {20, 21}, {21, 22}, {
+              22, 23}, {23, 24}, {24, 25}, {25, 26}, {26, 27}, {27, 28}, {28, 
+              29}, {29, 30}, {30, 31}, {31, 3}, {3, 32}, {32, 33}, {33, 34}, {
+              34, 35}, {35, 36}, {36, 37}, {37, 38}, {38, 39}, {39, 40}, {40, 
+              41}, {41, 42}, {42, 43}, {43, 44}, {44, 45}, {45, 1}}]}, 
+            Method -> {
+             "EliminateUnusedCoordinates" -> True, 
+              "DeleteDuplicateCoordinates" -> Automatic, 
+              "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> Identity, 
+              "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+              Automatic, "CheckIntersections" -> Automatic, 
+              "BoundaryNesting" -> {{0, 0}}, "SeparateBoundaries" -> False, 
+              "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+              "ZeroTest" -> Automatic, "Hash" -> 6788172543460327311}, {
+            PlotTheme -> None}]]}, 
+          TagBox[GraphicsComplexBox[CompressedData["
+1:eJw9kt0rg3EUx5cQf4HkQvJSLly5kFqdy10p2ZIkNK2I2IW0WmkXDEsahpVa
+2JIW85gesdWO97Q0L4lSFNdcKxfefuf789TT06dznu8553tOhXOoxZVnsVjq
+ft+/b2XN2N1BzzXt1s+Gcm/HXOqb+bivCluFb6la4ryJuL0vOV0QztF4uflu
+2DLc5e9wL/VeUuzBljw193ggWuiobcySX8UT7Dk0GtLFFzSpOML+p/aypscz
+suCZ+8z/fo6fkE/iFCnZfnV7j8AJalX1MrQm+uRW+inoZyig9EzdP8XU/zsU
+Vfnn5FH5cZr3fl2lRrO0oeKr6D9H+4pnKfVijtuLbmhKmNPgBclnP/JdoseL
+0FuWeryOemPSD5vop1/65QD6Ff8yHMc8mJdDmBd+sAE/JsQvFrdWrF7xk5vh
+56D4zW747ZR9cAj7EP9y7MG+dFzvU+ttgUOor7kN/SbA8Pufh+HHNtiAf5qD
+8NcAd2Mfmn3Y3w7YgX1rDuI+kuAR3JPmTtyfvt8f87WJug==
+            "], {{}, 
+             
+             TagBox[PolygonBox[{{1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
+               16, 17, 2, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 
+               31, 3, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 
+               45}}],
+              Annotation[#, "Geometry"]& ]}],
+           MouseAppearanceTag["LinkHand"]],
+          AllowKernelInitialization->False],
+         "BoundaryMeshRegion"]}}], ",", 
+     RowBox[{"Scaled", "[", "0.03371417204476906`", "]"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     GraphicsBox[{
+       {RGBColor[
+        0.24705882352941178`, 0.48627450980392156`, 0.6745098039215687], 
+        TagBox[
+         DynamicModuleBox[{Typeset`mesh = HoldComplete[
+           BoundaryMeshRegion[CompressedData["
+1:eJx1krFKA0EQhk+LgCaFpUQQbPIENtpsJfYWNmIEUcRGBRtbiQk2Vj5BLMQi
+xEtINKSZBLHIgRIRC1E7a40+gXq7/4T95Q6O5bvZ3ZtvZmbWd5c2R4Mg2Pt9
+/9aj+fbE/uyzGXwUTl+23mSyNDgZH3lSrj7k0md3fWW7v6dcieMd5YuYQ+XA
+PeCGjcun49CeVz6291O8rzxl81Mu2fyVv93K7DyVnad8eR59ZedJ8Y6y85Qk
+z5DqUKU6laiOqDPyzro+gIuuT2B3zsALDC8wvPz9PYp3lMnLkJchL0NehrwM
+zY/J+vNliv78Ja40p4bmFJ60v0fxYZ40p0meQp5CnhQf1jlLfShSn9D368OD
+je75vUnnppejhUg5H90sPr7fKtd3tudeC13lTLy/rdyI4zXisjL8wBUbN/79
+NeWUvV+5Zv+vvGrzM5S/ctL3PJ2r070Z+m+D8mpR3gle6l2luqSobpdU1xWq
++xj1pWnXfwxPMDyvHMMTDE8wPMHwBJOnkKeQp5CnwLPlGJ5geIKbXp6R8po7
+1/S9aH9bfO+a+J5lYS9wSN5cF65b6M+P0Hwhf2WaT/kBnLHsDw==
+            "], {
+             
+             Line[{{1, 56}, {56, 55}, {55, 54}, {54, 53}, {53, 52}, {52, 
+              51}, {51, 50}, {50, 49}, {49, 48}, {48, 47}, {47, 46}, {46, 
+              45}, {45, 44}, {44, 43}, {43, 42}, {42, 41}, {41, 40}, {40, 
+              39}, {39, 38}, {38, 37}, {37, 36}, {36, 35}, {35, 34}, {34, 
+              33}, {33, 32}, {32, 31}, {31, 30}, {30, 29}, {29, 28}, {28, 
+              27}, {27, 26}, {26, 25}, {25, 24}, {24, 23}, {23, 22}, {22, 
+              21}, {21, 20}, {20, 19}, {19, 18}, {18, 17}, {17, 16}, {16, 
+              15}, {15, 14}, {14, 13}, {13, 12}, {12, 11}, {11, 10}, {10, 
+              9}, {9, 8}, {8, 7}, {7, 6}, {6, 5}, {5, 4}, {4, 3}, {3, 2}, {2, 
+              1}}]}, {
+             
+             Line[{{111, 112}, {112, 57}, {57, 58}, {58, 59}, {59, 60}, {60, 
+              61}, {61, 62}, {62, 63}, {63, 64}, {64, 65}, {65, 66}, {66, 
+              67}, {67, 68}, {68, 69}, {69, 70}, {70, 71}, {71, 72}, {72, 
+              73}, {73, 74}, {74, 75}, {75, 76}, {76, 77}, {77, 78}, {78, 
+              79}, {79, 80}, {80, 81}, {81, 82}, {82, 83}, {83, 84}, {84, 
+              85}, {85, 86}, {86, 87}, {87, 88}, {88, 89}, {89, 90}, {90, 
+              91}, {91, 92}, {92, 93}, {93, 94}, {94, 95}, {95, 96}, {96, 
+              97}, {97, 98}, {98, 99}, {99, 100}, {100, 101}, {101, 102}, {
+              102, 103}, {103, 104}, {104, 105}, {105, 106}, {106, 107}, {107,
+               108}, {108, 109}, {109, 110}, {110, 111}}]}, 
+            Method -> {
+             "EliminateUnusedCoordinates" -> True, 
+              "DeleteDuplicateCoordinates" -> Automatic, 
+              "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> Identity, 
+              "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+              Automatic, "CheckIntersections" -> Automatic, 
+              "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+              False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+              "ZeroTest" -> Automatic, "Hash" -> 627727893704528051}, {
+            PlotTheme -> None}]]}, 
+          TagBox[GraphicsComplexBox[CompressedData["
+1:eJx1krFKA0EQhk+LgCaFpUQQbPIENtpsJfYWNmIEUcRGBRtbiQk2Vj5BLMQi
+xEtINKSZBLHIgRIRC1E7a40+gXq7/4T95Q6O5bvZ3ZtvZmbWd5c2R4Mg2Pt9
+/9aj+fbE/uyzGXwUTl+23mSyNDgZH3lSrj7k0md3fWW7v6dcieMd5YuYQ+XA
+PeCGjcun49CeVz6291O8rzxl81Mu2fyVv93K7DyVnad8eR59ZedJ8Y6y85Qk
+z5DqUKU6laiOqDPyzro+gIuuT2B3zsALDC8wvPz9PYp3lMnLkJchL0NehrwM
+zY/J+vNliv78Ja40p4bmFJ60v0fxYZ40p0meQp5CnhQf1jlLfShSn9D368OD
+je75vUnnppejhUg5H90sPr7fKtd3tudeC13lTLy/rdyI4zXisjL8wBUbN/79
+NeWUvV+5Zv+vvGrzM5S/ctL3PJ2r070Z+m+D8mpR3gle6l2luqSobpdU1xWq
++xj1pWnXfwxPMDyvHMMTDE8wPMHwBJOnkKeQp5CnwLPlGJ5geIKbXp6R8po7
+1/S9aH9bfO+a+J5lYS9wSN5cF65b6M+P0Hwhf2WaT/kBnLHsDw==
+            "], {{}, 
+             
+             TagBox[FilledCurveBox[{{
+                Line[{1, 56, 55, 54, 53, 52, 51, 50, 49, 48, 47, 46, 45, 44, 
+                  43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 
+                  28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 
+                  13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+                Line[{111, 112, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 
+                  68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 
+                  83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 
+                  98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 
+                  110}]}}],
+              Annotation[#, "Geometry"]& ]}],
+           MouseAppearanceTag["LinkHand"]],
+          AllowKernelInitialization->False],
+         "BoundaryMeshRegion"]}, 
+       {GrayLevel[1], 
+        TagBox[
+         DynamicModuleBox[{Typeset`mesh = HoldComplete[
+           BoundaryMeshRegion[CompressedData["
+1:eJxdkrEOAUEQhjcKibhnkGg8A4nkKtErNIJEKDS0SuIFvIJGJVi5Q0SyEdFc
+odEqPQhu9x/Z/5LL5NvdzM43O8XeuDHIKKXK3/8Xj7NJ/7p6hC4a4jCm9ZNj
+Xs+XCs2klgh3klv9+b4L70fDymt+FQ7S82fhKN3XxEthlX7TC3ht90M/vxbO
+2vzC2t4v3Lb1hVS/RPKge/55AronojpOVKf1WFTJQzw31Ics9WlLfWxRn3P0
+DngneIHhdXAMLzC8wPACwwtMXoa8DHkZ8jLwwnzBCwyvwEV4dN252PcQxpz5
+ntr4XkvjeygF3pEn94H7tPPnw9D8oH7hDzZE48M=
+            "], {
+             
+             Line[{{1, 5}, {5, 6}, {6, 7}, {7, 8}, {8, 9}, {9, 10}, {10, 
+              11}, {11, 12}, {12, 13}, {13, 14}, {14, 15}, {15, 16}, {16, 
+              17}, {17, 2}, {2, 18}, {18, 19}, {19, 20}, {20, 21}, {21, 22}, {
+              22, 23}, {23, 24}, {24, 25}, {25, 26}, {26, 27}, {27, 28}, {28, 
+              29}, {29, 30}, {30, 3}, {3, 31}, {31, 32}, {32, 33}, {33, 34}, {
+              34, 35}, {35, 36}, {36, 37}, {37, 38}, {38, 39}, {39, 40}, {40, 
+              41}, {41, 42}, {42, 43}, {43, 4}, {4, 44}, {44, 45}, {45, 46}, {
+              46, 47}, {47, 48}, {48, 49}, {49, 50}, {50, 51}, {51, 52}, {52, 
+              53}, {53, 54}, {54, 55}, {55, 56}, {56, 1}}]}, 
+            Method -> {
+             "EliminateUnusedCoordinates" -> True, 
+              "DeleteDuplicateCoordinates" -> Automatic, 
+              "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> Identity, 
+              "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+              Automatic, "CheckIntersections" -> Automatic, 
+              "BoundaryNesting" -> {{0, 0}}, "SeparateBoundaries" -> False, 
+              "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+              "ZeroTest" -> Automatic, "Hash" -> 7085775427586294304}, {
+            PlotTheme -> None}]]}, 
+          TagBox[GraphicsComplexBox[CompressedData["
+1:eJxdkrEOAUEQhjcKibhnkGg8A4nkKtErNIJEKDS0SuIFvIJGJVi5Q0SyEdFc
+odEqPQhu9x/Z/5LL5NvdzM43O8XeuDHIKKXK3/8Xj7NJ/7p6hC4a4jCm9ZNj
+Xs+XCs2klgh3klv9+b4L70fDymt+FQ7S82fhKN3XxEthlX7TC3ht90M/vxbO
+2vzC2t4v3Lb1hVS/RPKge/55AronojpOVKf1WFTJQzw31Ics9WlLfWxRn3P0
+DngneIHhdXAMLzC8wPACwwtMXoa8DHkZ8jLwwnzBCwyvwEV4dN252PcQxpz5
+ntr4XkvjeygF3pEn94H7tPPnw9D8oH7hDzZE48M=
+            "], {{}, 
+             
+             TagBox[PolygonBox[{{1, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+                17, 2, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 3, 
+               31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 4, 44, 45, 
+               46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56}}],
+              Annotation[#, "Geometry"]& ]}],
+           MouseAppearanceTag["LinkHand"]],
+          AllowKernelInitialization->False],
+         "BoundaryMeshRegion"]}}], ",", 
+     RowBox[{"Scaled", "[", "0.02599120723328193`", "]"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     GraphicsBox[{
+       {RGBColor[
+        0.9647058823529412, 0.6313725490196078, 0.22745098039215686`], 
+        TagBox[
+         DynamicModuleBox[{Typeset`mesh = HoldComplete[
+           BoundaryMeshRegion[CompressedData["
+1:eJxdks9L03EcxkckEiVdpA4d/FEJQh2yCDLoOfQPjKg8hJdA8CAlRKXQtair
+ePErBLnb7PY1WHPxCNMS3cTh5gxpYjLw0iVsrVv1/TzvD3w3GOPN8/7xPK/P
+eh4+vjNyLJFIJP99//+OXj/V9TRVYzP3+eyfJyEuzL2427i5y6OozmOv48eb
+5+Uqx8+lU78uFzE7OczmWJmNSN/CUL14NNlW4sBYZvh3ckfz6+r/pv5lur59
+6YuaP1A9z+lpDk58ryOhz9Vo3yG6nQ7TXb0Imw/cftj+Xncfdv+e84dr8uf6
+yzD/NZcPlu+8yy89D/FRHeK+7phP08WP4gfx4158P2fj98WlBPHTvPevfp9P
+us+v2vNhCz92x/mq9vwZxN+HvfH3o/hR/NTv35+1+P+D4ic9T/t/iR/Fz/tc
++Hnx1o2hDZbaO09P3U7xU/Vwf6C5pjrkSm7+5aWZL8yefHvmQT3HjXeP+vsG
+l6XnWXl1pdi1u8SVE1+nnnWuMhfNZ9VfUP8Cq1HfpvS05reYieqAhdeN5PH3
+Fe/L7duRnwDr0l2dhs1rP7a13+lZfNR9d3cJ5k/+sSn/yoeM8im/9JAfHB+s
+io/uoIWf/KRg8+IH2y9+sPvih0rcH8RP/QVYPvGT7vND/CB+aOEnPwHFT7Xn
+b/t9LvGj+Omuf1/zT/GzfBQ/yy89hPhR/Pw7mc+/2Y6jdg==
+            "], {
+             
+             Line[{{1, 40}, {40, 39}, {39, 38}, {38, 37}, {37, 36}, {36, 
+              35}, {35, 34}, {34, 33}, {33, 32}, {32, 31}, {31, 30}, {30, 
+              29}, {29, 28}, {28, 27}, {27, 26}, {26, 25}, {25, 24}, {24, 
+              23}, {23, 22}, {22, 21}, {21, 20}, {20, 19}, {19, 18}, {18, 
+              17}, {17, 16}, {16, 15}, {15, 14}, {14, 13}, {13, 12}, {12, 
+              11}, {11, 10}, {10, 9}, {9, 8}, {8, 7}, {7, 6}, {6, 5}, {5, 
+              4}, {4, 3}, {3, 2}, {2, 1}}]}, {
+             
+             Line[{{79, 80}, {80, 41}, {41, 42}, {42, 43}, {43, 44}, {44, 
+              45}, {45, 46}, {46, 47}, {47, 48}, {48, 49}, {49, 50}, {50, 
+              51}, {51, 52}, {52, 53}, {53, 54}, {54, 55}, {55, 56}, {56, 
+              57}, {57, 58}, {58, 59}, {59, 60}, {60, 61}, {61, 62}, {62, 
+              63}, {63, 64}, {64, 65}, {65, 66}, {66, 67}, {67, 68}, {68, 
+              69}, {69, 70}, {70, 71}, {71, 72}, {72, 73}, {73, 74}, {74, 
+              75}, {75, 76}, {76, 77}, {77, 78}, {78, 79}}]}, 
+            Method -> {
+             "EliminateUnusedCoordinates" -> True, 
+              "DeleteDuplicateCoordinates" -> Automatic, 
+              "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> Identity, 
+              "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+              Automatic, "CheckIntersections" -> Automatic, 
+              "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+              False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+              "ZeroTest" -> Automatic, "Hash" -> 4072300005035111034}, {
+            PlotTheme -> None}]]}, 
+          TagBox[GraphicsComplexBox[CompressedData["
+1:eJxdks9L03EcxkckEiVdpA4d/FEJQh2yCDLoOfQPjKg8hJdA8CAlRKXQtair
+ePErBLnb7PY1WHPxCNMS3cTh5gxpYjLw0iVsrVv1/TzvD3w3GOPN8/7xPK/P
+eh4+vjNyLJFIJP99//+OXj/V9TRVYzP3+eyfJyEuzL2427i5y6OozmOv48eb
+5+Uqx8+lU78uFzE7OczmWJmNSN/CUL14NNlW4sBYZvh3ckfz6+r/pv5lur59
+6YuaP1A9z+lpDk58ryOhz9Vo3yG6nQ7TXb0Imw/cftj+Xncfdv+e84dr8uf6
+yzD/NZcPlu+8yy89D/FRHeK+7phP08WP4gfx4158P2fj98WlBPHTvPevfp9P
+us+v2vNhCz92x/mq9vwZxN+HvfH3o/hR/NTv35+1+P+D4ic9T/t/iR/Fz/tc
++Hnx1o2hDZbaO09P3U7xU/Vwf6C5pjrkSm7+5aWZL8yefHvmQT3HjXeP+vsG
+l6XnWXl1pdi1u8SVE1+nnnWuMhfNZ9VfUP8Cq1HfpvS05reYieqAhdeN5PH3
+Fe/L7duRnwDr0l2dhs1rP7a13+lZfNR9d3cJ5k/+sSn/yoeM8im/9JAfHB+s
+io/uoIWf/KRg8+IH2y9+sPvih0rcH8RP/QVYPvGT7vND/CB+aOEnPwHFT7Xn
+b/t9LvGj+Omuf1/zT/GzfBQ/yy89hPhR/Pw7mc+/2Y6jdg==
+            "], {{}, 
+             
+             TagBox[FilledCurveBox[{{
+                Line[{1, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 
+                  27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 
+                  12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+                Line[{79, 80, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 
+                  53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 
+                  68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78}]}}],
+              Annotation[#, "Geometry"]& ]}],
+           MouseAppearanceTag["LinkHand"]],
+          AllowKernelInitialization->False],
+         "BoundaryMeshRegion"]}, 
+       {GrayLevel[1], 
+        TagBox[
+         DynamicModuleBox[{Typeset`mesh = HoldComplete[
+           BoundaryMeshRegion[CompressedData["
+1:eJx1kTFLw1AUhYMIRRxciqs4KAouuungGfwD4tLBTXDVzX+gOHczg1C6VbdU
+qCHlFGqx2FgqklZxchCcHcTRNu/cQAQDj3A5991zz/cWD473Dqc8z1sZn8l/
+eLb+uPA2oPfn68y8lk+KL5SOf3TUv5a2N0t9PhWKc+WdKpujz/eNnwfVATvR
+1enaxT3D2cv5/Y+I/crR6vLWnfQ2k3R+i25el1F6P1R/rP46R9rT6TXdf2Yj
+rX3G59+709eJ/H30cnUN1q95sNxOD3ErP+fTgu2jfTHQvsqDhvIor/SAN44H
+uuIhPvKvwvrFBzZPfGB+4oMkvw/ER/0xLI/4SM/yQnwgPvL32cvVGU+bl727
++FB85JO9l+1L8bE8FB/LKz2A+FB88AsKmEY/
+            "], {
+             
+             Line[{{1, 5}, {5, 6}, {6, 7}, {7, 8}, {8, 9}, {9, 10}, {10, 
+              11}, {11, 12}, {12, 13}, {13, 2}, {2, 14}, {14, 15}, {15, 16}, {
+              16, 17}, {17, 18}, {18, 19}, {19, 20}, {20, 21}, {21, 22}, {22, 
+              3}, {3, 23}, {23, 24}, {24, 25}, {25, 26}, {26, 27}, {27, 28}, {
+              28, 29}, {29, 30}, {30, 31}, {31, 4}, {4, 32}, {32, 33}, {33, 
+              34}, {34, 35}, {35, 36}, {36, 37}, {37, 38}, {38, 39}, {39, 
+              40}, {40, 1}}]}, 
+            Method -> {
+             "EliminateUnusedCoordinates" -> True, 
+              "DeleteDuplicateCoordinates" -> Automatic, 
+              "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> Identity, 
+              "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+              Automatic, "CheckIntersections" -> Automatic, 
+              "BoundaryNesting" -> {{0, 0}}, "SeparateBoundaries" -> False, 
+              "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+              "ZeroTest" -> Automatic, "Hash" -> 5456618687959366896}, {
+            PlotTheme -> None}]]}, 
+          TagBox[GraphicsComplexBox[CompressedData["
+1:eJx1kTFLw1AUhYMIRRxciqs4KAouuungGfwD4tLBTXDVzX+gOHczg1C6VbdU
+qCHlFGqx2FgqklZxchCcHcTRNu/cQAQDj3A5991zz/cWD473Dqc8z1sZn8l/
+eLb+uPA2oPfn68y8lk+KL5SOf3TUv5a2N0t9PhWKc+WdKpujz/eNnwfVATvR
+1enaxT3D2cv5/Y+I/crR6vLWnfQ2k3R+i25el1F6P1R/rP46R9rT6TXdf2Yj
+rX3G59+709eJ/H30cnUN1q95sNxOD3ErP+fTgu2jfTHQvsqDhvIor/SAN44H
+uuIhPvKvwvrFBzZPfGB+4oMkvw/ER/0xLI/4SM/yQnwgPvL32cvVGU+bl727
++FB85JO9l+1L8bE8FB/LKz2A+FB88AsKmEY/
+            "], {{}, 
+             
+             TagBox[PolygonBox[{{1, 5, 6, 7, 8, 9, 10, 11, 12, 13, 2, 14, 15, 
+               16, 17, 18, 19, 20, 21, 22, 3, 23, 24, 25, 26, 27, 28, 29, 30, 
+               31, 4, 32, 33, 34, 35, 36, 37, 38, 39, 40}}],
+              Annotation[#, "Geometry"]& ]}],
+           MouseAppearanceTag["LinkHand"]],
+          AllowKernelInitialization->False],
+         "BoundaryMeshRegion"]}}], ",", 
+     RowBox[{"Scaled", "[", "0.03710224464224916`", "]"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     GraphicsBox[{
+       {RGBColor[
+        0.6196078431372549, 0.6196078431372549, 0.28627450980392155`], 
+        TagBox[
+         DynamicModuleBox[{Typeset`mesh = HoldComplete[
+           BoundaryMeshRegion[CompressedData["
+1:eJxdk19Ik2EUxmcXWSH9FQvqJogo0uqiuik60lVhwSopCiQNttFVphdRzSjQ
+brsa2Na6aFoXKWjTzBqcmeY2HXO5paMUZ3aRUFBBdGFF9Z7nfeF7B2P8ON85
+53me823rxcunPMtcLlf9v+//366zkUJlIk03DjWmGsNFHr278WDznmHDccVR
+wy58NE9KnTVnpN9wVOYbTqt6zvDI7esPGwJvuXCptb5twyzHmmdXupemefD8
+jt07Pxe431N95XDDOw7WpJfSI3nuVvNm0J/lzmPLqzdXzfGAej7JE+G+XGuq
+yNdUPc7jFd5S/695vqq4hxNq/4LxMYb6LalTBv03pZ86MD8m86kL+/2yn6JO
+ffTCqZ9eOf1Ryukf80w+lHTmBzb5kpW/rpPVT9Z8q54zPCT6aBr6oJ+eQ/9T
+8Ufa3xPxj/6szgfPJ3V+qMcJ+YN7CPmTlT/5cR/d78f9rPls7WdLH1v62fLH
+ln/+9rhs0VdM0p1ez/t7Q1mePHq/u6RjnE7v9awKDqa5b3FXU8iXoeDvP3Wu
+rwmueV0XCgay9GGsvde7fZhjgc4W3883VKuej3Gl98uFfedyqEc5fGD/kZKX
+eSoqjvDq0pZtmS1Txr+uy/MRsvpJzxc9MbL2k6WPLP1k+aM1av8o+nOYFzcs
++p4ZLlP8yLDWrblc6qx5vfQbPiHzDa+T/Ya/iz7W+vKin2uhv1/8cQj+4J8X
+4B/58Bnkg/z4I/J7IPnyJ+SL/M3/X9dncJ8q9M/hfnq+G/c9jv1F3H8A+trx
+fkxB/0m8Pz/grw3vVzn8z4t/diMfzRXIT/Mm5KvZyp9XOO/Da533g15zX7bu
+z38BUPQQ9A==
+            "], {
+             
+             Line[{{1, 48}, {48, 47}, {47, 46}, {46, 45}, {45, 44}, {44, 
+              43}, {43, 42}, {42, 41}, {41, 40}, {40, 39}, {39, 38}, {38, 
+              37}, {37, 36}, {36, 35}, {35, 34}, {34, 33}, {33, 32}, {32, 
+              31}, {31, 30}, {30, 29}, {29, 28}, {28, 27}, {27, 26}, {26, 
+              25}, {25, 24}, {24, 23}, {23, 22}, {22, 21}, {21, 20}, {20, 
+              19}, {19, 18}, {18, 17}, {17, 16}, {16, 15}, {15, 14}, {14, 
+              13}, {13, 12}, {12, 11}, {11, 10}, {10, 9}, {9, 8}, {8, 7}, {7, 
+              6}, {6, 5}, {5, 4}, {4, 3}, {3, 2}, {2, 1}}]}, {
+             
+             Line[{{95, 96}, {96, 49}, {49, 50}, {50, 51}, {51, 52}, {52, 
+              53}, {53, 54}, {54, 55}, {55, 56}, {56, 57}, {57, 58}, {58, 
+              59}, {59, 60}, {60, 61}, {61, 62}, {62, 63}, {63, 64}, {64, 
+              65}, {65, 66}, {66, 67}, {67, 68}, {68, 69}, {69, 70}, {70, 
+              71}, {71, 72}, {72, 73}, {73, 74}, {74, 75}, {75, 76}, {76, 
+              77}, {77, 78}, {78, 79}, {79, 80}, {80, 81}, {81, 82}, {82, 
+              83}, {83, 84}, {84, 85}, {85, 86}, {86, 87}, {87, 88}, {88, 
+              89}, {89, 90}, {90, 91}, {91, 92}, {92, 93}, {93, 94}, {94, 
+              95}}]}, Method -> {
+             "EliminateUnusedCoordinates" -> True, 
+              "DeleteDuplicateCoordinates" -> Automatic, 
+              "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> Identity, 
+              "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+              Automatic, "CheckIntersections" -> Automatic, 
+              "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+              False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+              "ZeroTest" -> Automatic, "Hash" -> 8630667979866962175}, {
+            PlotTheme -> None}]]}, 
+          TagBox[GraphicsComplexBox[CompressedData["
+1:eJxdk19Ik2EUxmcXWSH9FQvqJogo0uqiuik60lVhwSopCiQNttFVphdRzSjQ
+brsa2Na6aFoXKWjTzBqcmeY2HXO5paMUZ3aRUFBBdGFF9Z7nfeF7B2P8ON85
+53me823rxcunPMtcLlf9v+//366zkUJlIk03DjWmGsNFHr278WDznmHDccVR
+wy58NE9KnTVnpN9wVOYbTqt6zvDI7esPGwJvuXCptb5twyzHmmdXupemefD8
+jt07Pxe431N95XDDOw7WpJfSI3nuVvNm0J/lzmPLqzdXzfGAej7JE+G+XGuq
+yNdUPc7jFd5S/695vqq4hxNq/4LxMYb6LalTBv03pZ86MD8m86kL+/2yn6JO
+ffTCqZ9eOf1Ryukf80w+lHTmBzb5kpW/rpPVT9Z8q54zPCT6aBr6oJ+eQ/9T
+8Ufa3xPxj/6szgfPJ3V+qMcJ+YN7CPmTlT/5cR/d78f9rPls7WdLH1v62fLH
+ln/+9rhs0VdM0p1ez/t7Q1mePHq/u6RjnE7v9awKDqa5b3FXU8iXoeDvP3Wu
+rwmueV0XCgay9GGsvde7fZhjgc4W3883VKuej3Gl98uFfedyqEc5fGD/kZKX
+eSoqjvDq0pZtmS1Txr+uy/MRsvpJzxc9MbL2k6WPLP1k+aM1av8o+nOYFzcs
++p4ZLlP8yLDWrblc6qx5vfQbPiHzDa+T/Ya/iz7W+vKin2uhv1/8cQj+4J8X
+4B/58Bnkg/z4I/J7IPnyJ+SL/M3/X9dncJ8q9M/hfnq+G/c9jv1F3H8A+trx
+fkxB/0m8Pz/grw3vVzn8z4t/diMfzRXIT/Mm5KvZyp9XOO/Da533g15zX7bu
+z38BUPQQ9A==
+            "], {{}, 
+             
+             TagBox[FilledCurveBox[{{
+                Line[{1, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 
+                  35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 
+                  20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 
+                  4, 3, 2}]}, {
+                Line[{95, 96, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 
+                  61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 
+                  76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 
+                  91, 92, 93, 94}]}}],
+              Annotation[#, "Geometry"]& ]}],
+           MouseAppearanceTag["LinkHand"]],
+          AllowKernelInitialization->False],
+         "BoundaryMeshRegion"]}, 
+       {GrayLevel[1], 
+        TagBox[
+         DynamicModuleBox[{Typeset`mesh = HoldComplete[
+           BoundaryMeshRegion[CompressedData["
+1:eJxTTMoPSmViYGAwAGIQzc9eq3JO5pj9o1MzNqapXd7PB+Zfs2eAAjR5e0EI
+fz+MD1W/f9rnhjVWKR02IlD5h1DzPi7neZn+4IR928bU2zMPXth/yWPOWsYl
+p+2DDVK5Zu08s3/LS+2i2enn7Gf9/RfL8OH4fu+jsbNnTb0Ate/w/j1Tl9am
+f79oHwJWv2e/TtrbeJPIy1D5zfvnmpk6Me6+Yv8AzF8M50PkF9ujqbeHmQex
+f489mn32aO6xR3OvPZp/oPoP2KOGxzY4nwfMXwbnQ0K1YQ+MDwmvZfDwFILo
+h/N9IebD+Z8g9u+H2X8F4r79IVD3bYW4f/9sqPuh/tv/GOo/qP/3h0H9Dw2f
+/U+g4TMPEn77X0DDD8a/Aw1fXaj6+9Dwh5kXAI0fH6h9D6Dxtx3qnhnQ+L0G
+dW8gNP6/Qv3TCk0fAVD/wtKPGDQ8YHwJaHjB+JDwnAALz/0cqOG9XwA1PqDu
+g8fXfgDpy5Hi
+            "], {
+             
+             Line[{{1, 7}, {7, 8}, {8, 9}, {9, 10}, {10, 11}, {11, 12}, {12, 
+              13}, {13, 2}, {2, 14}, {14, 15}, {15, 16}, {16, 17}, {17, 18}, {
+              18, 19}, {19, 20}, {20, 3}, {3, 21}, {21, 22}, {22, 23}, {23, 
+              24}, {24, 25}, {25, 26}, {26, 27}, {27, 4}, {4, 28}, {28, 29}, {
+              29, 30}, {30, 31}, {31, 32}, {32, 33}, {33, 34}, {34, 5}, {5, 
+              35}, {35, 36}, {36, 37}, {37, 38}, {38, 39}, {39, 40}, {40, 
+              41}, {41, 6}, {6, 42}, {42, 43}, {43, 44}, {44, 45}, {45, 46}, {
+              46, 47}, {47, 48}, {48, 1}}]}, 
+            Method -> {
+             "EliminateUnusedCoordinates" -> True, 
+              "DeleteDuplicateCoordinates" -> Automatic, 
+              "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> Identity, 
+              "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+              Automatic, "CheckIntersections" -> Automatic, 
+              "BoundaryNesting" -> {{0, 0}}, "SeparateBoundaries" -> False, 
+              "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+              "ZeroTest" -> Automatic, "Hash" -> 5663792432962152668}, {
+            PlotTheme -> None}]]}, 
+          TagBox[GraphicsComplexBox[CompressedData["
+1:eJxTTMoPSmViYGAwAGIQzc9eq3JO5pj9o1MzNqapXd7PB+Zfs2eAAjR5e0EI
+fz+MD1W/f9rnhjVWKR02IlD5h1DzPi7neZn+4IR928bU2zMPXth/yWPOWsYl
+p+2DDVK5Zu08s3/LS+2i2enn7Gf9/RfL8OH4fu+jsbNnTb0Ate/w/j1Tl9am
+f79oHwJWv2e/TtrbeJPIy1D5zfvnmpk6Me6+Yv8AzF8M50PkF9ujqbeHmQex
+f489mn32aO6xR3OvPZp/oPoP2KOGxzY4nwfMXwbnQ0K1YQ+MDwmvZfDwFILo
+h/N9IebD+Z8g9u+H2X8F4r79IVD3bYW4f/9sqPuh/tv/GOo/qP/3h0H9Dw2f
+/U+g4TMPEn77X0DDD8a/Aw1fXaj6+9Dwh5kXAI0fH6h9D6Dxtx3qnhnQ+L0G
+dW8gNP6/Qv3TCk0fAVD/wtKPGDQ8YHwJaHjB+JDwnAALz/0cqOG9XwA1PqDu
+g8fXfgDpy5Hi
+            "], {{}, 
+             
+             TagBox[PolygonBox[{{1, 7, 8, 9, 10, 11, 12, 13, 2, 14, 15, 16, 
+               17, 18, 19, 20, 3, 21, 22, 23, 24, 25, 26, 27, 4, 28, 29, 30, 
+               31, 32, 33, 34, 5, 35, 36, 37, 38, 39, 40, 41, 6, 42, 43, 44, 
+               45, 46, 47, 48}}],
+              Annotation[#, "Geometry"]& ]}],
+           MouseAppearanceTag["LinkHand"]],
+          AllowKernelInitialization->False],
+         "BoundaryMeshRegion"]}}], ",", 
+     RowBox[{"Scaled", "[", "0.03172479393392902`", "]"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     GraphicsBox[{
+       {RGBColor[
+        0.5294117647058824, 0.30980392156862746`, 0.6196078431372549], 
+        TagBox[
+         DynamicModuleBox[{Typeset`mesh = HoldComplete[
+           BoundaryMeshRegion[CompressedData["
+1:eJxVkmtI02EUxocSFl7KTNIsSSvpQ1CxdNq0E04JSZ2pOTWFGmQfsqwIU8NM
+jSwkIujiBSQJg1QqlQLTPKJ5wVvqnJlkupWGln2YofNb5XkmOPgzDu/7nud5
+fuf46DNiz9opFIr4f9///4Dvxx0Dx03U/8vNu+/2G253z7qcf9RE6XUaJ4ro
+4Mn+nru+YVO0L6jAnHryI0cVDW3JNU6QendBn59uhA89GQ3wzBon67L/QuT9
+Ma58mJ6hKxwlnZc1Q6H+wmnloTGfnIep4qouSxM+ybnnEqIP6nvoSHFLU9LA
+FD/Yq0w0uLaSdrYmeLHUxDHPdi7S4yo6/dT0dU5h5rdSs61ulvschfuPpB8H
+o98V0eMS6NWLH46An2Dxy7/hN17y8AHk+SZ52QV5O4UHh4KHSnhxGXhdWNEz
+swI/8OQuOacPeJ8o78mE/r7Sn7TQ9xd9Ak9eEn/0HP7jxD+dR74yyUd5yA+e
+VAk+0cKH8tbyo9q1fKkW/MGTijGfEPS7iPmVQq8a89XCTyDmb4HfWOyHEnnM
+2J+tyAuepAUP2/5Vgxd4ko2npzKySNVtpIEZlcWoqSZ3u4aNNU5GKmv7k95s
+baTcz8kTLWMG+hln9Lu1o51SdhWNxCmHySHEw5I01E2OaVazYc8gNbzQndIs
+9VOEfj7eeq2XQl+dmPoROESdd0JY6dBJh82u6jo3A83b1zRmerTS9tqSCn3+
+CO2/NFefUt5A+etmuwezjaTSq++9Tiij7O5Mp4wlIymkZlvtI/fZdn9G+rE3
++rWJHtv0wsQPh8PPevHLjfCbLHl4A/Jcl7xsQV434cFV4AFebAGvjhW90dX9
+3IbzJjln8ORiec830H9a+nMq9O1Fn53h76X44zj4J/HPvcgXJPl4Afm9JD+H
+gs9N4cOatfy464zwzUHtAv6FuD+N+YAnv8f8gqF3BPM9Bj/gSe/gNwn7sQl5
+crA/VuTdjP1qAQ/b/i2DF3iu7udf6LOvKg==
+            "], {
+             
+             Line[{{1, 42}, {42, 41}, {41, 40}, {40, 39}, {39, 38}, {38, 
+              37}, {37, 36}, {36, 35}, {35, 34}, {34, 33}, {33, 32}, {32, 
+              31}, {31, 30}, {30, 29}, {29, 28}, {28, 27}, {27, 26}, {26, 
+              25}, {25, 24}, {24, 23}, {23, 22}, {22, 21}, {21, 20}, {20, 
+              19}, {19, 18}, {18, 17}, {17, 16}, {16, 15}, {15, 14}, {14, 
+              13}, {13, 12}, {12, 11}, {11, 10}, {10, 9}, {9, 8}, {8, 7}, {7, 
+              6}, {6, 5}, {5, 4}, {4, 3}, {3, 2}, {2, 1}}]}, {
+             
+             Line[{{83, 84}, {84, 43}, {43, 44}, {44, 45}, {45, 46}, {46, 
+              47}, {47, 48}, {48, 49}, {49, 50}, {50, 51}, {51, 52}, {52, 
+              53}, {53, 54}, {54, 55}, {55, 56}, {56, 57}, {57, 58}, {58, 
+              59}, {59, 60}, {60, 61}, {61, 62}, {62, 63}, {63, 64}, {64, 
+              65}, {65, 66}, {66, 67}, {67, 68}, {68, 69}, {69, 70}, {70, 
+              71}, {71, 72}, {72, 73}, {73, 74}, {74, 75}, {75, 76}, {76, 
+              77}, {77, 78}, {78, 79}, {79, 80}, {80, 81}, {81, 82}, {82, 
+              83}}]}, Method -> {
+             "EliminateUnusedCoordinates" -> True, 
+              "DeleteDuplicateCoordinates" -> Automatic, 
+              "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> Identity, 
+              "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+              Automatic, "CheckIntersections" -> Automatic, 
+              "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+              False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+              "ZeroTest" -> Automatic, "Hash" -> 5668074705298206648}, {
+            PlotTheme -> None}]]}, 
+          TagBox[GraphicsComplexBox[CompressedData["
+1:eJxVkmtI02EUxocSFl7KTNIsSSvpQ1CxdNq0E04JSZ2pOTWFGmQfsqwIU8NM
+jSwkIujiBSQJg1QqlQLTPKJ5wVvqnJlkupWGln2YofNb5XkmOPgzDu/7nud5
+fuf46DNiz9opFIr4f9///4Dvxx0Dx03U/8vNu+/2G253z7qcf9RE6XUaJ4ro
+4Mn+nru+YVO0L6jAnHryI0cVDW3JNU6QendBn59uhA89GQ3wzBon67L/QuT9
+Ma58mJ6hKxwlnZc1Q6H+wmnloTGfnIep4qouSxM+ybnnEqIP6nvoSHFLU9LA
+FD/Yq0w0uLaSdrYmeLHUxDHPdi7S4yo6/dT0dU5h5rdSs61ulvschfuPpB8H
+o98V0eMS6NWLH46An2Dxy7/hN17y8AHk+SZ52QV5O4UHh4KHSnhxGXhdWNEz
+swI/8OQuOacPeJ8o78mE/r7Sn7TQ9xd9Ak9eEn/0HP7jxD+dR74yyUd5yA+e
+VAk+0cKH8tbyo9q1fKkW/MGTijGfEPS7iPmVQq8a89XCTyDmb4HfWOyHEnnM
+2J+tyAuepAUP2/5Vgxd4ko2npzKySNVtpIEZlcWoqSZ3u4aNNU5GKmv7k95s
+baTcz8kTLWMG+hln9Lu1o51SdhWNxCmHySHEw5I01E2OaVazYc8gNbzQndIs
+9VOEfj7eeq2XQl+dmPoROESdd0JY6dBJh82u6jo3A83b1zRmerTS9tqSCn3+
+CO2/NFefUt5A+etmuwezjaTSq++9Tiij7O5Mp4wlIymkZlvtI/fZdn9G+rE3
++rWJHtv0wsQPh8PPevHLjfCbLHl4A/Jcl7xsQV434cFV4AFebAGvjhW90dX9
+3IbzJjln8ORiec830H9a+nMq9O1Fn53h76X44zj4J/HPvcgXJPl4Afm9JD+H
+gs9N4cOatfy464zwzUHtAv6FuD+N+YAnv8f8gqF3BPM9Bj/gSe/gNwn7sQl5
+crA/VuTdjP1qAQ/b/i2DF3iu7udf6LOvKg==
+            "], {{}, 
+             
+             TagBox[FilledCurveBox[{{
+                Line[{1, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 
+                  29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 
+                  14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+                Line[{83, 84, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 
+                  55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 
+                  70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82}]}}],
+              Annotation[#, "Geometry"]& ]}],
+           MouseAppearanceTag["LinkHand"]],
+          AllowKernelInitialization->False],
+         "BoundaryMeshRegion"]}, 
+       {GrayLevel[1], 
+        TagBox[
+         DynamicModuleBox[{Typeset`mesh = HoldComplete[
+           BoundaryMeshRegion[CompressedData["
+1:eJxVkk0ow3EYx/+RkHldinkpiYOLww7zNk8ZSXFgIszBioMUJ9pEFjUld1Fu
+Dmx522neHk1YLcL2FwclhZDLqM3Ny/Pdwb/+/Xv6/f7P9/v9PE+RdbitP05R
+lLKf9/d7PGtkfeI1KXhy9c1Og1+l8ydDWDWtUXacJ92lUWnR9zm0F/XSxG33
+3cFNkN7MaulMwRFZip0hs/6KEo054a5LP6UMRB+CJRfkWe3sMUXOqMn63h4d
+C1DdRuv9c8UlnfzpnVDVQ2b1ljZI7/Eu72jOIeW7F5atjhCVj7xuW5Y85Eh4
+8V/YVDJYq+c3OxbJ5h/VDEdUUqTmWF0k9zl2/0n6cSH6+USPY3r14ocb4CdJ
+/LIXfrslDycjz7jk5TDyaoUHr4AHeHEYvMCTB/sK2lp07hodznflnMGT5+R/
+nkT/R+nPvdCPF31Ohb918cdm+CfxzwHkq5R8/IH8eZKf68BnSviw6T8/Pu0T
+vnbUaeA/jfuPmA948j7mVwO9Wsy3EX7Ak3bgtwv7kYE8duxPFHmzsF8H4BHb
+vy/w+gaDs2Ht
+            "], {
+             
+             Line[{{1, 2}, {2, 3}, {3, 4}, {4, 5}, {5, 6}, {6, 7}, {7, 8}, {8,
+               9}, {9, 10}, {10, 11}, {11, 12}, {12, 13}, {13, 14}, {14, 
+              15}, {15, 16}, {16, 17}, {17, 18}, {18, 19}, {19, 20}, {20, 
+              21}, {21, 22}, {22, 23}, {23, 24}, {24, 25}, {25, 26}, {26, 
+              27}, {27, 28}, {28, 29}, {29, 30}, {30, 31}, {31, 32}, {32, 
+              33}, {33, 34}, {34, 35}, {35, 36}, {36, 37}, {37, 38}, {38, 
+              39}, {39, 40}, {40, 41}, {41, 42}, {42, 1}}]}, 
+            Method -> {
+             "EliminateUnusedCoordinates" -> True, 
+              "DeleteDuplicateCoordinates" -> Automatic, 
+              "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> Identity, 
+              "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+              Automatic, "CheckIntersections" -> Automatic, 
+              "BoundaryNesting" -> {{0, 0}}, "SeparateBoundaries" -> False, 
+              "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+              "ZeroTest" -> Automatic, "Hash" -> 1715361332444837389}, {
+            PlotTheme -> None}]]}, 
+          TagBox[GraphicsComplexBox[CompressedData["
+1:eJxVkk0ow3EYx/+RkHldinkpiYOLww7zNk8ZSXFgIszBioMUJ9pEFjUld1Fu
+Dmx522neHk1YLcL2FwclhZDLqM3Ny/Pdwb/+/Xv6/f7P9/v9PE+RdbitP05R
+lLKf9/d7PGtkfeI1KXhy9c1Og1+l8ydDWDWtUXacJ92lUWnR9zm0F/XSxG33
+3cFNkN7MaulMwRFZip0hs/6KEo054a5LP6UMRB+CJRfkWe3sMUXOqMn63h4d
+C1DdRuv9c8UlnfzpnVDVQ2b1ljZI7/Eu72jOIeW7F5atjhCVj7xuW5Y85Eh4
+8V/YVDJYq+c3OxbJ5h/VDEdUUqTmWF0k9zl2/0n6cSH6+USPY3r14ocb4CdJ
+/LIXfrslDycjz7jk5TDyaoUHr4AHeHEYvMCTB/sK2lp07hodznflnMGT5+R/
+nkT/R+nPvdCPF31Ohb918cdm+CfxzwHkq5R8/IH8eZKf68BnSviw6T8/Pu0T
+vnbUaeA/jfuPmA948j7mVwO9Wsy3EX7Ak3bgtwv7kYE8duxPFHmzsF8H4BHb
+vy/w+gaDs2Ht
+            "], {{}, 
+             
+             TagBox[PolygonBox[{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 
+               14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+                30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42}}],
+              Annotation[#, "Geometry"]& ]}],
+           MouseAppearanceTag["LinkHand"]],
+          AllowKernelInitialization->False],
+         "BoundaryMeshRegion"]}}], ",", 
+     RowBox[{"Scaled", "[", "0.03187079272691053`", "]"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     GraphicsBox[{
+       {RGBColor[
+        0.9137254901960784, 0.42745098039215684`, 0.6588235294117647], 
+        TagBox[
+         DynamicModuleBox[{Typeset`mesh = HoldComplete[
+           BoundaryMeshRegion[CompressedData["
+1:eJw9k1tI03EUx1d0hd57SLKQzDBQKaheOiKRL4WiZiGhoQyypC2SHA3TYm41
+JGeulAKt1Aivc7UuajumGWIyLyWKZXnNLioEPfWQ1e98/7/BGB/O75zzPd9z
+tj3bkmJebTKZMv59//862ioLrjZO01KiJ3rGPca77Ull0QuTmpMrLDEpBeO0
+CLY1lg3a1r/TvN+V9flgzFv6AXY8qwkvTeqi7+D4mqIiM9drLhbmb+Aqea/5
+iNTjr8Z76ccL4AzRo3mv6OUvYJfMozm/3rXTkjPH8+BCVW+Wn+Rd6LwyOsJO
+vN8U0XwnIX6APUrPFDepeDfHof49xX4+pPR9YBM+x6FnXOKUq+Yb5T7JJzv0
+R0l9uqHqD3GP9Kd4zPtT9JFZ5ffyNvX+I7nhT9TKnGP40hRlqniAWeXPUBL8
+TJ9Y9Ssudp4MXcuq3gJ54P8xxG2STy+R78W+IlE/T/pTGPofxn6xbxJ/hqgT
++gtxD2GY74zMj3g3peN+OuFPgvindcbi3rrgr/gzRQz/jfvciv2In7MUxP7O
+y35pGftNzfWXrq0KUUl4YMmXGOQs50lr5ekBqhtL9L8OPOW82nVpuw70k1PF
+W9jW5dvXsbGPrimuZudkxpajE71a383fa1Y+NfRQscSpenPrjNX+CtxC6apf
+kB5IfbKq+u2oHyS3qhegx3vKvaHFbqpT+W1Uq96/IZt630AV9j+D7Zf76ZGK
+34f+ED1XXE7t04GS1A3DWpfUG6HrEucOxG9JPjuRb5b6fBv170p/foj+DtHH
+Aeg7K/rZDf3iZ5AbMB/mZy/mhz/sgz8u8U//P+ziLyfD33PiP1vhf7bsh73Y
+j/gZYhv2tyPS8f5FzhA3iT793mCjfjPYCz0Gn4D+FjD2oTkf/rSCffDTYA/8
+94FPYV8GF2O/beA03IPBHtyPH3wR92ZwJu4T98ERMq/mv7ePAqY=
+            "], {
+             
+             Line[{{1, 45}, {45, 44}, {44, 43}, {43, 42}, {42, 41}, {41, 
+              40}, {40, 39}, {39, 38}, {38, 37}, {37, 36}, {36, 35}, {35, 
+              34}, {34, 33}, {33, 32}, {32, 31}, {31, 30}, {30, 29}, {29, 
+              28}, {28, 27}, {27, 26}, {26, 25}, {25, 24}, {24, 23}, {23, 
+              22}, {22, 21}, {21, 20}, {20, 19}, {19, 18}, {18, 17}, {17, 
+              16}, {16, 15}, {15, 14}, {14, 13}, {13, 12}, {12, 11}, {11, 
+              10}, {10, 9}, {9, 8}, {8, 7}, {7, 6}, {6, 5}, {5, 4}, {4, 3}, {
+              3, 2}, {2, 1}}]}, {
+             
+             Line[{{89, 90}, {90, 46}, {46, 47}, {47, 48}, {48, 49}, {49, 
+              50}, {50, 51}, {51, 52}, {52, 53}, {53, 54}, {54, 55}, {55, 
+              56}, {56, 57}, {57, 58}, {58, 59}, {59, 60}, {60, 61}, {61, 
+              62}, {62, 63}, {63, 64}, {64, 65}, {65, 66}, {66, 67}, {67, 
+              68}, {68, 69}, {69, 70}, {70, 71}, {71, 72}, {72, 73}, {73, 
+              74}, {74, 75}, {75, 76}, {76, 77}, {77, 78}, {78, 79}, {79, 
+              80}, {80, 81}, {81, 82}, {82, 83}, {83, 84}, {84, 85}, {85, 
+              86}, {86, 87}, {87, 88}, {88, 89}}]}, 
+            Method -> {
+             "EliminateUnusedCoordinates" -> True, 
+              "DeleteDuplicateCoordinates" -> Automatic, 
+              "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> Identity, 
+              "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+              Automatic, "CheckIntersections" -> Automatic, 
+              "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+              False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+              "ZeroTest" -> Automatic, "Hash" -> 5878561659592949431}, {
+            PlotTheme -> None}]]}, 
+          TagBox[GraphicsComplexBox[CompressedData["
+1:eJw9k1tI03EUx1d0hd57SLKQzDBQKaheOiKRL4WiZiGhoQyypC2SHA3TYm41
+JGeulAKt1Aivc7UuajumGWIyLyWKZXnNLioEPfWQ1e98/7/BGB/O75zzPd9z
+tj3bkmJebTKZMv59//862ioLrjZO01KiJ3rGPca77Ull0QuTmpMrLDEpBeO0
+CLY1lg3a1r/TvN+V9flgzFv6AXY8qwkvTeqi7+D4mqIiM9drLhbmb+Aqea/5
+iNTjr8Z76ccL4AzRo3mv6OUvYJfMozm/3rXTkjPH8+BCVW+Wn+Rd6LwyOsJO
+vN8U0XwnIX6APUrPFDepeDfHof49xX4+pPR9YBM+x6FnXOKUq+Yb5T7JJzv0
+R0l9uqHqD3GP9Kd4zPtT9JFZ5ffyNvX+I7nhT9TKnGP40hRlqniAWeXPUBL8
+TJ9Y9Ssudp4MXcuq3gJ54P8xxG2STy+R78W+IlE/T/pTGPofxn6xbxJ/hqgT
++gtxD2GY74zMj3g3peN+OuFPgvindcbi3rrgr/gzRQz/jfvciv2In7MUxP7O
+y35pGftNzfWXrq0KUUl4YMmXGOQs50lr5ekBqhtL9L8OPOW82nVpuw70k1PF
+W9jW5dvXsbGPrimuZudkxpajE71a383fa1Y+NfRQscSpenPrjNX+CtxC6apf
+kB5IfbKq+u2oHyS3qhegx3vKvaHFbqpT+W1Uq96/IZt630AV9j+D7Zf76ZGK
+34f+ED1XXE7t04GS1A3DWpfUG6HrEucOxG9JPjuRb5b6fBv170p/foj+DtHH
+Aeg7K/rZDf3iZ5AbMB/mZy/mhz/sgz8u8U//P+ziLyfD33PiP1vhf7bsh73Y
+j/gZYhv2tyPS8f5FzhA3iT793mCjfjPYCz0Gn4D+FjD2oTkf/rSCffDTYA/8
+94FPYV8GF2O/beA03IPBHtyPH3wR92ZwJu4T98ERMq/mv7ePAqY=
+            "], {{}, 
+             
+             TagBox[FilledCurveBox[{{
+                Line[{1, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 
+                  32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 
+                  17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+                Line[{89, 90, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 
+                  58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 
+                  73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 
+                  88}]}}],
+              Annotation[#, "Geometry"]& ]}],
+           MouseAppearanceTag["LinkHand"]],
+          AllowKernelInitialization->False],
+         "BoundaryMeshRegion"]}, 
+       {GrayLevel[1], 
+        TagBox[
+         DynamicModuleBox[{Typeset`mesh = HoldComplete[
+           BoundaryMeshRegion[CompressedData["
+1:eJw9kt0rg3EUx5cQf4HkQvJSLly5kFqdy10p2ZIkNK2I2IW0WmkXDEsahpVa
+2JIW85gesdWO97Q0L4lSFNdcKxfefuf789TT06dznu8553tOhXOoxZVnsVjq
+ft+/b2XN2N1BzzXt1s+Gcm/HXOqb+bivCluFb6la4ryJuL0vOV0QztF4uflu
+2DLc5e9wL/VeUuzBljw193ggWuiobcySX8UT7Dk0GtLFFzSpOML+p/aypscz
+suCZ+8z/fo6fkE/iFCnZfnV7j8AJalX1MrQm+uRW+inoZyig9EzdP8XU/zsU
+Vfnn5FH5cZr3fl2lRrO0oeKr6D9H+4pnKfVijtuLbmhKmNPgBclnP/JdoseL
+0FuWeryOemPSD5vop1/65QD6Ff8yHMc8mJdDmBd+sAE/JsQvFrdWrF7xk5vh
+56D4zW747ZR9cAj7EP9y7MG+dFzvU+ttgUOor7kN/SbA8Pufh+HHNtiAf5qD
+8NcAd2Mfmn3Y3w7YgX1rDuI+kuAR3JPmTtyfvt8f87WJug==
+            "], {
+             
+             Line[{{1, 4}, {4, 5}, {5, 6}, {6, 7}, {7, 8}, {8, 9}, {9, 10}, {
+              10, 11}, {11, 12}, {12, 13}, {13, 14}, {14, 15}, {15, 16}, {16, 
+              17}, {17, 2}, {2, 18}, {18, 19}, {19, 20}, {20, 21}, {21, 22}, {
+              22, 23}, {23, 24}, {24, 25}, {25, 26}, {26, 27}, {27, 28}, {28, 
+              29}, {29, 30}, {30, 31}, {31, 3}, {3, 32}, {32, 33}, {33, 34}, {
+              34, 35}, {35, 36}, {36, 37}, {37, 38}, {38, 39}, {39, 40}, {40, 
+              41}, {41, 42}, {42, 43}, {43, 44}, {44, 45}, {45, 1}}]}, 
+            Method -> {
+             "EliminateUnusedCoordinates" -> True, 
+              "DeleteDuplicateCoordinates" -> Automatic, 
+              "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> Identity, 
+              "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+              Automatic, "CheckIntersections" -> Automatic, 
+              "BoundaryNesting" -> {{0, 0}}, "SeparateBoundaries" -> False, 
+              "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+              "ZeroTest" -> Automatic, "Hash" -> 6788172543460327311}, {
+            PlotTheme -> None}]]}, 
+          TagBox[GraphicsComplexBox[CompressedData["
+1:eJw9kt0rg3EUx5cQf4HkQvJSLly5kFqdy10p2ZIkNK2I2IW0WmkXDEsahpVa
+2JIW85gesdWO97Q0L4lSFNdcKxfefuf789TT06dznu8553tOhXOoxZVnsVjq
+ft+/b2XN2N1BzzXt1s+Gcm/HXOqb+bivCluFb6la4ryJuL0vOV0QztF4uflu
+2DLc5e9wL/VeUuzBljw193ggWuiobcySX8UT7Dk0GtLFFzSpOML+p/aypscz
+suCZ+8z/fo6fkE/iFCnZfnV7j8AJalX1MrQm+uRW+inoZyig9EzdP8XU/zsU
+Vfnn5FH5cZr3fl2lRrO0oeKr6D9H+4pnKfVijtuLbmhKmNPgBclnP/JdoseL
+0FuWeryOemPSD5vop1/65QD6Ff8yHMc8mJdDmBd+sAE/JsQvFrdWrF7xk5vh
+56D4zW747ZR9cAj7EP9y7MG+dFzvU+ttgUOor7kN/SbA8Pufh+HHNtiAf5qD
+8NcAd2Mfmn3Y3w7YgX1rDuI+kuAR3JPmTtyfvt8f87WJug==
+            "], {{}, 
+             
+             TagBox[PolygonBox[{{1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
+               16, 17, 2, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 
+               31, 3, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 
+               45}}],
+              Annotation[#, "Geometry"]& ]}],
+           MouseAppearanceTag["LinkHand"]],
+          AllowKernelInitialization->False],
+         "BoundaryMeshRegion"]}}], ",", 
+     RowBox[{"Scaled", "[", "0.03371417204476906`", "]"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     GraphicsBox[{
+       {RGBColor[
+        0.9490196078431372, 0.48627450980392156`, 0.1843137254901961], 
+        TagBox[
+         DynamicModuleBox[{Typeset`mesh = HoldComplete[
+           BoundaryMeshRegion[CompressedData["
+1:eJx1krFKA0EQhk+LgCaFpUQQbPIENtpsJfYWNmIEUcRGBRtbiQk2Vj5BLMQi
+xEtINKSZBLHIgRIRC1E7a40+gXq7/4T95Q6O5bvZ3ZtvZmbWd5c2R4Mg2Pt9
+/9aj+fbE/uyzGXwUTl+23mSyNDgZH3lSrj7k0md3fWW7v6dcieMd5YuYQ+XA
+PeCGjcun49CeVz6291O8rzxl81Mu2fyVv93K7DyVnad8eR59ZedJ8Y6y85Qk
+z5DqUKU6laiOqDPyzro+gIuuT2B3zsALDC8wvPz9PYp3lMnLkJchL0NehrwM
+zY/J+vNliv78Ja40p4bmFJ60v0fxYZ40p0meQp5CnhQf1jlLfShSn9D368OD
+je75vUnnppejhUg5H90sPr7fKtd3tudeC13lTLy/rdyI4zXisjL8wBUbN/79
+NeWUvV+5Zv+vvGrzM5S/ctL3PJ2r070Z+m+D8mpR3gle6l2luqSobpdU1xWq
++xj1pWnXfwxPMDyvHMMTDE8wPMHwBJOnkKeQp5CnwLPlGJ5geIKbXp6R8po7
+1/S9aH9bfO+a+J5lYS9wSN5cF65b6M+P0Hwhf2WaT/kBnLHsDw==
+            "], {
+             
+             Line[{{1, 56}, {56, 55}, {55, 54}, {54, 53}, {53, 52}, {52, 
+              51}, {51, 50}, {50, 49}, {49, 48}, {48, 47}, {47, 46}, {46, 
+              45}, {45, 44}, {44, 43}, {43, 42}, {42, 41}, {41, 40}, {40, 
+              39}, {39, 38}, {38, 37}, {37, 36}, {36, 35}, {35, 34}, {34, 
+              33}, {33, 32}, {32, 31}, {31, 30}, {30, 29}, {29, 28}, {28, 
+              27}, {27, 26}, {26, 25}, {25, 24}, {24, 23}, {23, 22}, {22, 
+              21}, {21, 20}, {20, 19}, {19, 18}, {18, 17}, {17, 16}, {16, 
+              15}, {15, 14}, {14, 13}, {13, 12}, {12, 11}, {11, 10}, {10, 
+              9}, {9, 8}, {8, 7}, {7, 6}, {6, 5}, {5, 4}, {4, 3}, {3, 2}, {2, 
+              1}}]}, {
+             
+             Line[{{111, 112}, {112, 57}, {57, 58}, {58, 59}, {59, 60}, {60, 
+              61}, {61, 62}, {62, 63}, {63, 64}, {64, 65}, {65, 66}, {66, 
+              67}, {67, 68}, {68, 69}, {69, 70}, {70, 71}, {71, 72}, {72, 
+              73}, {73, 74}, {74, 75}, {75, 76}, {76, 77}, {77, 78}, {78, 
+              79}, {79, 80}, {80, 81}, {81, 82}, {82, 83}, {83, 84}, {84, 
+              85}, {85, 86}, {86, 87}, {87, 88}, {88, 89}, {89, 90}, {90, 
+              91}, {91, 92}, {92, 93}, {93, 94}, {94, 95}, {95, 96}, {96, 
+              97}, {97, 98}, {98, 99}, {99, 100}, {100, 101}, {101, 102}, {
+              102, 103}, {103, 104}, {104, 105}, {105, 106}, {106, 107}, {107,
+               108}, {108, 109}, {109, 110}, {110, 111}}]}, 
+            Method -> {
+             "EliminateUnusedCoordinates" -> True, 
+              "DeleteDuplicateCoordinates" -> Automatic, 
+              "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> Identity, 
+              "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+              Automatic, "CheckIntersections" -> Automatic, 
+              "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+              False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+              "ZeroTest" -> Automatic, "Hash" -> 627727893704528051}, {
+            PlotTheme -> None}]]}, 
+          TagBox[GraphicsComplexBox[CompressedData["
+1:eJx1krFKA0EQhk+LgCaFpUQQbPIENtpsJfYWNmIEUcRGBRtbiQk2Vj5BLMQi
+xEtINKSZBLHIgRIRC1E7a40+gXq7/4T95Q6O5bvZ3ZtvZmbWd5c2R4Mg2Pt9
+/9aj+fbE/uyzGXwUTl+23mSyNDgZH3lSrj7k0md3fWW7v6dcieMd5YuYQ+XA
+PeCGjcun49CeVz6291O8rzxl81Mu2fyVv93K7DyVnad8eR59ZedJ8Y6y85Qk
+z5DqUKU6laiOqDPyzro+gIuuT2B3zsALDC8wvPz9PYp3lMnLkJchL0NehrwM
+zY/J+vNliv78Ja40p4bmFJ60v0fxYZ40p0meQp5CnhQf1jlLfShSn9D368OD
+je75vUnnppejhUg5H90sPr7fKtd3tudeC13lTLy/rdyI4zXisjL8wBUbN/79
+NeWUvV+5Zv+vvGrzM5S/ctL3PJ2r070Z+m+D8mpR3gle6l2luqSobpdU1xWq
++xj1pWnXfwxPMDyvHMMTDE8wPMHwBJOnkKeQp5CnwLPlGJ5geIKbXp6R8po7
+1/S9aH9bfO+a+J5lYS9wSN5cF65b6M+P0Hwhf2WaT/kBnLHsDw==
+            "], {{}, 
+             
+             TagBox[FilledCurveBox[{{
+                Line[{1, 56, 55, 54, 53, 52, 51, 50, 49, 48, 47, 46, 45, 44, 
+                  43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 
+                  28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 
+                  13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+                Line[{111, 112, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 
+                  68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 
+                  83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 
+                  98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 
+                  110}]}}],
+              Annotation[#, "Geometry"]& ]}],
+           MouseAppearanceTag["LinkHand"]],
+          AllowKernelInitialization->False],
+         "BoundaryMeshRegion"]}, 
+       {GrayLevel[1], 
+        TagBox[
+         DynamicModuleBox[{Typeset`mesh = HoldComplete[
+           BoundaryMeshRegion[CompressedData["
+1:eJxdkrEOAUEQhjcKibhnkGg8A4nkKtErNIJEKDS0SuIFvIJGJVi5Q0SyEdFc
+odEqPQhu9x/Z/5LL5NvdzM43O8XeuDHIKKXK3/8Xj7NJ/7p6hC4a4jCm9ZNj
+Xs+XCs2klgh3klv9+b4L70fDymt+FQ7S82fhKN3XxEthlX7TC3ht90M/vxbO
+2vzC2t4v3Lb1hVS/RPKge/55AronojpOVKf1WFTJQzw31Ics9WlLfWxRn3P0
+DngneIHhdXAMLzC8wPACwwtMXoa8DHkZ8jLwwnzBCwyvwEV4dN252PcQxpz5
+ntr4XkvjeygF3pEn94H7tPPnw9D8oH7hDzZE48M=
+            "], {
+             
+             Line[{{1, 5}, {5, 6}, {6, 7}, {7, 8}, {8, 9}, {9, 10}, {10, 
+              11}, {11, 12}, {12, 13}, {13, 14}, {14, 15}, {15, 16}, {16, 
+              17}, {17, 2}, {2, 18}, {18, 19}, {19, 20}, {20, 21}, {21, 22}, {
+              22, 23}, {23, 24}, {24, 25}, {25, 26}, {26, 27}, {27, 28}, {28, 
+              29}, {29, 30}, {30, 3}, {3, 31}, {31, 32}, {32, 33}, {33, 34}, {
+              34, 35}, {35, 36}, {36, 37}, {37, 38}, {38, 39}, {39, 40}, {40, 
+              41}, {41, 42}, {42, 43}, {43, 4}, {4, 44}, {44, 45}, {45, 46}, {
+              46, 47}, {47, 48}, {48, 49}, {49, 50}, {50, 51}, {51, 52}, {52, 
+              53}, {53, 54}, {54, 55}, {55, 56}, {56, 1}}]}, 
+            Method -> {
+             "EliminateUnusedCoordinates" -> True, 
+              "DeleteDuplicateCoordinates" -> Automatic, 
+              "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> Identity, 
+              "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+              Automatic, "CheckIntersections" -> Automatic, 
+              "BoundaryNesting" -> {{0, 0}}, "SeparateBoundaries" -> False, 
+              "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+              "ZeroTest" -> Automatic, "Hash" -> 7085775427586294304}, {
+            PlotTheme -> None}]]}, 
+          TagBox[GraphicsComplexBox[CompressedData["
+1:eJxdkrEOAUEQhjcKibhnkGg8A4nkKtErNIJEKDS0SuIFvIJGJVi5Q0SyEdFc
+odEqPQhu9x/Z/5LL5NvdzM43O8XeuDHIKKXK3/8Xj7NJ/7p6hC4a4jCm9ZNj
+Xs+XCs2klgh3klv9+b4L70fDymt+FQ7S82fhKN3XxEthlX7TC3ht90M/vxbO
+2vzC2t4v3Lb1hVS/RPKge/55AronojpOVKf1WFTJQzw31Ics9WlLfWxRn3P0
+DngneIHhdXAMLzC8wPACwwtMXoa8DHkZ8jLwwnzBCwyvwEV4dN252PcQxpz5
+ntr4XkvjeygF3pEn94H7tPPnw9D8oH7hDzZE48M=
+            "], {{}, 
+             
+             TagBox[PolygonBox[{{1, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+                17, 2, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 3, 
+               31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 4, 44, 45, 
+               46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56}}],
+              Annotation[#, "Geometry"]& ]}],
+           MouseAppearanceTag["LinkHand"]],
+          AllowKernelInitialization->False],
+         "BoundaryMeshRegion"]}}], ",", 
+     RowBox[{"Scaled", "[", "0.02599120723328193`", "]"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     GraphicsBox[{
+       {RGBColor[
+        0.16470588235294117`, 0.7372549019607844, 0.7215686274509804], 
+        TagBox[
+         DynamicModuleBox[{Typeset`mesh = HoldComplete[
+           BoundaryMeshRegion[CompressedData["
+1:eJxdks9L03EcxkckEiVdpA4d/FEJQh2yCDLoOfQPjKg8hJdA8CAlRKXQtair
+ePErBLnb7PY1WHPxCNMS3cTh5gxpYjLw0iVsrVv1/TzvD3w3GOPN8/7xPK/P
+eh4+vjNyLJFIJP99//+OXj/V9TRVYzP3+eyfJyEuzL2427i5y6OozmOv48eb
+5+Uqx8+lU78uFzE7OczmWJmNSN/CUL14NNlW4sBYZvh3ckfz6+r/pv5lur59
+6YuaP1A9z+lpDk58ryOhz9Vo3yG6nQ7TXb0Imw/cftj+Xncfdv+e84dr8uf6
+yzD/NZcPlu+8yy89D/FRHeK+7phP08WP4gfx4158P2fj98WlBPHTvPevfp9P
+us+v2vNhCz92x/mq9vwZxN+HvfH3o/hR/NTv35+1+P+D4ic9T/t/iR/Fz/tc
++Hnx1o2hDZbaO09P3U7xU/Vwf6C5pjrkSm7+5aWZL8yefHvmQT3HjXeP+vsG
+l6XnWXl1pdi1u8SVE1+nnnWuMhfNZ9VfUP8Cq1HfpvS05reYieqAhdeN5PH3
+Fe/L7duRnwDr0l2dhs1rP7a13+lZfNR9d3cJ5k/+sSn/yoeM8im/9JAfHB+s
+io/uoIWf/KRg8+IH2y9+sPvih0rcH8RP/QVYPvGT7vND/CB+aOEnPwHFT7Xn
+b/t9LvGj+Omuf1/zT/GzfBQ/yy89hPhR/Pw7mc+/2Y6jdg==
+            "], {
+             
+             Line[{{1, 40}, {40, 39}, {39, 38}, {38, 37}, {37, 36}, {36, 
+              35}, {35, 34}, {34, 33}, {33, 32}, {32, 31}, {31, 30}, {30, 
+              29}, {29, 28}, {28, 27}, {27, 26}, {26, 25}, {25, 24}, {24, 
+              23}, {23, 22}, {22, 21}, {21, 20}, {20, 19}, {19, 18}, {18, 
+              17}, {17, 16}, {16, 15}, {15, 14}, {14, 13}, {13, 12}, {12, 
+              11}, {11, 10}, {10, 9}, {9, 8}, {8, 7}, {7, 6}, {6, 5}, {5, 
+              4}, {4, 3}, {3, 2}, {2, 1}}]}, {
+             
+             Line[{{79, 80}, {80, 41}, {41, 42}, {42, 43}, {43, 44}, {44, 
+              45}, {45, 46}, {46, 47}, {47, 48}, {48, 49}, {49, 50}, {50, 
+              51}, {51, 52}, {52, 53}, {53, 54}, {54, 55}, {55, 56}, {56, 
+              57}, {57, 58}, {58, 59}, {59, 60}, {60, 61}, {61, 62}, {62, 
+              63}, {63, 64}, {64, 65}, {65, 66}, {66, 67}, {67, 68}, {68, 
+              69}, {69, 70}, {70, 71}, {71, 72}, {72, 73}, {73, 74}, {74, 
+              75}, {75, 76}, {76, 77}, {77, 78}, {78, 79}}]}, 
+            Method -> {
+             "EliminateUnusedCoordinates" -> True, 
+              "DeleteDuplicateCoordinates" -> Automatic, 
+              "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> Identity, 
+              "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+              Automatic, "CheckIntersections" -> Automatic, 
+              "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+              False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+              "ZeroTest" -> Automatic, "Hash" -> 4072300005035111034}, {
+            PlotTheme -> None}]]}, 
+          TagBox[GraphicsComplexBox[CompressedData["
+1:eJxdks9L03EcxkckEiVdpA4d/FEJQh2yCDLoOfQPjKg8hJdA8CAlRKXQtair
+ePErBLnb7PY1WHPxCNMS3cTh5gxpYjLw0iVsrVv1/TzvD3w3GOPN8/7xPK/P
+eh4+vjNyLJFIJP99//+OXj/V9TRVYzP3+eyfJyEuzL2427i5y6OozmOv48eb
+5+Uqx8+lU78uFzE7OczmWJmNSN/CUL14NNlW4sBYZvh3ckfz6+r/pv5lur59
+6YuaP1A9z+lpDk58ryOhz9Vo3yG6nQ7TXb0Imw/cftj+Xncfdv+e84dr8uf6
+yzD/NZcPlu+8yy89D/FRHeK+7phP08WP4gfx4158P2fj98WlBPHTvPevfp9P
+us+v2vNhCz92x/mq9vwZxN+HvfH3o/hR/NTv35+1+P+D4ic9T/t/iR/Fz/tc
++Hnx1o2hDZbaO09P3U7xU/Vwf6C5pjrkSm7+5aWZL8yefHvmQT3HjXeP+vsG
+l6XnWXl1pdi1u8SVE1+nnnWuMhfNZ9VfUP8Cq1HfpvS05reYieqAhdeN5PH3
+Fe/L7duRnwDr0l2dhs1rP7a13+lZfNR9d3cJ5k/+sSn/yoeM8im/9JAfHB+s
+io/uoIWf/KRg8+IH2y9+sPvih0rcH8RP/QVYPvGT7vND/CB+aOEnPwHFT7Xn
+b/t9LvGj+Omuf1/zT/GzfBQ/yy89hPhR/Pw7mc+/2Y6jdg==
+            "], {{}, 
+             
+             TagBox[FilledCurveBox[{{
+                Line[{1, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 
+                  27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 
+                  12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+                Line[{79, 80, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 
+                  53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 
+                  68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78}]}}],
+              Annotation[#, "Geometry"]& ]}],
+           MouseAppearanceTag["LinkHand"]],
+          AllowKernelInitialization->False],
+         "BoundaryMeshRegion"]}, 
+       {GrayLevel[1], 
+        TagBox[
+         DynamicModuleBox[{Typeset`mesh = HoldComplete[
+           BoundaryMeshRegion[CompressedData["
+1:eJx1kTFLw1AUhYMIRRxciqs4KAouuungGfwD4tLBTXDVzX+gOHczg1C6VbdU
+qCHlFGqx2FgqklZxchCcHcTRNu/cQAQDj3A5991zz/cWD473Dqc8z1sZn8l/
+eLb+uPA2oPfn68y8lk+KL5SOf3TUv5a2N0t9PhWKc+WdKpujz/eNnwfVATvR
+1enaxT3D2cv5/Y+I/crR6vLWnfQ2k3R+i25el1F6P1R/rP46R9rT6TXdf2Yj
+rX3G59+709eJ/H30cnUN1q95sNxOD3ErP+fTgu2jfTHQvsqDhvIor/SAN44H
+uuIhPvKvwvrFBzZPfGB+4oMkvw/ER/0xLI/4SM/yQnwgPvL32cvVGU+bl727
++FB85JO9l+1L8bE8FB/LKz2A+FB88AsKmEY/
+            "], {
+             
+             Line[{{1, 5}, {5, 6}, {6, 7}, {7, 8}, {8, 9}, {9, 10}, {10, 
+              11}, {11, 12}, {12, 13}, {13, 2}, {2, 14}, {14, 15}, {15, 16}, {
+              16, 17}, {17, 18}, {18, 19}, {19, 20}, {20, 21}, {21, 22}, {22, 
+              3}, {3, 23}, {23, 24}, {24, 25}, {25, 26}, {26, 27}, {27, 28}, {
+              28, 29}, {29, 30}, {30, 31}, {31, 4}, {4, 32}, {32, 33}, {33, 
+              34}, {34, 35}, {35, 36}, {36, 37}, {37, 38}, {38, 39}, {39, 
+              40}, {40, 1}}]}, 
+            Method -> {
+             "EliminateUnusedCoordinates" -> True, 
+              "DeleteDuplicateCoordinates" -> Automatic, 
+              "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> Identity, 
+              "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+              Automatic, "CheckIntersections" -> Automatic, 
+              "BoundaryNesting" -> {{0, 0}}, "SeparateBoundaries" -> False, 
+              "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+              "ZeroTest" -> Automatic, "Hash" -> 5456618687959366896}, {
+            PlotTheme -> None}]]}, 
+          TagBox[GraphicsComplexBox[CompressedData["
+1:eJx1kTFLw1AUhYMIRRxciqs4KAouuungGfwD4tLBTXDVzX+gOHczg1C6VbdU
+qCHlFGqx2FgqklZxchCcHcTRNu/cQAQDj3A5991zz/cWD473Dqc8z1sZn8l/
+eLb+uPA2oPfn68y8lk+KL5SOf3TUv5a2N0t9PhWKc+WdKpujz/eNnwfVATvR
+1enaxT3D2cv5/Y+I/crR6vLWnfQ2k3R+i25el1F6P1R/rP46R9rT6TXdf2Yj
+rX3G59+709eJ/H30cnUN1q95sNxOD3ErP+fTgu2jfTHQvsqDhvIor/SAN44H
+uuIhPvKvwvrFBzZPfGB+4oMkvw/ER/0xLI/4SM/yQnwgPvL32cvVGU+bl727
++FB85JO9l+1L8bE8FB/LKz2A+FB88AsKmEY/
+            "], {{}, 
+             
+             TagBox[PolygonBox[{{1, 5, 6, 7, 8, 9, 10, 11, 12, 13, 2, 14, 15, 
+               16, 17, 18, 19, 20, 21, 22, 3, 23, 24, 25, 26, 27, 28, 29, 30, 
+               31, 4, 32, 33, 34, 35, 36, 37, 38, 39, 40}}],
+              Annotation[#, "Geometry"]& ]}],
+           MouseAppearanceTag["LinkHand"]],
+          AllowKernelInitialization->False],
+         "BoundaryMeshRegion"]}}], ",", 
+     RowBox[{"Scaled", "[", "0.03710224464224916`", "]"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     GraphicsBox[{
+       {RGBColor[
+        0.8470588235294118, 0.09411764705882353, 0.34901960784313724`], 
+        TagBox[
+         DynamicModuleBox[{Typeset`mesh = HoldComplete[
+           BoundaryMeshRegion[CompressedData["
+1:eJxdk19Ik2EUxmcXWSH9FQvqJogo0uqiuik60lVhwSopCiQNttFVphdRzSjQ
+brsa2Na6aFoXKWjTzBqcmeY2HXO5paMUZ3aRUFBBdGFF9Z7nfeF7B2P8ON85
+53me823rxcunPMtcLlf9v+//366zkUJlIk03DjWmGsNFHr278WDznmHDccVR
+wy58NE9KnTVnpN9wVOYbTqt6zvDI7esPGwJvuXCptb5twyzHmmdXupemefD8
+jt07Pxe431N95XDDOw7WpJfSI3nuVvNm0J/lzmPLqzdXzfGAej7JE+G+XGuq
+yNdUPc7jFd5S/695vqq4hxNq/4LxMYb6LalTBv03pZ86MD8m86kL+/2yn6JO
+ffTCqZ9eOf1Ryukf80w+lHTmBzb5kpW/rpPVT9Z8q54zPCT6aBr6oJ+eQ/9T
+8Ufa3xPxj/6szgfPJ3V+qMcJ+YN7CPmTlT/5cR/d78f9rPls7WdLH1v62fLH
+ln/+9rhs0VdM0p1ez/t7Q1mePHq/u6RjnE7v9awKDqa5b3FXU8iXoeDvP3Wu
+rwmueV0XCgay9GGsvde7fZhjgc4W3883VKuej3Gl98uFfedyqEc5fGD/kZKX
+eSoqjvDq0pZtmS1Txr+uy/MRsvpJzxc9MbL2k6WPLP1k+aM1av8o+nOYFzcs
++p4ZLlP8yLDWrblc6qx5vfQbPiHzDa+T/Ya/iz7W+vKin2uhv1/8cQj+4J8X
+4B/58Bnkg/z4I/J7IPnyJ+SL/M3/X9dncJ8q9M/hfnq+G/c9jv1F3H8A+trx
+fkxB/0m8Pz/grw3vVzn8z4t/diMfzRXIT/Mm5KvZyp9XOO/Da533g15zX7bu
+z38BUPQQ9A==
+            "], {
+             
+             Line[{{1, 48}, {48, 47}, {47, 46}, {46, 45}, {45, 44}, {44, 
+              43}, {43, 42}, {42, 41}, {41, 40}, {40, 39}, {39, 38}, {38, 
+              37}, {37, 36}, {36, 35}, {35, 34}, {34, 33}, {33, 32}, {32, 
+              31}, {31, 30}, {30, 29}, {29, 28}, {28, 27}, {27, 26}, {26, 
+              25}, {25, 24}, {24, 23}, {23, 22}, {22, 21}, {21, 20}, {20, 
+              19}, {19, 18}, {18, 17}, {17, 16}, {16, 15}, {15, 14}, {14, 
+              13}, {13, 12}, {12, 11}, {11, 10}, {10, 9}, {9, 8}, {8, 7}, {7, 
+              6}, {6, 5}, {5, 4}, {4, 3}, {3, 2}, {2, 1}}]}, {
+             
+             Line[{{95, 96}, {96, 49}, {49, 50}, {50, 51}, {51, 52}, {52, 
+              53}, {53, 54}, {54, 55}, {55, 56}, {56, 57}, {57, 58}, {58, 
+              59}, {59, 60}, {60, 61}, {61, 62}, {62, 63}, {63, 64}, {64, 
+              65}, {65, 66}, {66, 67}, {67, 68}, {68, 69}, {69, 70}, {70, 
+              71}, {71, 72}, {72, 73}, {73, 74}, {74, 75}, {75, 76}, {76, 
+              77}, {77, 78}, {78, 79}, {79, 80}, {80, 81}, {81, 82}, {82, 
+              83}, {83, 84}, {84, 85}, {85, 86}, {86, 87}, {87, 88}, {88, 
+              89}, {89, 90}, {90, 91}, {91, 92}, {92, 93}, {93, 94}, {94, 
+              95}}]}, Method -> {
+             "EliminateUnusedCoordinates" -> True, 
+              "DeleteDuplicateCoordinates" -> Automatic, 
+              "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> Identity, 
+              "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+              Automatic, "CheckIntersections" -> Automatic, 
+              "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+              False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+              "ZeroTest" -> Automatic, "Hash" -> 8630667979866962175}, {
+            PlotTheme -> None}]]}, 
+          TagBox[GraphicsComplexBox[CompressedData["
+1:eJxdk19Ik2EUxmcXWSH9FQvqJogo0uqiuik60lVhwSopCiQNttFVphdRzSjQ
+brsa2Na6aFoXKWjTzBqcmeY2HXO5paMUZ3aRUFBBdGFF9Z7nfeF7B2P8ON85
+53me823rxcunPMtcLlf9v+//366zkUJlIk03DjWmGsNFHr278WDznmHDccVR
+wy58NE9KnTVnpN9wVOYbTqt6zvDI7esPGwJvuXCptb5twyzHmmdXupemefD8
+jt07Pxe431N95XDDOw7WpJfSI3nuVvNm0J/lzmPLqzdXzfGAej7JE+G+XGuq
+yNdUPc7jFd5S/695vqq4hxNq/4LxMYb6LalTBv03pZ86MD8m86kL+/2yn6JO
+ffTCqZ9eOf1Ryukf80w+lHTmBzb5kpW/rpPVT9Z8q54zPCT6aBr6oJ+eQ/9T
+8Ufa3xPxj/6szgfPJ3V+qMcJ+YN7CPmTlT/5cR/d78f9rPls7WdLH1v62fLH
+ln/+9rhs0VdM0p1ez/t7Q1mePHq/u6RjnE7v9awKDqa5b3FXU8iXoeDvP3Wu
+rwmueV0XCgay9GGsvde7fZhjgc4W3883VKuej3Gl98uFfedyqEc5fGD/kZKX
+eSoqjvDq0pZtmS1Txr+uy/MRsvpJzxc9MbL2k6WPLP1k+aM1av8o+nOYFzcs
++p4ZLlP8yLDWrblc6qx5vfQbPiHzDa+T/Ya/iz7W+vKin2uhv1/8cQj+4J8X
+4B/58Bnkg/z4I/J7IPnyJ+SL/M3/X9dncJ8q9M/hfnq+G/c9jv1F3H8A+trx
+fkxB/0m8Pz/grw3vVzn8z4t/diMfzRXIT/Mm5KvZyp9XOO/Da533g15zX7bu
+z38BUPQQ9A==
+            "], {{}, 
+             
+             TagBox[FilledCurveBox[{{
+                Line[{1, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 
+                  35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 
+                  20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 
+                  4, 3, 2}]}, {
+                Line[{95, 96, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 
+                  61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 
+                  76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 
+                  91, 92, 93, 94}]}}],
+              Annotation[#, "Geometry"]& ]}],
+           MouseAppearanceTag["LinkHand"]],
+          AllowKernelInitialization->False],
+         "BoundaryMeshRegion"]}, 
+       {GrayLevel[1], 
+        TagBox[
+         DynamicModuleBox[{Typeset`mesh = HoldComplete[
+           BoundaryMeshRegion[CompressedData["
+1:eJxTTMoPSmViYGAwAGIQzc9eq3JO5pj9o1MzNqapXd7PB+Zfs2eAAjR5e0EI
+fz+MD1W/f9rnhjVWKR02IlD5h1DzPi7neZn+4IR928bU2zMPXth/yWPOWsYl
+p+2DDVK5Zu08s3/LS+2i2enn7Gf9/RfL8OH4fu+jsbNnTb0Ate/w/j1Tl9am
+f79oHwJWv2e/TtrbeJPIy1D5zfvnmpk6Me6+Yv8AzF8M50PkF9ujqbeHmQex
+f489mn32aO6xR3OvPZp/oPoP2KOGxzY4nwfMXwbnQ0K1YQ+MDwmvZfDwFILo
+h/N9IebD+Z8g9u+H2X8F4r79IVD3bYW4f/9sqPuh/tv/GOo/qP/3h0H9Dw2f
+/U+g4TMPEn77X0DDD8a/Aw1fXaj6+9Dwh5kXAI0fH6h9D6Dxtx3qnhnQ+L0G
+dW8gNP6/Qv3TCk0fAVD/wtKPGDQ8YHwJaHjB+JDwnAALz/0cqOG9XwA1PqDu
+g8fXfgDpy5Hi
+            "], {
+             
+             Line[{{1, 7}, {7, 8}, {8, 9}, {9, 10}, {10, 11}, {11, 12}, {12, 
+              13}, {13, 2}, {2, 14}, {14, 15}, {15, 16}, {16, 17}, {17, 18}, {
+              18, 19}, {19, 20}, {20, 3}, {3, 21}, {21, 22}, {22, 23}, {23, 
+              24}, {24, 25}, {25, 26}, {26, 27}, {27, 4}, {4, 28}, {28, 29}, {
+              29, 30}, {30, 31}, {31, 32}, {32, 33}, {33, 34}, {34, 5}, {5, 
+              35}, {35, 36}, {36, 37}, {37, 38}, {38, 39}, {39, 40}, {40, 
+              41}, {41, 6}, {6, 42}, {42, 43}, {43, 44}, {44, 45}, {45, 46}, {
+              46, 47}, {47, 48}, {48, 1}}]}, 
+            Method -> {
+             "EliminateUnusedCoordinates" -> True, 
+              "DeleteDuplicateCoordinates" -> Automatic, 
+              "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> Identity, 
+              "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+              Automatic, "CheckIntersections" -> Automatic, 
+              "BoundaryNesting" -> {{0, 0}}, "SeparateBoundaries" -> False, 
+              "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+              "ZeroTest" -> Automatic, "Hash" -> 5663792432962152668}, {
+            PlotTheme -> None}]]}, 
+          TagBox[GraphicsComplexBox[CompressedData["
+1:eJxTTMoPSmViYGAwAGIQzc9eq3JO5pj9o1MzNqapXd7PB+Zfs2eAAjR5e0EI
+fz+MD1W/f9rnhjVWKR02IlD5h1DzPi7neZn+4IR928bU2zMPXth/yWPOWsYl
+p+2DDVK5Zu08s3/LS+2i2enn7Gf9/RfL8OH4fu+jsbNnTb0Ate/w/j1Tl9am
+f79oHwJWv2e/TtrbeJPIy1D5zfvnmpk6Me6+Yv8AzF8M50PkF9ujqbeHmQex
+f489mn32aO6xR3OvPZp/oPoP2KOGxzY4nwfMXwbnQ0K1YQ+MDwmvZfDwFILo
+h/N9IebD+Z8g9u+H2X8F4r79IVD3bYW4f/9sqPuh/tv/GOo/qP/3h0H9Dw2f
+/U+g4TMPEn77X0DDD8a/Aw1fXaj6+9Dwh5kXAI0fH6h9D6Dxtx3qnhnQ+L0G
+dW8gNP6/Qv3TCk0fAVD/wtKPGDQ8YHwJaHjB+JDwnAALz/0cqOG9XwA1PqDu
+g8fXfgDpy5Hi
+            "], {{}, 
+             
+             TagBox[PolygonBox[{{1, 7, 8, 9, 10, 11, 12, 13, 2, 14, 15, 16, 
+               17, 18, 19, 20, 3, 21, 22, 23, 24, 25, 26, 27, 4, 28, 29, 30, 
+               31, 32, 33, 34, 5, 35, 36, 37, 38, 39, 40, 41, 6, 42, 43, 44, 
+               45, 46, 47, 48}}],
+              Annotation[#, "Geometry"]& ]}],
+           MouseAppearanceTag["LinkHand"]],
+          AllowKernelInitialization->False],
+         "BoundaryMeshRegion"]}}], ",", 
+     RowBox[{"Scaled", "[", "0.03172479393392902`", "]"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     GraphicsBox[{
+       {RGBColor[
+        0.21176470588235294`, 0.49411764705882355`, 0.26666666666666666`], 
+        TagBox[
+         DynamicModuleBox[{Typeset`mesh = HoldComplete[
+           BoundaryMeshRegion[CompressedData["
+1:eJxVkmtI02EUxocSFl7KTNIsSSvpQ1CxdNq0E04JSZ2pOTWFGmQfsqwIU8NM
+jSwkIujiBSQJg1QqlQLTPKJ5wVvqnJlkupWGln2YofNb5XkmOPgzDu/7nud5
+fuf46DNiz9opFIr4f9///4Dvxx0Dx03U/8vNu+/2G253z7qcf9RE6XUaJ4ro
+4Mn+nru+YVO0L6jAnHryI0cVDW3JNU6QendBn59uhA89GQ3wzBon67L/QuT9
+Ma58mJ6hKxwlnZc1Q6H+wmnloTGfnIep4qouSxM+ybnnEqIP6nvoSHFLU9LA
+FD/Yq0w0uLaSdrYmeLHUxDHPdi7S4yo6/dT0dU5h5rdSs61ulvschfuPpB8H
+o98V0eMS6NWLH46An2Dxy7/hN17y8AHk+SZ52QV5O4UHh4KHSnhxGXhdWNEz
+swI/8OQuOacPeJ8o78mE/r7Sn7TQ9xd9Ak9eEn/0HP7jxD+dR74yyUd5yA+e
+VAk+0cKH8tbyo9q1fKkW/MGTijGfEPS7iPmVQq8a89XCTyDmb4HfWOyHEnnM
+2J+tyAuepAUP2/5Vgxd4ko2npzKySNVtpIEZlcWoqSZ3u4aNNU5GKmv7k95s
+baTcz8kTLWMG+hln9Lu1o51SdhWNxCmHySHEw5I01E2OaVazYc8gNbzQndIs
+9VOEfj7eeq2XQl+dmPoROESdd0JY6dBJh82u6jo3A83b1zRmerTS9tqSCn3+
+CO2/NFefUt5A+etmuwezjaTSq++9Tiij7O5Mp4wlIymkZlvtI/fZdn9G+rE3
++rWJHtv0wsQPh8PPevHLjfCbLHl4A/Jcl7xsQV434cFV4AFebAGvjhW90dX9
+3IbzJjln8ORiec830H9a+nMq9O1Fn53h76X44zj4J/HPvcgXJPl4Afm9JD+H
+gs9N4cOatfy464zwzUHtAv6FuD+N+YAnv8f8gqF3BPM9Bj/gSe/gNwn7sQl5
+crA/VuTdjP1qAQ/b/i2DF3iu7udf6LOvKg==
+            "], {
+             
+             Line[{{1, 42}, {42, 41}, {41, 40}, {40, 39}, {39, 38}, {38, 
+              37}, {37, 36}, {36, 35}, {35, 34}, {34, 33}, {33, 32}, {32, 
+              31}, {31, 30}, {30, 29}, {29, 28}, {28, 27}, {27, 26}, {26, 
+              25}, {25, 24}, {24, 23}, {23, 22}, {22, 21}, {21, 20}, {20, 
+              19}, {19, 18}, {18, 17}, {17, 16}, {16, 15}, {15, 14}, {14, 
+              13}, {13, 12}, {12, 11}, {11, 10}, {10, 9}, {9, 8}, {8, 7}, {7, 
+              6}, {6, 5}, {5, 4}, {4, 3}, {3, 2}, {2, 1}}]}, {
+             
+             Line[{{83, 84}, {84, 43}, {43, 44}, {44, 45}, {45, 46}, {46, 
+              47}, {47, 48}, {48, 49}, {49, 50}, {50, 51}, {51, 52}, {52, 
+              53}, {53, 54}, {54, 55}, {55, 56}, {56, 57}, {57, 58}, {58, 
+              59}, {59, 60}, {60, 61}, {61, 62}, {62, 63}, {63, 64}, {64, 
+              65}, {65, 66}, {66, 67}, {67, 68}, {68, 69}, {69, 70}, {70, 
+              71}, {71, 72}, {72, 73}, {73, 74}, {74, 75}, {75, 76}, {76, 
+              77}, {77, 78}, {78, 79}, {79, 80}, {80, 81}, {81, 82}, {82, 
+              83}}]}, Method -> {
+             "EliminateUnusedCoordinates" -> True, 
+              "DeleteDuplicateCoordinates" -> Automatic, 
+              "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> Identity, 
+              "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+              Automatic, "CheckIntersections" -> Automatic, 
+              "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+              False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+              "ZeroTest" -> Automatic, "Hash" -> 5668074705298206648}, {
+            PlotTheme -> None}]]}, 
+          TagBox[GraphicsComplexBox[CompressedData["
+1:eJxVkmtI02EUxocSFl7KTNIsSSvpQ1CxdNq0E04JSZ2pOTWFGmQfsqwIU8NM
+jSwkIujiBSQJg1QqlQLTPKJ5wVvqnJlkupWGln2YofNb5XkmOPgzDu/7nud5
+fuf46DNiz9opFIr4f9///4Dvxx0Dx03U/8vNu+/2G253z7qcf9RE6XUaJ4ro
+4Mn+nru+YVO0L6jAnHryI0cVDW3JNU6QendBn59uhA89GQ3wzBon67L/QuT9
+Ma58mJ6hKxwlnZc1Q6H+wmnloTGfnIep4qouSxM+ybnnEqIP6nvoSHFLU9LA
+FD/Yq0w0uLaSdrYmeLHUxDHPdi7S4yo6/dT0dU5h5rdSs61ulvschfuPpB8H
+o98V0eMS6NWLH46An2Dxy7/hN17y8AHk+SZ52QV5O4UHh4KHSnhxGXhdWNEz
+swI/8OQuOacPeJ8o78mE/r7Sn7TQ9xd9Ak9eEn/0HP7jxD+dR74yyUd5yA+e
+VAk+0cKH8tbyo9q1fKkW/MGTijGfEPS7iPmVQq8a89XCTyDmb4HfWOyHEnnM
+2J+tyAuepAUP2/5Vgxd4ko2npzKySNVtpIEZlcWoqSZ3u4aNNU5GKmv7k95s
+baTcz8kTLWMG+hln9Lu1o51SdhWNxCmHySHEw5I01E2OaVazYc8gNbzQndIs
+9VOEfj7eeq2XQl+dmPoROESdd0JY6dBJh82u6jo3A83b1zRmerTS9tqSCn3+
+CO2/NFefUt5A+etmuwezjaTSq++9Tiij7O5Mp4wlIymkZlvtI/fZdn9G+rE3
++rWJHtv0wsQPh8PPevHLjfCbLHl4A/Jcl7xsQV434cFV4AFebAGvjhW90dX9
+3IbzJjln8ORiec830H9a+nMq9O1Fn53h76X44zj4J/HPvcgXJPl4Afm9JD+H
+gs9N4cOatfy464zwzUHtAv6FuD+N+YAnv8f8gqF3BPM9Bj/gSe/gNwn7sQl5
+crA/VuTdjP1qAQ/b/i2DF3iu7udf6LOvKg==
+            "], {{}, 
+             
+             TagBox[FilledCurveBox[{{
+                Line[{1, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 
+                  29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 
+                  14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+                Line[{83, 84, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 
+                  55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 
+                  70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82}]}}],
+              Annotation[#, "Geometry"]& ]}],
+           MouseAppearanceTag["LinkHand"]],
+          AllowKernelInitialization->False],
+         "BoundaryMeshRegion"]}, 
+       {GrayLevel[1], 
+        TagBox[
+         DynamicModuleBox[{Typeset`mesh = HoldComplete[
+           BoundaryMeshRegion[CompressedData["
+1:eJxVkk0ow3EYx/+RkHldinkpiYOLww7zNk8ZSXFgIszBioMUJ9pEFjUld1Fu
+Dmx522neHk1YLcL2FwclhZDLqM3Ny/Pdwb/+/Xv6/f7P9/v9PE+RdbitP05R
+lLKf9/d7PGtkfeI1KXhy9c1Og1+l8ydDWDWtUXacJ92lUWnR9zm0F/XSxG33
+3cFNkN7MaulMwRFZip0hs/6KEo054a5LP6UMRB+CJRfkWe3sMUXOqMn63h4d
+C1DdRuv9c8UlnfzpnVDVQ2b1ljZI7/Eu72jOIeW7F5atjhCVj7xuW5Y85Eh4
+8V/YVDJYq+c3OxbJ5h/VDEdUUqTmWF0k9zl2/0n6cSH6+USPY3r14ocb4CdJ
+/LIXfrslDycjz7jk5TDyaoUHr4AHeHEYvMCTB/sK2lp07hodznflnMGT5+R/
+nkT/R+nPvdCPF31Ohb918cdm+CfxzwHkq5R8/IH8eZKf68BnSviw6T8/Pu0T
+vnbUaeA/jfuPmA948j7mVwO9Wsy3EX7Ak3bgtwv7kYE8duxPFHmzsF8H4BHb
+vy/w+gaDs2Ht
+            "], {
+             
+             Line[{{1, 2}, {2, 3}, {3, 4}, {4, 5}, {5, 6}, {6, 7}, {7, 8}, {8,
+               9}, {9, 10}, {10, 11}, {11, 12}, {12, 13}, {13, 14}, {14, 
+              15}, {15, 16}, {16, 17}, {17, 18}, {18, 19}, {19, 20}, {20, 
+              21}, {21, 22}, {22, 23}, {23, 24}, {24, 25}, {25, 26}, {26, 
+              27}, {27, 28}, {28, 29}, {29, 30}, {30, 31}, {31, 32}, {32, 
+              33}, {33, 34}, {34, 35}, {35, 36}, {36, 37}, {37, 38}, {38, 
+              39}, {39, 40}, {40, 41}, {41, 42}, {42, 1}}]}, 
+            Method -> {
+             "EliminateUnusedCoordinates" -> True, 
+              "DeleteDuplicateCoordinates" -> Automatic, 
+              "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> Identity, 
+              "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+              Automatic, "CheckIntersections" -> Automatic, 
+              "BoundaryNesting" -> {{0, 0}}, "SeparateBoundaries" -> False, 
+              "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+              "ZeroTest" -> Automatic, "Hash" -> 1715361332444837389}, {
+            PlotTheme -> None}]]}, 
+          TagBox[GraphicsComplexBox[CompressedData["
+1:eJxVkk0ow3EYx/+RkHldinkpiYOLww7zNk8ZSXFgIszBioMUJ9pEFjUld1Fu
+Dmx522neHk1YLcL2FwclhZDLqM3Ny/Pdwb/+/Xv6/f7P9/v9PE+RdbitP05R
+lLKf9/d7PGtkfeI1KXhy9c1Og1+l8ydDWDWtUXacJ92lUWnR9zm0F/XSxG33
+3cFNkN7MaulMwRFZip0hs/6KEo054a5LP6UMRB+CJRfkWe3sMUXOqMn63h4d
+C1DdRuv9c8UlnfzpnVDVQ2b1ljZI7/Eu72jOIeW7F5atjhCVj7xuW5Y85Eh4
+8V/YVDJYq+c3OxbJ5h/VDEdUUqTmWF0k9zl2/0n6cSH6+USPY3r14ocb4CdJ
+/LIXfrslDycjz7jk5TDyaoUHr4AHeHEYvMCTB/sK2lp07hodznflnMGT5+R/
+nkT/R+nPvdCPF31Ohb918cdm+CfxzwHkq5R8/IH8eZKf68BnSviw6T8/Pu0T
+vnbUaeA/jfuPmA948j7mVwO9Wsy3EX7Ak3bgtwv7kYE8duxPFHmzsF8H4BHb
+vy/w+gaDs2Ht
+            "], {{}, 
+             
+             TagBox[PolygonBox[{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 
+               14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+                30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42}}],
+              Annotation[#, "Geometry"]& ]}],
+           MouseAppearanceTag["LinkHand"]],
+          AllowKernelInitialization->False],
+         "BoundaryMeshRegion"]}}], ",", 
+     RowBox[{"Scaled", "[", "0.03187079272691053`", "]"}]}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{{3.9707980614101048`*^9, 3.970798076302353*^9}, {
+   3.970801538928631*^9, 3.970801542743683*^9}, {3.9708016532237625`*^9, 
+   3.9708016721536427`*^9}, 3.9708017021575336`*^9},
+ CellLabel->"Out[21]=",ExpressionUUID->"cd0c0d06-6de0-304e-975b-e3b53265b4f5"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   GraphicsBox[
+    {RGBColor[0.9294117647058824, 0.16470588235294117`, 0.1568627450980392], 
+     TagBox[
+      DynamicModuleBox[{Typeset`mesh = HoldComplete[
+        BoundaryMeshRegion[CompressedData["
+1:eJw9k1tI03EUx1d0hd57SLKQzDBQKaheOiKRL4WiZiGhoQyypC2SHA3TYm41
+JGeulAKt1Aivc7UuajumGWIyLyWKZXnNLioEPfWQ1e98/7/BGB/O75zzPd9z
+tj3bkmJebTKZMv59//862ioLrjZO01KiJ3rGPca77Ull0QuTmpMrLDEpBeO0
+CLY1lg3a1r/TvN+V9flgzFv6AXY8qwkvTeqi7+D4mqIiM9drLhbmb+Aqea/5
+iNTjr8Z76ccL4AzRo3mv6OUvYJfMozm/3rXTkjPH8+BCVW+Wn+Rd6LwyOsJO
+vN8U0XwnIX6APUrPFDepeDfHof49xX4+pPR9YBM+x6FnXOKUq+Yb5T7JJzv0
+R0l9uqHqD3GP9Kd4zPtT9JFZ5ffyNvX+I7nhT9TKnGP40hRlqniAWeXPUBL8
+TJ9Y9Ssudp4MXcuq3gJ54P8xxG2STy+R78W+IlE/T/pTGPofxn6xbxJ/hqgT
++gtxD2GY74zMj3g3peN+OuFPgvindcbi3rrgr/gzRQz/jfvciv2In7MUxP7O
+y35pGftNzfWXrq0KUUl4YMmXGOQs50lr5ekBqhtL9L8OPOW82nVpuw70k1PF
+W9jW5dvXsbGPrimuZudkxpajE71a383fa1Y+NfRQscSpenPrjNX+CtxC6apf
+kB5IfbKq+u2oHyS3qhegx3vKvaHFbqpT+W1Uq96/IZt630AV9j+D7Zf76ZGK
+34f+ED1XXE7t04GS1A3DWpfUG6HrEucOxG9JPjuRb5b6fBv170p/foj+DtHH
+Aeg7K/rZDf3iZ5AbMB/mZy/mhz/sgz8u8U//P+ziLyfD33PiP1vhf7bsh73Y
+j/gZYhv2tyPS8f5FzhA3iT793mCjfjPYCz0Gn4D+FjD2oTkf/rSCffDTYA/8
+94FPYV8GF2O/beA03IPBHtyPH3wR92ZwJu4T98ERMq/mv7ePAqY=
+         "], {
+          
+          Line[{{1, 45}, {45, 44}, {44, 43}, {43, 42}, {42, 41}, {41, 40}, {
+           40, 39}, {39, 38}, {38, 37}, {37, 36}, {36, 35}, {35, 34}, {34, 
+           33}, {33, 32}, {32, 31}, {31, 30}, {30, 29}, {29, 28}, {28, 27}, {
+           27, 26}, {26, 25}, {25, 24}, {24, 23}, {23, 22}, {22, 21}, {21, 
+           20}, {20, 19}, {19, 18}, {18, 17}, {17, 16}, {16, 15}, {15, 14}, {
+           14, 13}, {13, 12}, {12, 11}, {11, 10}, {10, 9}, {9, 8}, {8, 7}, {7,
+            6}, {6, 5}, {5, 4}, {4, 3}, {3, 2}, {2, 1}}]}, {
+          
+          Line[{{89, 90}, {90, 46}, {46, 47}, {47, 48}, {48, 49}, {49, 50}, {
+           50, 51}, {51, 52}, {52, 53}, {53, 54}, {54, 55}, {55, 56}, {56, 
+           57}, {57, 58}, {58, 59}, {59, 60}, {60, 61}, {61, 62}, {62, 63}, {
+           63, 64}, {64, 65}, {65, 66}, {66, 67}, {67, 68}, {68, 69}, {69, 
+           70}, {70, 71}, {71, 72}, {72, 73}, {73, 74}, {74, 75}, {75, 76}, {
+           76, 77}, {77, 78}, {78, 79}, {79, 80}, {80, 81}, {81, 82}, {82, 
+           83}, {83, 84}, {84, 85}, {85, 86}, {86, 87}, {87, 88}, {88, 89}}]},
+          Method -> {
+          "EliminateUnusedCoordinates" -> True, "DeleteDuplicateCoordinates" -> 
+           Automatic, "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+           Identity, "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+           Automatic, "CheckIntersections" -> Automatic, 
+           "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+           False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+           "ZeroTest" -> Automatic, "Hash" -> 5878561659592949431}, {
+         PlotTheme -> None}]]}, 
+       TagBox[GraphicsComplexBox[CompressedData["
+1:eJw9k1tI03EUx1d0hd57SLKQzDBQKaheOiKRL4WiZiGhoQyypC2SHA3TYm41
+JGeulAKt1Aivc7UuajumGWIyLyWKZXnNLioEPfWQ1e98/7/BGB/O75zzPd9z
+tj3bkmJebTKZMv59//862ioLrjZO01KiJ3rGPca77Ull0QuTmpMrLDEpBeO0
+CLY1lg3a1r/TvN+V9flgzFv6AXY8qwkvTeqi7+D4mqIiM9drLhbmb+Aqea/5
+iNTjr8Z76ccL4AzRo3mv6OUvYJfMozm/3rXTkjPH8+BCVW+Wn+Rd6LwyOsJO
+vN8U0XwnIX6APUrPFDepeDfHof49xX4+pPR9YBM+x6FnXOKUq+Yb5T7JJzv0
+R0l9uqHqD3GP9Kd4zPtT9JFZ5ffyNvX+I7nhT9TKnGP40hRlqniAWeXPUBL8
+TJ9Y9Ssudp4MXcuq3gJ54P8xxG2STy+R78W+IlE/T/pTGPofxn6xbxJ/hqgT
++gtxD2GY74zMj3g3peN+OuFPgvindcbi3rrgr/gzRQz/jfvciv2In7MUxP7O
+y35pGftNzfWXrq0KUUl4YMmXGOQs50lr5ekBqhtL9L8OPOW82nVpuw70k1PF
+W9jW5dvXsbGPrimuZudkxpajE71a383fa1Y+NfRQscSpenPrjNX+CtxC6apf
+kB5IfbKq+u2oHyS3qhegx3vKvaHFbqpT+W1Uq96/IZt630AV9j+D7Zf76ZGK
+34f+ED1XXE7t04GS1A3DWpfUG6HrEucOxG9JPjuRb5b6fBv170p/foj+DtHH
+Aeg7K/rZDf3iZ5AbMB/mZy/mhz/sgz8u8U//P+ziLyfD33PiP1vhf7bsh73Y
+j/gZYhv2tyPS8f5FzhA3iT793mCjfjPYCz0Gn4D+FjD2oTkf/rSCffDTYA/8
+94FPYV8GF2O/beA03IPBHtyPH3wR92ZwJu4T98ERMq/mv7ePAqY=
+         "], {{}, 
+          
+          TagBox[FilledCurveBox[{{
+             Line[{1, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 
+               31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16,
+                15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+             Line[{89, 90, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58,
+                59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 
+               74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88}]}}],
+           Annotation[#, "Geometry"]& ]}],
+        MouseAppearanceTag["LinkHand"]],
+       AllowKernelInitialization->False],
+      "BoundaryMeshRegion"]},
+    ImageSize->19.114138904765337`], ",", 
+   GraphicsBox[
+    {RGBColor[0.24705882352941178`, 0.48627450980392156`, 0.6745098039215687], 
+     TagBox[
+      DynamicModuleBox[{Typeset`mesh = HoldComplete[
+        BoundaryMeshRegion[CompressedData["
+1:eJx1krFKA0EQhk+LgCaFpUQQbPIENtpsJfYWNmIEUcRGBRtbiQk2Vj5BLMQi
+xEtINKSZBLHIgRIRC1E7a40+gXq7/4T95Q6O5bvZ3ZtvZmbWd5c2R4Mg2Pt9
+/9aj+fbE/uyzGXwUTl+23mSyNDgZH3lSrj7k0md3fWW7v6dcieMd5YuYQ+XA
+PeCGjcun49CeVz6291O8rzxl81Mu2fyVv93K7DyVnad8eR59ZedJ8Y6y85Qk
+z5DqUKU6laiOqDPyzro+gIuuT2B3zsALDC8wvPz9PYp3lMnLkJchL0NehrwM
+zY/J+vNliv78Ja40p4bmFJ60v0fxYZ40p0meQp5CnhQf1jlLfShSn9D368OD
+je75vUnnppejhUg5H90sPr7fKtd3tudeC13lTLy/rdyI4zXisjL8wBUbN/79
+NeWUvV+5Zv+vvGrzM5S/ctL3PJ2r070Z+m+D8mpR3gle6l2luqSobpdU1xWq
++xj1pWnXfwxPMDyvHMMTDE8wPMHwBJOnkKeQp5CnwLPlGJ5geIKbXp6R8po7
+1/S9aH9bfO+a+J5lYS9wSN5cF65b6M+P0Hwhf2WaT/kBnLHsDw==
+         "], {
+          
+          Line[{{1, 56}, {56, 55}, {55, 54}, {54, 53}, {53, 52}, {52, 51}, {
+           51, 50}, {50, 49}, {49, 48}, {48, 47}, {47, 46}, {46, 45}, {45, 
+           44}, {44, 43}, {43, 42}, {42, 41}, {41, 40}, {40, 39}, {39, 38}, {
+           38, 37}, {37, 36}, {36, 35}, {35, 34}, {34, 33}, {33, 32}, {32, 
+           31}, {31, 30}, {30, 29}, {29, 28}, {28, 27}, {27, 26}, {26, 25}, {
+           25, 24}, {24, 23}, {23, 22}, {22, 21}, {21, 20}, {20, 19}, {19, 
+           18}, {18, 17}, {17, 16}, {16, 15}, {15, 14}, {14, 13}, {13, 12}, {
+           12, 11}, {11, 10}, {10, 9}, {9, 8}, {8, 7}, {7, 6}, {6, 5}, {5, 
+           4}, {4, 3}, {3, 2}, {2, 1}}]}, {
+          
+          Line[{{111, 112}, {112, 57}, {57, 58}, {58, 59}, {59, 60}, {60, 
+           61}, {61, 62}, {62, 63}, {63, 64}, {64, 65}, {65, 66}, {66, 67}, {
+           67, 68}, {68, 69}, {69, 70}, {70, 71}, {71, 72}, {72, 73}, {73, 
+           74}, {74, 75}, {75, 76}, {76, 77}, {77, 78}, {78, 79}, {79, 80}, {
+           80, 81}, {81, 82}, {82, 83}, {83, 84}, {84, 85}, {85, 86}, {86, 
+           87}, {87, 88}, {88, 89}, {89, 90}, {90, 91}, {91, 92}, {92, 93}, {
+           93, 94}, {94, 95}, {95, 96}, {96, 97}, {97, 98}, {98, 99}, {99, 
+           100}, {100, 101}, {101, 102}, {102, 103}, {103, 104}, {104, 105}, {
+           105, 106}, {106, 107}, {107, 108}, {108, 109}, {109, 110}, {110, 
+           111}}]}, 
+         Method -> {
+          "EliminateUnusedCoordinates" -> True, "DeleteDuplicateCoordinates" -> 
+           Automatic, "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+           Identity, "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+           Automatic, "CheckIntersections" -> Automatic, 
+           "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+           False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+           "ZeroTest" -> Automatic, "Hash" -> 627727893704528051}, {
+         PlotTheme -> None}]]}, 
+       TagBox[GraphicsComplexBox[CompressedData["
+1:eJx1krFKA0EQhk+LgCaFpUQQbPIENtpsJfYWNmIEUcRGBRtbiQk2Vj5BLMQi
+xEtINKSZBLHIgRIRC1E7a40+gXq7/4T95Q6O5bvZ3ZtvZmbWd5c2R4Mg2Pt9
+/9aj+fbE/uyzGXwUTl+23mSyNDgZH3lSrj7k0md3fWW7v6dcieMd5YuYQ+XA
+PeCGjcun49CeVz6291O8rzxl81Mu2fyVv93K7DyVnad8eR59ZedJ8Y6y85Qk
+z5DqUKU6laiOqDPyzro+gIuuT2B3zsALDC8wvPz9PYp3lMnLkJchL0NehrwM
+zY/J+vNliv78Ja40p4bmFJ60v0fxYZ40p0meQp5CnhQf1jlLfShSn9D368OD
+je75vUnnppejhUg5H90sPr7fKtd3tudeC13lTLy/rdyI4zXisjL8wBUbN/79
+NeWUvV+5Zv+vvGrzM5S/ctL3PJ2r070Z+m+D8mpR3gle6l2luqSobpdU1xWq
++xj1pWnXfwxPMDyvHMMTDE8wPMHwBJOnkKeQp5CnwLPlGJ5geIKbXp6R8po7
+1/S9aH9bfO+a+J5lYS9wSN5cF65b6M+P0Hwhf2WaT/kBnLHsDw==
+         "], {{}, 
+          
+          TagBox[FilledCurveBox[{{
+             Line[{1, 56, 55, 54, 53, 52, 51, 50, 49, 48, 47, 46, 45, 44, 43, 
+               42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27,
+                26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 
+               11, 10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+             Line[{111, 112, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 
+               69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84,
+                85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 
+               100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110}]}}],
+           Annotation[#, "Geometry"]& ]}],
+        MouseAppearanceTag["LinkHand"]],
+       AllowKernelInitialization->False],
+      "BoundaryMeshRegion"]},
+    ImageSize->13.783919164408875`], ",", 
+   GraphicsBox[
+    {RGBColor[0.9647058823529412, 0.6313725490196078, 0.22745098039215686`], 
+     TagBox[
+      DynamicModuleBox[{Typeset`mesh = HoldComplete[
+        BoundaryMeshRegion[CompressedData["
+1:eJxdks9L03EcxkckEiVdpA4d/FEJQh2yCDLoOfQPjKg8hJdA8CAlRKXQtair
+ePErBLnb7PY1WHPxCNMS3cTh5gxpYjLw0iVsrVv1/TzvD3w3GOPN8/7xPK/P
+eh4+vjNyLJFIJP99//+OXj/V9TRVYzP3+eyfJyEuzL2427i5y6OozmOv48eb
+5+Uqx8+lU78uFzE7OczmWJmNSN/CUL14NNlW4sBYZvh3ckfz6+r/pv5lur59
+6YuaP1A9z+lpDk58ryOhz9Vo3yG6nQ7TXb0Imw/cftj+Xncfdv+e84dr8uf6
+yzD/NZcPlu+8yy89D/FRHeK+7phP08WP4gfx4158P2fj98WlBPHTvPevfp9P
+us+v2vNhCz92x/mq9vwZxN+HvfH3o/hR/NTv35+1+P+D4ic9T/t/iR/Fz/tc
++Hnx1o2hDZbaO09P3U7xU/Vwf6C5pjrkSm7+5aWZL8yefHvmQT3HjXeP+vsG
+l6XnWXl1pdi1u8SVE1+nnnWuMhfNZ9VfUP8Cq1HfpvS05reYieqAhdeN5PH3
+Fe/L7duRnwDr0l2dhs1rP7a13+lZfNR9d3cJ5k/+sSn/yoeM8im/9JAfHB+s
+io/uoIWf/KRg8+IH2y9+sPvih0rcH8RP/QVYPvGT7vND/CB+aOEnPwHFT7Xn
+b/t9LvGj+Omuf1/zT/GzfBQ/yy89hPhR/Pw7mc+/2Y6jdg==
+         "], {
+          
+          Line[{{1, 40}, {40, 39}, {39, 38}, {38, 37}, {37, 36}, {36, 35}, {
+           35, 34}, {34, 33}, {33, 32}, {32, 31}, {31, 30}, {30, 29}, {29, 
+           28}, {28, 27}, {27, 26}, {26, 25}, {25, 24}, {24, 23}, {23, 22}, {
+           22, 21}, {21, 20}, {20, 19}, {19, 18}, {18, 17}, {17, 16}, {16, 
+           15}, {15, 14}, {14, 13}, {13, 12}, {12, 11}, {11, 10}, {10, 9}, {9,
+            8}, {8, 7}, {7, 6}, {6, 5}, {5, 4}, {4, 3}, {3, 2}, {2, 1}}]}, {
+          
+          Line[{{79, 80}, {80, 41}, {41, 42}, {42, 43}, {43, 44}, {44, 45}, {
+           45, 46}, {46, 47}, {47, 48}, {48, 49}, {49, 50}, {50, 51}, {51, 
+           52}, {52, 53}, {53, 54}, {54, 55}, {55, 56}, {56, 57}, {57, 58}, {
+           58, 59}, {59, 60}, {60, 61}, {61, 62}, {62, 63}, {63, 64}, {64, 
+           65}, {65, 66}, {66, 67}, {67, 68}, {68, 69}, {69, 70}, {70, 71}, {
+           71, 72}, {72, 73}, {73, 74}, {74, 75}, {75, 76}, {76, 77}, {77, 
+           78}, {78, 79}}]}, 
+         Method -> {
+          "EliminateUnusedCoordinates" -> True, "DeleteDuplicateCoordinates" -> 
+           Automatic, "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+           Identity, "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+           Automatic, "CheckIntersections" -> Automatic, 
+           "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+           False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+           "ZeroTest" -> Automatic, "Hash" -> 4072300005035111034}, {
+         PlotTheme -> None}]]}, 
+       TagBox[GraphicsComplexBox[CompressedData["
+1:eJxdks9L03EcxkckEiVdpA4d/FEJQh2yCDLoOfQPjKg8hJdA8CAlRKXQtair
+ePErBLnb7PY1WHPxCNMS3cTh5gxpYjLw0iVsrVv1/TzvD3w3GOPN8/7xPK/P
+eh4+vjNyLJFIJP99//+OXj/V9TRVYzP3+eyfJyEuzL2427i5y6OozmOv48eb
+5+Uqx8+lU78uFzE7OczmWJmNSN/CUL14NNlW4sBYZvh3ckfz6+r/pv5lur59
+6YuaP1A9z+lpDk58ryOhz9Vo3yG6nQ7TXb0Imw/cftj+Xncfdv+e84dr8uf6
+yzD/NZcPlu+8yy89D/FRHeK+7phP08WP4gfx4158P2fj98WlBPHTvPevfp9P
+us+v2vNhCz92x/mq9vwZxN+HvfH3o/hR/NTv35+1+P+D4ic9T/t/iR/Fz/tc
++Hnx1o2hDZbaO09P3U7xU/Vwf6C5pjrkSm7+5aWZL8yefHvmQT3HjXeP+vsG
+l6XnWXl1pdi1u8SVE1+nnnWuMhfNZ9VfUP8Cq1HfpvS05reYieqAhdeN5PH3
+Fe/L7duRnwDr0l2dhs1rP7a13+lZfNR9d3cJ5k/+sSn/yoeM8im/9JAfHB+s
+io/uoIWf/KRg8+IH2y9+sPvih0rcH8RP/QVYPvGT7vND/CB+aOEnPwHFT7Xn
+b/t9LvGj+Omuf1/zT/GzfBQ/yy89hPhR/Pw7mc+/2Y6jdg==
+         "], {{}, 
+          
+          TagBox[FilledCurveBox[{{
+             Line[{1, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 
+               26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11,
+                10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+             Line[{79, 80, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53,
+                54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 
+               69, 70, 71, 72, 73, 74, 75, 76, 77, 78}]}}],
+           Annotation[#, "Geometry"]& ]}],
+        MouseAppearanceTag["LinkHand"]],
+       AllowKernelInitialization->False],
+      "BoundaryMeshRegion"]},
+    ImageSize->15.957555145264452`], ",", 
+   GraphicsBox[
+    {RGBColor[0.6196078431372549, 0.6196078431372549, 0.28627450980392155`], 
+     TagBox[
+      DynamicModuleBox[{Typeset`mesh = HoldComplete[
+        BoundaryMeshRegion[CompressedData["
+1:eJxdk19Ik2EUxmcXWSH9FQvqJogo0uqiuik60lVhwSopCiQNttFVphdRzSjQ
+brsa2Na6aFoXKWjTzBqcmeY2HXO5paMUZ3aRUFBBdGFF9Z7nfeF7B2P8ON85
+53me823rxcunPMtcLlf9v+//366zkUJlIk03DjWmGsNFHr278WDznmHDccVR
+wy58NE9KnTVnpN9wVOYbTqt6zvDI7esPGwJvuXCptb5twyzHmmdXupemefD8
+jt07Pxe431N95XDDOw7WpJfSI3nuVvNm0J/lzmPLqzdXzfGAej7JE+G+XGuq
+yNdUPc7jFd5S/695vqq4hxNq/4LxMYb6LalTBv03pZ86MD8m86kL+/2yn6JO
+ffTCqZ9eOf1Ryukf80w+lHTmBzb5kpW/rpPVT9Z8q54zPCT6aBr6oJ+eQ/9T
+8Ufa3xPxj/6szgfPJ3V+qMcJ+YN7CPmTlT/5cR/d78f9rPls7WdLH1v62fLH
+ln/+9rhs0VdM0p1ez/t7Q1mePHq/u6RjnE7v9awKDqa5b3FXU8iXoeDvP3Wu
+rwmueV0XCgay9GGsvde7fZhjgc4W3883VKuej3Gl98uFfedyqEc5fGD/kZKX
+eSoqjvDq0pZtmS1Txr+uy/MRsvpJzxc9MbL2k6WPLP1k+aM1av8o+nOYFzcs
++p4ZLlP8yLDWrblc6qx5vfQbPiHzDa+T/Ya/iz7W+vKin2uhv1/8cQj+4J8X
+4B/58Bnkg/z4I/J7IPnyJ+SL/M3/X9dncJ8q9M/hfnq+G/c9jv1F3H8A+trx
+fkxB/0m8Pz/grw3vVzn8z4t/diMfzRXIT/Mm5KvZyp9XOO/Da533g15zX7bu
+z38BUPQQ9A==
+         "], {
+          
+          Line[{{1, 48}, {48, 47}, {47, 46}, {46, 45}, {45, 44}, {44, 43}, {
+           43, 42}, {42, 41}, {41, 40}, {40, 39}, {39, 38}, {38, 37}, {37, 
+           36}, {36, 35}, {35, 34}, {34, 33}, {33, 32}, {32, 31}, {31, 30}, {
+           30, 29}, {29, 28}, {28, 27}, {27, 26}, {26, 25}, {25, 24}, {24, 
+           23}, {23, 22}, {22, 21}, {21, 20}, {20, 19}, {19, 18}, {18, 17}, {
+           17, 16}, {16, 15}, {15, 14}, {14, 13}, {13, 12}, {12, 11}, {11, 
+           10}, {10, 9}, {9, 8}, {8, 7}, {7, 6}, {6, 5}, {5, 4}, {4, 3}, {3, 
+           2}, {2, 1}}]}, {
+          
+          Line[{{95, 96}, {96, 49}, {49, 50}, {50, 51}, {51, 52}, {52, 53}, {
+           53, 54}, {54, 55}, {55, 56}, {56, 57}, {57, 58}, {58, 59}, {59, 
+           60}, {60, 61}, {61, 62}, {62, 63}, {63, 64}, {64, 65}, {65, 66}, {
+           66, 67}, {67, 68}, {68, 69}, {69, 70}, {70, 71}, {71, 72}, {72, 
+           73}, {73, 74}, {74, 75}, {75, 76}, {76, 77}, {77, 78}, {78, 79}, {
+           79, 80}, {80, 81}, {81, 82}, {82, 83}, {83, 84}, {84, 85}, {85, 
+           86}, {86, 87}, {87, 88}, {88, 89}, {89, 90}, {90, 91}, {91, 92}, {
+           92, 93}, {93, 94}, {94, 95}}]}, 
+         Method -> {
+          "EliminateUnusedCoordinates" -> True, "DeleteDuplicateCoordinates" -> 
+           Automatic, "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+           Identity, "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+           Automatic, "CheckIntersections" -> Automatic, 
+           "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+           False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+           "ZeroTest" -> Automatic, "Hash" -> 8630667979866962175}, {
+         PlotTheme -> None}]]}, 
+       TagBox[GraphicsComplexBox[CompressedData["
+1:eJxdk19Ik2EUxmcXWSH9FQvqJogo0uqiuik60lVhwSopCiQNttFVphdRzSjQ
+brsa2Na6aFoXKWjTzBqcmeY2HXO5paMUZ3aRUFBBdGFF9Z7nfeF7B2P8ON85
+53me823rxcunPMtcLlf9v+//366zkUJlIk03DjWmGsNFHr278WDznmHDccVR
+wy58NE9KnTVnpN9wVOYbTqt6zvDI7esPGwJvuXCptb5twyzHmmdXupemefD8
+jt07Pxe431N95XDDOw7WpJfSI3nuVvNm0J/lzmPLqzdXzfGAej7JE+G+XGuq
+yNdUPc7jFd5S/695vqq4hxNq/4LxMYb6LalTBv03pZ86MD8m86kL+/2yn6JO
+ffTCqZ9eOf1Ryukf80w+lHTmBzb5kpW/rpPVT9Z8q54zPCT6aBr6oJ+eQ/9T
+8Ufa3xPxj/6szgfPJ3V+qMcJ+YN7CPmTlT/5cR/d78f9rPls7WdLH1v62fLH
+ln/+9rhs0VdM0p1ez/t7Q1mePHq/u6RjnE7v9awKDqa5b3FXU8iXoeDvP3Wu
+rwmueV0XCgay9GGsvde7fZhjgc4W3883VKuej3Gl98uFfedyqEc5fGD/kZKX
+eSoqjvDq0pZtmS1Txr+uy/MRsvpJzxc9MbL2k6WPLP1k+aM1av8o+nOYFzcs
++p4ZLlP8yLDWrblc6qx5vfQbPiHzDa+T/Ya/iz7W+vKin2uhv1/8cQj+4J8X
+4B/58Bnkg/z4I/J7IPnyJ+SL/M3/X9dncJ8q9M/hfnq+G/c9jv1F3H8A+trx
+fkxB/0m8Pz/grw3vVzn8z4t/diMfzRXIT/Mm5KvZyp9XOO/Da533g15zX7bu
+z38BUPQQ9A==
+         "], {{}, 
+          
+          TagBox[FilledCurveBox[{{
+             Line[{1, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 
+               34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19,
+                18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 
+               2}]}, {Line[{95, 96, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 
+               59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74,
+                75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 
+               90, 91, 92, 93, 94}]}}],
+           Annotation[#, "Geometry"]& ]}],
+        MouseAppearanceTag["LinkHand"]],
+       AllowKernelInitialization->False],
+      "BoundaryMeshRegion"]},
+    ImageSize->17.98626753084572], ",", 
+   GraphicsBox[
+    {RGBColor[0.5294117647058824, 0.30980392156862746`, 0.6196078431372549], 
+     TagBox[
+      DynamicModuleBox[{Typeset`mesh = HoldComplete[
+        BoundaryMeshRegion[CompressedData["
+1:eJxVkmtI02EUxocSFl7KTNIsSSvpQ1CxdNq0E04JSZ2pOTWFGmQfsqwIU8NM
+jSwkIujiBSQJg1QqlQLTPKJ5wVvqnJlkupWGln2YofNb5XkmOPgzDu/7nud5
+fuf46DNiz9opFIr4f9///4Dvxx0Dx03U/8vNu+/2G253z7qcf9RE6XUaJ4ro
+4Mn+nru+YVO0L6jAnHryI0cVDW3JNU6QendBn59uhA89GQ3wzBon67L/QuT9
+Ma58mJ6hKxwlnZc1Q6H+wmnloTGfnIep4qouSxM+ybnnEqIP6nvoSHFLU9LA
+FD/Yq0w0uLaSdrYmeLHUxDHPdi7S4yo6/dT0dU5h5rdSs61ulvschfuPpB8H
+o98V0eMS6NWLH46An2Dxy7/hN17y8AHk+SZ52QV5O4UHh4KHSnhxGXhdWNEz
+swI/8OQuOacPeJ8o78mE/r7Sn7TQ9xd9Ak9eEn/0HP7jxD+dR74yyUd5yA+e
+VAk+0cKH8tbyo9q1fKkW/MGTijGfEPS7iPmVQq8a89XCTyDmb4HfWOyHEnnM
+2J+tyAuepAUP2/5Vgxd4ko2npzKySNVtpIEZlcWoqSZ3u4aNNU5GKmv7k95s
+baTcz8kTLWMG+hln9Lu1o51SdhWNxCmHySHEw5I01E2OaVazYc8gNbzQndIs
+9VOEfj7eeq2XQl+dmPoROESdd0JY6dBJh82u6jo3A83b1zRmerTS9tqSCn3+
+CO2/NFefUt5A+etmuwezjaTSq++9Tiij7O5Mp4wlIymkZlvtI/fZdn9G+rE3
++rWJHtv0wsQPh8PPevHLjfCbLHl4A/Jcl7xsQV434cFV4AFebAGvjhW90dX9
+3IbzJjln8ORiec830H9a+nMq9O1Fn53h76X44zj4J/HPvcgXJPl4Afm9JD+H
+gs9N4cOatfy464zwzUHtAv6FuD+N+YAnv8f8gqF3BPM9Bj/gSe/gNwn7sQl5
+crA/VuTdjP1qAQ/b/i2DF3iu7udf6LOvKg==
+         "], {
+          
+          Line[{{1, 42}, {42, 41}, {41, 40}, {40, 39}, {39, 38}, {38, 37}, {
+           37, 36}, {36, 35}, {35, 34}, {34, 33}, {33, 32}, {32, 31}, {31, 
+           30}, {30, 29}, {29, 28}, {28, 27}, {27, 26}, {26, 25}, {25, 24}, {
+           24, 23}, {23, 22}, {22, 21}, {21, 20}, {20, 19}, {19, 18}, {18, 
+           17}, {17, 16}, {16, 15}, {15, 14}, {14, 13}, {13, 12}, {12, 11}, {
+           11, 10}, {10, 9}, {9, 8}, {8, 7}, {7, 6}, {6, 5}, {5, 4}, {4, 3}, {
+           3, 2}, {2, 1}}]}, {
+          
+          Line[{{83, 84}, {84, 43}, {43, 44}, {44, 45}, {45, 46}, {46, 47}, {
+           47, 48}, {48, 49}, {49, 50}, {50, 51}, {51, 52}, {52, 53}, {53, 
+           54}, {54, 55}, {55, 56}, {56, 57}, {57, 58}, {58, 59}, {59, 60}, {
+           60, 61}, {61, 62}, {62, 63}, {63, 64}, {64, 65}, {65, 66}, {66, 
+           67}, {67, 68}, {68, 69}, {69, 70}, {70, 71}, {71, 72}, {72, 73}, {
+           73, 74}, {74, 75}, {75, 76}, {76, 77}, {77, 78}, {78, 79}, {79, 
+           80}, {80, 81}, {81, 82}, {82, 83}}]}, 
+         Method -> {
+          "EliminateUnusedCoordinates" -> True, "DeleteDuplicateCoordinates" -> 
+           Automatic, "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+           Identity, "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+           Automatic, "CheckIntersections" -> Automatic, 
+           "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+           False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+           "ZeroTest" -> Automatic, "Hash" -> 5668074705298206648}, {
+         PlotTheme -> None}]]}, 
+       TagBox[GraphicsComplexBox[CompressedData["
+1:eJxVkmtI02EUxocSFl7KTNIsSSvpQ1CxdNq0E04JSZ2pOTWFGmQfsqwIU8NM
+jSwkIujiBSQJg1QqlQLTPKJ5wVvqnJlkupWGln2YofNb5XkmOPgzDu/7nud5
+fuf46DNiz9opFIr4f9///4Dvxx0Dx03U/8vNu+/2G253z7qcf9RE6XUaJ4ro
+4Mn+nru+YVO0L6jAnHryI0cVDW3JNU6QendBn59uhA89GQ3wzBon67L/QuT9
+Ma58mJ6hKxwlnZc1Q6H+wmnloTGfnIep4qouSxM+ybnnEqIP6nvoSHFLU9LA
+FD/Yq0w0uLaSdrYmeLHUxDHPdi7S4yo6/dT0dU5h5rdSs61ulvschfuPpB8H
+o98V0eMS6NWLH46An2Dxy7/hN17y8AHk+SZ52QV5O4UHh4KHSnhxGXhdWNEz
+swI/8OQuOacPeJ8o78mE/r7Sn7TQ9xd9Ak9eEn/0HP7jxD+dR74yyUd5yA+e
+VAk+0cKH8tbyo9q1fKkW/MGTijGfEPS7iPmVQq8a89XCTyDmb4HfWOyHEnnM
+2J+tyAuepAUP2/5Vgxd4ko2npzKySNVtpIEZlcWoqSZ3u4aNNU5GKmv7k95s
+baTcz8kTLWMG+hln9Lu1o51SdhWNxCmHySHEw5I01E2OaVazYc8gNbzQndIs
+9VOEfj7eeq2XQl+dmPoROESdd0JY6dBJh82u6jo3A83b1zRmerTS9tqSCn3+
+CO2/NFefUt5A+etmuwezjaTSq++9Tiij7O5Mp4wlIymkZlvtI/fZdn9G+rE3
++rWJHtv0wsQPh8PPevHLjfCbLHl4A/Jcl7xsQV434cFV4AFebAGvjhW90dX9
+3IbzJjln8ORiec830H9a+nMq9O1Fn53h76X44zj4J/HPvcgXJPl4Afm9JD+H
+gs9N4cOatfy464zwzUHtAv6FuD+N+YAnv8f8gqF3BPM9Bj/gSe/gNwn7sQl5
+crA/VuTdjP1qAQ/b/i2DF3iu7udf6LOvKg==
+         "], {{}, 
+          
+          TagBox[FilledCurveBox[{{
+             Line[{1, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 
+               28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13,
+                12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+             Line[{83, 84, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55,
+                56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 
+               71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82}]}}],
+           Annotation[#, "Geometry"]& ]}],
+        MouseAppearanceTag["LinkHand"]],
+       AllowKernelInitialization->False],
+      "BoundaryMeshRegion"]},
+    ImageSize->16.925687506432688`], ",", 
+   GraphicsBox[
+    {RGBColor[0.9137254901960784, 0.42745098039215684`, 0.6588235294117647], 
+     TagBox[
+      DynamicModuleBox[{Typeset`mesh = HoldComplete[
+        BoundaryMeshRegion[CompressedData["
+1:eJw9k1tI03EUx1d0hd57SLKQzDBQKaheOiKRL4WiZiGhoQyypC2SHA3TYm41
+JGeulAKt1Aivc7UuajumGWIyLyWKZXnNLioEPfWQ1e98/7/BGB/O75zzPd9z
+tj3bkmJebTKZMv59//862ioLrjZO01KiJ3rGPca77Ull0QuTmpMrLDEpBeO0
+CLY1lg3a1r/TvN+V9flgzFv6AXY8qwkvTeqi7+D4mqIiM9drLhbmb+Aqea/5
+iNTjr8Z76ccL4AzRo3mv6OUvYJfMozm/3rXTkjPH8+BCVW+Wn+Rd6LwyOsJO
+vN8U0XwnIX6APUrPFDepeDfHof49xX4+pPR9YBM+x6FnXOKUq+Yb5T7JJzv0
+R0l9uqHqD3GP9Kd4zPtT9JFZ5ffyNvX+I7nhT9TKnGP40hRlqniAWeXPUBL8
+TJ9Y9Ssudp4MXcuq3gJ54P8xxG2STy+R78W+IlE/T/pTGPofxn6xbxJ/hqgT
++gtxD2GY74zMj3g3peN+OuFPgvindcbi3rrgr/gzRQz/jfvciv2In7MUxP7O
+y35pGftNzfWXrq0KUUl4YMmXGOQs50lr5ekBqhtL9L8OPOW82nVpuw70k1PF
+W9jW5dvXsbGPrimuZudkxpajE71a383fa1Y+NfRQscSpenPrjNX+CtxC6apf
+kB5IfbKq+u2oHyS3qhegx3vKvaHFbqpT+W1Uq96/IZt630AV9j+D7Zf76ZGK
+34f+ED1XXE7t04GS1A3DWpfUG6HrEucOxG9JPjuRb5b6fBv170p/foj+DtHH
+Aeg7K/rZDf3iZ5AbMB/mZy/mhz/sgz8u8U//P+ziLyfD33PiP1vhf7bsh73Y
+j/gZYhv2tyPS8f5FzhA3iT793mCjfjPYCz0Gn4D+FjD2oTkf/rSCffDTYA/8
+94FPYV8GF2O/beA03IPBHtyPH3wR92ZwJu4T98ERMq/mv7ePAqY=
+         "], {
+          
+          Line[{{1, 45}, {45, 44}, {44, 43}, {43, 42}, {42, 41}, {41, 40}, {
+           40, 39}, {39, 38}, {38, 37}, {37, 36}, {36, 35}, {35, 34}, {34, 
+           33}, {33, 32}, {32, 31}, {31, 30}, {30, 29}, {29, 28}, {28, 27}, {
+           27, 26}, {26, 25}, {25, 24}, {24, 23}, {23, 22}, {22, 21}, {21, 
+           20}, {20, 19}, {19, 18}, {18, 17}, {17, 16}, {16, 15}, {15, 14}, {
+           14, 13}, {13, 12}, {12, 11}, {11, 10}, {10, 9}, {9, 8}, {8, 7}, {7,
+            6}, {6, 5}, {5, 4}, {4, 3}, {3, 2}, {2, 1}}]}, {
+          
+          Line[{{89, 90}, {90, 46}, {46, 47}, {47, 48}, {48, 49}, {49, 50}, {
+           50, 51}, {51, 52}, {52, 53}, {53, 54}, {54, 55}, {55, 56}, {56, 
+           57}, {57, 58}, {58, 59}, {59, 60}, {60, 61}, {61, 62}, {62, 63}, {
+           63, 64}, {64, 65}, {65, 66}, {66, 67}, {67, 68}, {68, 69}, {69, 
+           70}, {70, 71}, {71, 72}, {72, 73}, {73, 74}, {74, 75}, {75, 76}, {
+           76, 77}, {77, 78}, {78, 79}, {79, 80}, {80, 81}, {81, 82}, {82, 
+           83}, {83, 84}, {84, 85}, {85, 86}, {86, 87}, {87, 88}, {88, 89}}]},
+          Method -> {
+          "EliminateUnusedCoordinates" -> True, "DeleteDuplicateCoordinates" -> 
+           Automatic, "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+           Identity, "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+           Automatic, "CheckIntersections" -> Automatic, 
+           "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+           False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+           "ZeroTest" -> Automatic, "Hash" -> 5878561659592949431}, {
+         PlotTheme -> None}]]}, 
+       TagBox[GraphicsComplexBox[CompressedData["
+1:eJw9k1tI03EUx1d0hd57SLKQzDBQKaheOiKRL4WiZiGhoQyypC2SHA3TYm41
+JGeulAKt1Aivc7UuajumGWIyLyWKZXnNLioEPfWQ1e98/7/BGB/O75zzPd9z
+tj3bkmJebTKZMv59//862ioLrjZO01KiJ3rGPca77Ull0QuTmpMrLDEpBeO0
+CLY1lg3a1r/TvN+V9flgzFv6AXY8qwkvTeqi7+D4mqIiM9drLhbmb+Aqea/5
+iNTjr8Z76ccL4AzRo3mv6OUvYJfMozm/3rXTkjPH8+BCVW+Wn+Rd6LwyOsJO
+vN8U0XwnIX6APUrPFDepeDfHof49xX4+pPR9YBM+x6FnXOKUq+Yb5T7JJzv0
+R0l9uqHqD3GP9Kd4zPtT9JFZ5ffyNvX+I7nhT9TKnGP40hRlqniAWeXPUBL8
+TJ9Y9Ssudp4MXcuq3gJ54P8xxG2STy+R78W+IlE/T/pTGPofxn6xbxJ/hqgT
++gtxD2GY74zMj3g3peN+OuFPgvindcbi3rrgr/gzRQz/jfvciv2In7MUxP7O
+y35pGftNzfWXrq0KUUl4YMmXGOQs50lr5ekBqhtL9L8OPOW82nVpuw70k1PF
+W9jW5dvXsbGPrimuZudkxpajE71a383fa1Y+NfRQscSpenPrjNX+CtxC6apf
+kB5IfbKq+u2oHyS3qhegx3vKvaHFbqpT+W1Uq96/IZt630AV9j+D7Zf76ZGK
+34f+ED1XXE7t04GS1A3DWpfUG6HrEucOxG9JPjuRb5b6fBv170p/foj+DtHH
+Aeg7K/rZDf3iZ5AbMB/mZy/mhz/sgz8u8U//P+ziLyfD33PiP1vhf7bsh73Y
+j/gZYhv2tyPS8f5FzhA3iT793mCjfjPYCz0Gn4D+FjD2oTkf/rSCffDTYA/8
+94FPYV8GF2O/beA03IPBHtyPH3wR92ZwJu4T98ERMq/mv7ePAqY=
+         "], {{}, 
+          
+          TagBox[FilledCurveBox[{{
+             Line[{1, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 
+               31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16,
+                15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+             Line[{89, 90, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58,
+                59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 
+               74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88}]}}],
+           Annotation[#, "Geometry"]& ]}],
+        MouseAppearanceTag["LinkHand"]],
+       AllowKernelInitialization->False],
+      "BoundaryMeshRegion"]},
+    ImageSize->19.114138904765337`], ",", 
+   GraphicsBox[
+    {RGBColor[0.9490196078431372, 0.48627450980392156`, 0.1843137254901961], 
+     TagBox[
+      DynamicModuleBox[{Typeset`mesh = HoldComplete[
+        BoundaryMeshRegion[CompressedData["
+1:eJx1krFKA0EQhk+LgCaFpUQQbPIENtpsJfYWNmIEUcRGBRtbiQk2Vj5BLMQi
+xEtINKSZBLHIgRIRC1E7a40+gXq7/4T95Q6O5bvZ3ZtvZmbWd5c2R4Mg2Pt9
+/9aj+fbE/uyzGXwUTl+23mSyNDgZH3lSrj7k0md3fWW7v6dcieMd5YuYQ+XA
+PeCGjcun49CeVz6291O8rzxl81Mu2fyVv93K7DyVnad8eR59ZedJ8Y6y85Qk
+z5DqUKU6laiOqDPyzro+gIuuT2B3zsALDC8wvPz9PYp3lMnLkJchL0NehrwM
+zY/J+vNliv78Ja40p4bmFJ60v0fxYZ40p0meQp5CnhQf1jlLfShSn9D368OD
+je75vUnnppejhUg5H90sPr7fKtd3tudeC13lTLy/rdyI4zXisjL8wBUbN/79
+NeWUvV+5Zv+vvGrzM5S/ctL3PJ2r070Z+m+D8mpR3gle6l2luqSobpdU1xWq
++xj1pWnXfwxPMDyvHMMTDE8wPMHwBJOnkKeQp5CnwLPlGJ5geIKbXp6R8po7
+1/S9aH9bfO+a+J5lYS9wSN5cF65b6M+P0Hwhf2WaT/kBnLHsDw==
+         "], {
+          
+          Line[{{1, 56}, {56, 55}, {55, 54}, {54, 53}, {53, 52}, {52, 51}, {
+           51, 50}, {50, 49}, {49, 48}, {48, 47}, {47, 46}, {46, 45}, {45, 
+           44}, {44, 43}, {43, 42}, {42, 41}, {41, 40}, {40, 39}, {39, 38}, {
+           38, 37}, {37, 36}, {36, 35}, {35, 34}, {34, 33}, {33, 32}, {32, 
+           31}, {31, 30}, {30, 29}, {29, 28}, {28, 27}, {27, 26}, {26, 25}, {
+           25, 24}, {24, 23}, {23, 22}, {22, 21}, {21, 20}, {20, 19}, {19, 
+           18}, {18, 17}, {17, 16}, {16, 15}, {15, 14}, {14, 13}, {13, 12}, {
+           12, 11}, {11, 10}, {10, 9}, {9, 8}, {8, 7}, {7, 6}, {6, 5}, {5, 
+           4}, {4, 3}, {3, 2}, {2, 1}}]}, {
+          
+          Line[{{111, 112}, {112, 57}, {57, 58}, {58, 59}, {59, 60}, {60, 
+           61}, {61, 62}, {62, 63}, {63, 64}, {64, 65}, {65, 66}, {66, 67}, {
+           67, 68}, {68, 69}, {69, 70}, {70, 71}, {71, 72}, {72, 73}, {73, 
+           74}, {74, 75}, {75, 76}, {76, 77}, {77, 78}, {78, 79}, {79, 80}, {
+           80, 81}, {81, 82}, {82, 83}, {83, 84}, {84, 85}, {85, 86}, {86, 
+           87}, {87, 88}, {88, 89}, {89, 90}, {90, 91}, {91, 92}, {92, 93}, {
+           93, 94}, {94, 95}, {95, 96}, {96, 97}, {97, 98}, {98, 99}, {99, 
+           100}, {100, 101}, {101, 102}, {102, 103}, {103, 104}, {104, 105}, {
+           105, 106}, {106, 107}, {107, 108}, {108, 109}, {109, 110}, {110, 
+           111}}]}, 
+         Method -> {
+          "EliminateUnusedCoordinates" -> True, "DeleteDuplicateCoordinates" -> 
+           Automatic, "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+           Identity, "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+           Automatic, "CheckIntersections" -> Automatic, 
+           "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+           False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+           "ZeroTest" -> Automatic, "Hash" -> 627727893704528051}, {
+         PlotTheme -> None}]]}, 
+       TagBox[GraphicsComplexBox[CompressedData["
+1:eJx1krFKA0EQhk+LgCaFpUQQbPIENtpsJfYWNmIEUcRGBRtbiQk2Vj5BLMQi
+xEtINKSZBLHIgRIRC1E7a40+gXq7/4T95Q6O5bvZ3ZtvZmbWd5c2R4Mg2Pt9
+/9aj+fbE/uyzGXwUTl+23mSyNDgZH3lSrj7k0md3fWW7v6dcieMd5YuYQ+XA
+PeCGjcun49CeVz6291O8rzxl81Mu2fyVv93K7DyVnad8eR59ZedJ8Y6y85Qk
+z5DqUKU6laiOqDPyzro+gIuuT2B3zsALDC8wvPz9PYp3lMnLkJchL0NehrwM
+zY/J+vNliv78Ja40p4bmFJ60v0fxYZ40p0meQp5CnhQf1jlLfShSn9D368OD
+je75vUnnppejhUg5H90sPr7fKtd3tudeC13lTLy/rdyI4zXisjL8wBUbN/79
+NeWUvV+5Zv+vvGrzM5S/ctL3PJ2r070Z+m+D8mpR3gle6l2luqSobpdU1xWq
++xj1pWnXfwxPMDyvHMMTDE8wPMHwBJOnkKeQp5CnwLPlGJ5geIKbXp6R8po7
+1/S9aH9bfO+a+J5lYS9wSN5cF65b6M+P0Hwhf2WaT/kBnLHsDw==
+         "], {{}, 
+          
+          TagBox[FilledCurveBox[{{
+             Line[{1, 56, 55, 54, 53, 52, 51, 50, 49, 48, 47, 46, 45, 44, 43, 
+               42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27,
+                26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 
+               11, 10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+             Line[{111, 112, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 
+               69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84,
+                85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 
+               100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110}]}}],
+           Annotation[#, "Geometry"]& ]}],
+        MouseAppearanceTag["LinkHand"]],
+       AllowKernelInitialization->False],
+      "BoundaryMeshRegion"]},
+    ImageSize->13.783919164408875`], ",", 
+   GraphicsBox[
+    {RGBColor[0.16470588235294117`, 0.7372549019607844, 0.7215686274509804], 
+     TagBox[
+      DynamicModuleBox[{Typeset`mesh = HoldComplete[
+        BoundaryMeshRegion[CompressedData["
+1:eJxdks9L03EcxkckEiVdpA4d/FEJQh2yCDLoOfQPjKg8hJdA8CAlRKXQtair
+ePErBLnb7PY1WHPxCNMS3cTh5gxpYjLw0iVsrVv1/TzvD3w3GOPN8/7xPK/P
+eh4+vjNyLJFIJP99//+OXj/V9TRVYzP3+eyfJyEuzL2427i5y6OozmOv48eb
+5+Uqx8+lU78uFzE7OczmWJmNSN/CUL14NNlW4sBYZvh3ckfz6+r/pv5lur59
+6YuaP1A9z+lpDk58ryOhz9Vo3yG6nQ7TXb0Imw/cftj+Xncfdv+e84dr8uf6
+yzD/NZcPlu+8yy89D/FRHeK+7phP08WP4gfx4158P2fj98WlBPHTvPevfp9P
+us+v2vNhCz92x/mq9vwZxN+HvfH3o/hR/NTv35+1+P+D4ic9T/t/iR/Fz/tc
++Hnx1o2hDZbaO09P3U7xU/Vwf6C5pjrkSm7+5aWZL8yefHvmQT3HjXeP+vsG
+l6XnWXl1pdi1u8SVE1+nnnWuMhfNZ9VfUP8Cq1HfpvS05reYieqAhdeN5PH3
+Fe/L7duRnwDr0l2dhs1rP7a13+lZfNR9d3cJ5k/+sSn/yoeM8im/9JAfHB+s
+io/uoIWf/KRg8+IH2y9+sPvih0rcH8RP/QVYPvGT7vND/CB+aOEnPwHFT7Xn
+b/t9LvGj+Omuf1/zT/GzfBQ/yy89hPhR/Pw7mc+/2Y6jdg==
+         "], {
+          
+          Line[{{1, 40}, {40, 39}, {39, 38}, {38, 37}, {37, 36}, {36, 35}, {
+           35, 34}, {34, 33}, {33, 32}, {32, 31}, {31, 30}, {30, 29}, {29, 
+           28}, {28, 27}, {27, 26}, {26, 25}, {25, 24}, {24, 23}, {23, 22}, {
+           22, 21}, {21, 20}, {20, 19}, {19, 18}, {18, 17}, {17, 16}, {16, 
+           15}, {15, 14}, {14, 13}, {13, 12}, {12, 11}, {11, 10}, {10, 9}, {9,
+            8}, {8, 7}, {7, 6}, {6, 5}, {5, 4}, {4, 3}, {3, 2}, {2, 1}}]}, {
+          
+          Line[{{79, 80}, {80, 41}, {41, 42}, {42, 43}, {43, 44}, {44, 45}, {
+           45, 46}, {46, 47}, {47, 48}, {48, 49}, {49, 50}, {50, 51}, {51, 
+           52}, {52, 53}, {53, 54}, {54, 55}, {55, 56}, {56, 57}, {57, 58}, {
+           58, 59}, {59, 60}, {60, 61}, {61, 62}, {62, 63}, {63, 64}, {64, 
+           65}, {65, 66}, {66, 67}, {67, 68}, {68, 69}, {69, 70}, {70, 71}, {
+           71, 72}, {72, 73}, {73, 74}, {74, 75}, {75, 76}, {76, 77}, {77, 
+           78}, {78, 79}}]}, 
+         Method -> {
+          "EliminateUnusedCoordinates" -> True, "DeleteDuplicateCoordinates" -> 
+           Automatic, "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+           Identity, "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+           Automatic, "CheckIntersections" -> Automatic, 
+           "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+           False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+           "ZeroTest" -> Automatic, "Hash" -> 4072300005035111034}, {
+         PlotTheme -> None}]]}, 
+       TagBox[GraphicsComplexBox[CompressedData["
+1:eJxdks9L03EcxkckEiVdpA4d/FEJQh2yCDLoOfQPjKg8hJdA8CAlRKXQtair
+ePErBLnb7PY1WHPxCNMS3cTh5gxpYjLw0iVsrVv1/TzvD3w3GOPN8/7xPK/P
+eh4+vjNyLJFIJP99//+OXj/V9TRVYzP3+eyfJyEuzL2427i5y6OozmOv48eb
+5+Uqx8+lU78uFzE7OczmWJmNSN/CUL14NNlW4sBYZvh3ckfz6+r/pv5lur59
+6YuaP1A9z+lpDk58ryOhz9Vo3yG6nQ7TXb0Imw/cftj+Xncfdv+e84dr8uf6
+yzD/NZcPlu+8yy89D/FRHeK+7phP08WP4gfx4158P2fj98WlBPHTvPevfp9P
+us+v2vNhCz92x/mq9vwZxN+HvfH3o/hR/NTv35+1+P+D4ic9T/t/iR/Fz/tc
++Hnx1o2hDZbaO09P3U7xU/Vwf6C5pjrkSm7+5aWZL8yefHvmQT3HjXeP+vsG
+l6XnWXl1pdi1u8SVE1+nnnWuMhfNZ9VfUP8Cq1HfpvS05reYieqAhdeN5PH3
+Fe/L7duRnwDr0l2dhs1rP7a13+lZfNR9d3cJ5k/+sSn/yoeM8im/9JAfHB+s
+io/uoIWf/KRg8+IH2y9+sPvih0rcH8RP/QVYPvGT7vND/CB+aOEnPwHFT7Xn
+b/t9LvGj+Omuf1/zT/GzfBQ/yy89hPhR/Pw7mc+/2Y6jdg==
+         "], {{}, 
+          
+          TagBox[FilledCurveBox[{{
+             Line[{1, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 
+               26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11,
+                10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+             Line[{79, 80, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53,
+                54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 
+               69, 70, 71, 72, 73, 74, 75, 76, 77, 78}]}}],
+           Annotation[#, "Geometry"]& ]}],
+        MouseAppearanceTag["LinkHand"]],
+       AllowKernelInitialization->False],
+      "BoundaryMeshRegion"]},
+    ImageSize->15.957555145264452`], ",", 
+   GraphicsBox[
+    {RGBColor[0.8470588235294118, 0.09411764705882353, 0.34901960784313724`], 
+     TagBox[
+      DynamicModuleBox[{Typeset`mesh = HoldComplete[
+        BoundaryMeshRegion[CompressedData["
+1:eJxdk19Ik2EUxmcXWSH9FQvqJogo0uqiuik60lVhwSopCiQNttFVphdRzSjQ
+brsa2Na6aFoXKWjTzBqcmeY2HXO5paMUZ3aRUFBBdGFF9Z7nfeF7B2P8ON85
+53me823rxcunPMtcLlf9v+//366zkUJlIk03DjWmGsNFHr278WDznmHDccVR
+wy58NE9KnTVnpN9wVOYbTqt6zvDI7esPGwJvuXCptb5twyzHmmdXupemefD8
+jt07Pxe431N95XDDOw7WpJfSI3nuVvNm0J/lzmPLqzdXzfGAej7JE+G+XGuq
+yNdUPc7jFd5S/695vqq4hxNq/4LxMYb6LalTBv03pZ86MD8m86kL+/2yn6JO
+ffTCqZ9eOf1Ryukf80w+lHTmBzb5kpW/rpPVT9Z8q54zPCT6aBr6oJ+eQ/9T
+8Ufa3xPxj/6szgfPJ3V+qMcJ+YN7CPmTlT/5cR/d78f9rPls7WdLH1v62fLH
+ln/+9rhs0VdM0p1ez/t7Q1mePHq/u6RjnE7v9awKDqa5b3FXU8iXoeDvP3Wu
+rwmueV0XCgay9GGsvde7fZhjgc4W3883VKuej3Gl98uFfedyqEc5fGD/kZKX
+eSoqjvDq0pZtmS1Txr+uy/MRsvpJzxc9MbL2k6WPLP1k+aM1av8o+nOYFzcs
++p4ZLlP8yLDWrblc6qx5vfQbPiHzDa+T/Ya/iz7W+vKin2uhv1/8cQj+4J8X
+4B/58Bnkg/z4I/J7IPnyJ+SL/M3/X9dncJ8q9M/hfnq+G/c9jv1F3H8A+trx
+fkxB/0m8Pz/grw3vVzn8z4t/diMfzRXIT/Mm5KvZyp9XOO/Da533g15zX7bu
+z38BUPQQ9A==
+         "], {
+          
+          Line[{{1, 48}, {48, 47}, {47, 46}, {46, 45}, {45, 44}, {44, 43}, {
+           43, 42}, {42, 41}, {41, 40}, {40, 39}, {39, 38}, {38, 37}, {37, 
+           36}, {36, 35}, {35, 34}, {34, 33}, {33, 32}, {32, 31}, {31, 30}, {
+           30, 29}, {29, 28}, {28, 27}, {27, 26}, {26, 25}, {25, 24}, {24, 
+           23}, {23, 22}, {22, 21}, {21, 20}, {20, 19}, {19, 18}, {18, 17}, {
+           17, 16}, {16, 15}, {15, 14}, {14, 13}, {13, 12}, {12, 11}, {11, 
+           10}, {10, 9}, {9, 8}, {8, 7}, {7, 6}, {6, 5}, {5, 4}, {4, 3}, {3, 
+           2}, {2, 1}}]}, {
+          
+          Line[{{95, 96}, {96, 49}, {49, 50}, {50, 51}, {51, 52}, {52, 53}, {
+           53, 54}, {54, 55}, {55, 56}, {56, 57}, {57, 58}, {58, 59}, {59, 
+           60}, {60, 61}, {61, 62}, {62, 63}, {63, 64}, {64, 65}, {65, 66}, {
+           66, 67}, {67, 68}, {68, 69}, {69, 70}, {70, 71}, {71, 72}, {72, 
+           73}, {73, 74}, {74, 75}, {75, 76}, {76, 77}, {77, 78}, {78, 79}, {
+           79, 80}, {80, 81}, {81, 82}, {82, 83}, {83, 84}, {84, 85}, {85, 
+           86}, {86, 87}, {87, 88}, {88, 89}, {89, 90}, {90, 91}, {91, 92}, {
+           92, 93}, {93, 94}, {94, 95}}]}, 
+         Method -> {
+          "EliminateUnusedCoordinates" -> True, "DeleteDuplicateCoordinates" -> 
+           Automatic, "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+           Identity, "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+           Automatic, "CheckIntersections" -> Automatic, 
+           "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+           False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+           "ZeroTest" -> Automatic, "Hash" -> 8630667979866962175}, {
+         PlotTheme -> None}]]}, 
+       TagBox[GraphicsComplexBox[CompressedData["
+1:eJxdk19Ik2EUxmcXWSH9FQvqJogo0uqiuik60lVhwSopCiQNttFVphdRzSjQ
+brsa2Na6aFoXKWjTzBqcmeY2HXO5paMUZ3aRUFBBdGFF9Z7nfeF7B2P8ON85
+53me823rxcunPMtcLlf9v+//366zkUJlIk03DjWmGsNFHr278WDznmHDccVR
+wy58NE9KnTVnpN9wVOYbTqt6zvDI7esPGwJvuXCptb5twyzHmmdXupemefD8
+jt07Pxe431N95XDDOw7WpJfSI3nuVvNm0J/lzmPLqzdXzfGAej7JE+G+XGuq
+yNdUPc7jFd5S/695vqq4hxNq/4LxMYb6LalTBv03pZ86MD8m86kL+/2yn6JO
+ffTCqZ9eOf1Ryukf80w+lHTmBzb5kpW/rpPVT9Z8q54zPCT6aBr6oJ+eQ/9T
+8Ufa3xPxj/6szgfPJ3V+qMcJ+YN7CPmTlT/5cR/d78f9rPls7WdLH1v62fLH
+ln/+9rhs0VdM0p1ez/t7Q1mePHq/u6RjnE7v9awKDqa5b3FXU8iXoeDvP3Wu
+rwmueV0XCgay9GGsvde7fZhjgc4W3883VKuej3Gl98uFfedyqEc5fGD/kZKX
+eSoqjvDq0pZtmS1Txr+uy/MRsvpJzxc9MbL2k6WPLP1k+aM1av8o+nOYFzcs
++p4ZLlP8yLDWrblc6qx5vfQbPiHzDa+T/Ya/iz7W+vKin2uhv1/8cQj+4J8X
+4B/58Bnkg/z4I/J7IPnyJ+SL/M3/X9dncJ8q9M/hfnq+G/c9jv1F3H8A+trx
+fkxB/0m8Pz/grw3vVzn8z4t/diMfzRXIT/Mm5KvZyp9XOO/Da533g15zX7bu
+z38BUPQQ9A==
+         "], {{}, 
+          
+          TagBox[FilledCurveBox[{{
+             Line[{1, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 
+               34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19,
+                18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 
+               2}]}, {Line[{95, 96, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 
+               59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74,
+                75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 
+               90, 91, 92, 93, 94}]}}],
+           Annotation[#, "Geometry"]& ]}],
+        MouseAppearanceTag["LinkHand"]],
+       AllowKernelInitialization->False],
+      "BoundaryMeshRegion"]},
+    ImageSize->17.98626753084572], ",", 
+   GraphicsBox[
+    {RGBColor[
+     0.21176470588235294`, 0.49411764705882355`, 0.26666666666666666`], 
+     TagBox[
+      DynamicModuleBox[{Typeset`mesh = HoldComplete[
+        BoundaryMeshRegion[CompressedData["
+1:eJxVkmtI02EUxocSFl7KTNIsSSvpQ1CxdNq0E04JSZ2pOTWFGmQfsqwIU8NM
+jSwkIujiBSQJg1QqlQLTPKJ5wVvqnJlkupWGln2YofNb5XkmOPgzDu/7nud5
+fuf46DNiz9opFIr4f9///4Dvxx0Dx03U/8vNu+/2G253z7qcf9RE6XUaJ4ro
+4Mn+nru+YVO0L6jAnHryI0cVDW3JNU6QendBn59uhA89GQ3wzBon67L/QuT9
+Ma58mJ6hKxwlnZc1Q6H+wmnloTGfnIep4qouSxM+ybnnEqIP6nvoSHFLU9LA
+FD/Yq0w0uLaSdrYmeLHUxDHPdi7S4yo6/dT0dU5h5rdSs61ulvschfuPpB8H
+o98V0eMS6NWLH46An2Dxy7/hN17y8AHk+SZ52QV5O4UHh4KHSnhxGXhdWNEz
+swI/8OQuOacPeJ8o78mE/r7Sn7TQ9xd9Ak9eEn/0HP7jxD+dR74yyUd5yA+e
+VAk+0cKH8tbyo9q1fKkW/MGTijGfEPS7iPmVQq8a89XCTyDmb4HfWOyHEnnM
+2J+tyAuepAUP2/5Vgxd4ko2npzKySNVtpIEZlcWoqSZ3u4aNNU5GKmv7k95s
+baTcz8kTLWMG+hln9Lu1o51SdhWNxCmHySHEw5I01E2OaVazYc8gNbzQndIs
+9VOEfj7eeq2XQl+dmPoROESdd0JY6dBJh82u6jo3A83b1zRmerTS9tqSCn3+
+CO2/NFefUt5A+etmuwezjaTSq++9Tiij7O5Mp4wlIymkZlvtI/fZdn9G+rE3
++rWJHtv0wsQPh8PPevHLjfCbLHl4A/Jcl7xsQV434cFV4AFebAGvjhW90dX9
+3IbzJjln8ORiec830H9a+nMq9O1Fn53h76X44zj4J/HPvcgXJPl4Afm9JD+H
+gs9N4cOatfy464zwzUHtAv6FuD+N+YAnv8f8gqF3BPM9Bj/gSe/gNwn7sQl5
+crA/VuTdjP1qAQ/b/i2DF3iu7udf6LOvKg==
+         "], {
+          
+          Line[{{1, 42}, {42, 41}, {41, 40}, {40, 39}, {39, 38}, {38, 37}, {
+           37, 36}, {36, 35}, {35, 34}, {34, 33}, {33, 32}, {32, 31}, {31, 
+           30}, {30, 29}, {29, 28}, {28, 27}, {27, 26}, {26, 25}, {25, 24}, {
+           24, 23}, {23, 22}, {22, 21}, {21, 20}, {20, 19}, {19, 18}, {18, 
+           17}, {17, 16}, {16, 15}, {15, 14}, {14, 13}, {13, 12}, {12, 11}, {
+           11, 10}, {10, 9}, {9, 8}, {8, 7}, {7, 6}, {6, 5}, {5, 4}, {4, 3}, {
+           3, 2}, {2, 1}}]}, {
+          
+          Line[{{83, 84}, {84, 43}, {43, 44}, {44, 45}, {45, 46}, {46, 47}, {
+           47, 48}, {48, 49}, {49, 50}, {50, 51}, {51, 52}, {52, 53}, {53, 
+           54}, {54, 55}, {55, 56}, {56, 57}, {57, 58}, {58, 59}, {59, 60}, {
+           60, 61}, {61, 62}, {62, 63}, {63, 64}, {64, 65}, {65, 66}, {66, 
+           67}, {67, 68}, {68, 69}, {69, 70}, {70, 71}, {71, 72}, {72, 73}, {
+           73, 74}, {74, 75}, {75, 76}, {76, 77}, {77, 78}, {78, 79}, {79, 
+           80}, {80, 81}, {81, 82}, {82, 83}}]}, 
+         Method -> {
+          "EliminateUnusedCoordinates" -> True, "DeleteDuplicateCoordinates" -> 
+           Automatic, "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+           Identity, "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+           Automatic, "CheckIntersections" -> Automatic, 
+           "BoundaryNesting" -> {{0, 0}, {1, 1}}, "SeparateBoundaries" -> 
+           False, "TJunction" -> Automatic, "PropagateMarkers" -> True, 
+           "ZeroTest" -> Automatic, "Hash" -> 5668074705298206648}, {
+         PlotTheme -> None}]]}, 
+       TagBox[GraphicsComplexBox[CompressedData["
+1:eJxVkmtI02EUxocSFl7KTNIsSSvpQ1CxdNq0E04JSZ2pOTWFGmQfsqwIU8NM
+jSwkIujiBSQJg1QqlQLTPKJ5wVvqnJlkupWGln2YofNb5XkmOPgzDu/7nud5
+fuf46DNiz9opFIr4f9///4Dvxx0Dx03U/8vNu+/2G253z7qcf9RE6XUaJ4ro
+4Mn+nru+YVO0L6jAnHryI0cVDW3JNU6QendBn59uhA89GQ3wzBon67L/QuT9
+Ma58mJ6hKxwlnZc1Q6H+wmnloTGfnIep4qouSxM+ybnnEqIP6nvoSHFLU9LA
+FD/Yq0w0uLaSdrYmeLHUxDHPdi7S4yo6/dT0dU5h5rdSs61ulvschfuPpB8H
+o98V0eMS6NWLH46An2Dxy7/hN17y8AHk+SZ52QV5O4UHh4KHSnhxGXhdWNEz
+swI/8OQuOacPeJ8o78mE/r7Sn7TQ9xd9Ak9eEn/0HP7jxD+dR74yyUd5yA+e
+VAk+0cKH8tbyo9q1fKkW/MGTijGfEPS7iPmVQq8a89XCTyDmb4HfWOyHEnnM
+2J+tyAuepAUP2/5Vgxd4ko2npzKySNVtpIEZlcWoqSZ3u4aNNU5GKmv7k95s
+baTcz8kTLWMG+hln9Lu1o51SdhWNxCmHySHEw5I01E2OaVazYc8gNbzQndIs
+9VOEfj7eeq2XQl+dmPoROESdd0JY6dBJh82u6jo3A83b1zRmerTS9tqSCn3+
+CO2/NFefUt5A+etmuwezjaTSq++9Tiij7O5Mp4wlIymkZlvtI/fZdn9G+rE3
++rWJHtv0wsQPh8PPevHLjfCbLHl4A/Jcl7xsQV434cFV4AFebAGvjhW90dX9
+3IbzJjln8ORiec830H9a+nMq9O1Fn53h76X44zj4J/HPvcgXJPl4Afm9JD+H
+gs9N4cOatfy464zwzUHtAv6FuD+N+YAnv8f8gqF3BPM9Bj/gSe/gNwn7sQl5
+crA/VuTdjP1qAQ/b/i2DF3iu7udf6LOvKg==
+         "], {{}, 
+          
+          TagBox[FilledCurveBox[{{
+             Line[{1, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 
+               28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13,
+                12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2}]}, {
+             Line[{83, 84, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55,
+                56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 
+               71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82}]}}],
+           Annotation[#, "Geometry"]& ]}],
+        MouseAppearanceTag["LinkHand"]],
+       AllowKernelInitialization->False],
+      "BoundaryMeshRegion"]},
+    ImageSize->16.925687506432688`]}], "}"}]], "Output",
+ CellChangeTimes->{{3.9707980614101048`*^9, 3.970798076302353*^9}, {
+   3.970801538928631*^9, 3.970801542743683*^9}, {3.9708016532237625`*^9, 
+   3.9708016721536427`*^9}, 3.9708017023276978`*^9},
+ CellLabel->"Out[22]=",ExpressionUUID->"d6eb7791-9775-1140-8227-5180fa14dc75"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   TemplateBox[<|
+    "color" -> RGBColor[
+      0.9294117647058824, 0.16470588235294117`, 0.1568627450980392]|>,
+    "RGBColorSwatchTemplate"], ",", 
+   TemplateBox[<|
+    "color" -> RGBColor[
+      0.24705882352941178`, 0.48627450980392156`, 0.6745098039215687]|>,
+    "RGBColorSwatchTemplate"], ",", 
+   TemplateBox[<|
+    "color" -> RGBColor[
+      0.9647058823529412, 0.6313725490196078, 0.22745098039215686`]|>,
+    "RGBColorSwatchTemplate"], ",", 
+   TemplateBox[<|
+    "color" -> RGBColor[
+      0.6196078431372549, 0.6196078431372549, 0.28627450980392155`]|>,
+    "RGBColorSwatchTemplate"], ",", 
+   TemplateBox[<|
+    "color" -> RGBColor[
+      0.5294117647058824, 0.30980392156862746`, 0.6196078431372549]|>,
+    "RGBColorSwatchTemplate"], ",", 
+   TemplateBox[<|
+    "color" -> RGBColor[
+      0.9137254901960784, 0.42745098039215684`, 0.6588235294117647]|>,
+    "RGBColorSwatchTemplate"], ",", 
+   TemplateBox[<|
+    "color" -> RGBColor[
+      0.9490196078431372, 0.48627450980392156`, 0.1843137254901961]|>,
+    "RGBColorSwatchTemplate"], ",", 
+   TemplateBox[<|
+    "color" -> RGBColor[
+      0.16470588235294117`, 0.7372549019607844, 0.7215686274509804]|>,
+    "RGBColorSwatchTemplate"], ",", 
+   TemplateBox[<|
+    "color" -> RGBColor[
+      0.8470588235294118, 0.09411764705882353, 0.34901960784313724`]|>,
+    "RGBColorSwatchTemplate"], ",", 
+   TemplateBox[<|
+    "color" -> RGBColor[
+      0.21176470588235294`, 0.49411764705882355`, 0.26666666666666666`]|>,
+    "RGBColorSwatchTemplate"]}], "}"}]], "Output",
+ CellChangeTimes->{{3.9707980614101048`*^9, 3.970798076302353*^9}, {
+   3.970801538928631*^9, 3.970801542743683*^9}, {3.9708016532237625`*^9, 
+   3.9708016721536427`*^9}, 3.9708017023516445`*^9},
+ CellLabel->"Out[23]=",ExpressionUUID->"c55798a9-93f3-0943-9c03-18908308dffe"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{638, 645.5},
+WindowMargins->{{-4.5, Automatic}, {Automatic, 0}},
+Magnification:>0.7 Inherited,
+FrontEndVersion->"14.0 for Microsoft Windows (64-bit) (2023\:5e7412\:670812\
+\:65e5)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"842d703b-fae3-0548-9e60-263575f8ea02"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 135, 3, 47, "Section",ExpressionUUID->"b0dd8e1f-21cc-5643-a059-eeeee7c6ca1c"],
+Cell[CellGroupData[{
+Cell[740, 29, 5074, 124, 346, "Input",ExpressionUUID->"0b24f646-19c8-d14e-a3f3-e1bb914f2a4e"],
+Cell[5817, 155, 5598, 93, 275, "Output",ExpressionUUID->"d422b263-bea4-6e47-a0bc-c52bb52e9661"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11464, 254, 192, 3, 47, "Section",ExpressionUUID->"4b7aa6ca-6557-834b-9096-76ee8e6fb7df"],
+Cell[CellGroupData[{
+Cell[11681, 261, 250, 4, 37, "Subsection",ExpressionUUID->"53b0ea72-5438-674f-a6cf-9dd1b5c7b28f"],
+Cell[11934, 267, 3005, 65, 304, "Input",ExpressionUUID->"2dccf90c-a4bf-bd44-b090-12625eaef94c"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[14976, 337, 295, 5, 37, "Subsection",ExpressionUUID->"7058adbc-25a6-3640-9191-f07104158f73"],
+Cell[15274, 344, 9499, 227, 816, "Input",ExpressionUUID->"5fd02d22-c438-8d41-a816-ba99ddddd921"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[24810, 576, 174, 3, 37, "Subsection",ExpressionUUID->"a88d027e-ade3-a94a-8172-791655359e6c"],
+Cell[CellGroupData[{
+Cell[25009, 583, 2098, 55, 150, "Input",ExpressionUUID->"a7361a5c-5934-5f4c-9979-b3e2adc37163"],
+Cell[27110, 640, 29976, 502, 188, "Output",ExpressionUUID->"cab43d50-a228-bb43-bebf-f80458f12810"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[57135, 1148, 289, 5, 37, "Subsection",ExpressionUUID->"1b6fee66-37f0-fa4e-a313-4b3b28048798"],
+Cell[57427, 1155, 10009, 233, 732, "Input",ExpressionUUID->"46ba7950-e34c-9c41-8198-c00d48d6c029"],
+Cell[CellGroupData[{
+Cell[67461, 1392, 1204, 20, 83, "Input",ExpressionUUID->"e0a506ab-97cd-a948-a440-f9fb3c17dee3"],
+Cell[68668, 1414, 74806, 1325, 778, "Output",ExpressionUUID->"cd0c0d06-6de0-304e-975b-e3b53265b4f5"],
+Cell[143477, 2741, 44253, 765, 29, "Output",ExpressionUUID->"d6eb7791-9775-1140-8227-5180fa14dc75"],
+Cell[187733, 3508, 1845, 46, 23, "Output",ExpressionUUID->"c55798a9-93f3-0943-9c03-18908308dffe"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
