@@ -130,38 +130,39 @@ RegularPolygon[4],
 Polygon[Table[0.8 {0.7 Sqrt[4 / (4 * Cot[Pi / 4])] Sin[2 \[Pi] k / 4], Sqrt[4 / (4* Cot[Pi /4])] Cos[2 \[Pi] k /4]}, {k, 1,4}]],
 RegularPolygon[6],
 Disk[],
-RegularPolygon[5]};
+RegularPolygon[5],
+Triangle[{{1,0},{-1,0},{0,-Sqrt[3]}}]};
 
 markerlistcreate[n_,regionlist_,colorlist_,factor_:1 ,openness_:True, coverness_:True]:=Module[{colorlistlength=Length@colorlist,regionlistlength=Length@regionlist,bound,markersizefactor,markerregionlist,innerregionlist},
 markerregionlist=If[openness,openregion/@regionlist,closeregion/@regionlist];
 If[coverness,innerregionlist=openregionInner/@regionlist];
 Table[
-bound=RegionBounds[markerregionlist[[Mod[i-1,regionlistlength-1]+1]]]\[Transpose];
+bound=RegionBounds[markerregionlist[[Mod[i-1,regionlistlength]+1]]]\[Transpose];
 markersizefactor=bound[[1]]-bound[[2]]//Norm;
 {
 If[coverness,
-Graphics[{colorlist[[Mod[i-1,colorlistlength-1]+1]],
-markerregionlist[[Mod[i-1,regionlistlength-1]+1]],
-White,innerregionlist[[Mod[i-1,regionlistlength-1]+1]]
+Graphics[{colorlist[[Mod[i-1,colorlistlength]+1]],
+markerregionlist[[Mod[i-1,regionlistlength]+1]],
+White,innerregionlist[[Mod[i-1,regionlistlength]+1]]
 }]
 ,
-Graphics[{colorlist[[Mod[i-1,colorlistlength-1]+1]],
-markerregionlist[[Mod[i-1,regionlistlength-1]+1]]}]]
+Graphics[{colorlist[[Mod[i-1,colorlistlength]+1]],
+markerregionlist[[Mod[i-1,regionlistlength]+1]]}]]
 ,
-Scaled[0.02*markersizefactor*factor]},
+Scaled[0.016*markersizefactor*factor]},
 {i,1,n}]
 ];
 legendlistcreate[n_,regionlist_,colorlist_,factor_:1,openness_:True, coverness_:True]:=Module[{colorlistlength=Length@colorlist,regionlistlength=Length@regionlist,bound,legendsizefactor,markerregionlist},
 markerregionlist=If[openness,openregion/@regionlist,closeregion/@regionlist];
 Table[
-bound=RegionBounds[markerregionlist[[Mod[i-1,regionlistlength-1]+1]]]\[Transpose];
+bound=RegionBounds[markerregionlist[[Mod[i-1,regionlistlength]+1]]]\[Transpose];
 legendsizefactor=Abs[(bound[[1]]-bound[[2]])[[1]]];
-Graphics[{colorlist[[Mod[i-1,colorlistlength-1]+1]],
-markerregionlist[[Mod[i-1,regionlistlength-1]+1]]},ImageSize->8*legendsizefactor*factor],
+Graphics[{colorlist[[Mod[i-1,colorlistlength]+1]],
+markerregionlist[[Mod[i-1,regionlistlength]+1]]},ImageSize->7*legendsizefactor*factor],
 {i,1,n}]
 ];
 stylecolorlistcreate[n_,colorlist_]:=Module[{colorlistlength=Length@colorlist},
-Table[colorlist[[Mod[i-1,colorlistlength-1]+1]],{i,1,n}]];
+Table[colorlist[[Mod[i-1,colorlistlength]+1]],{i,1,n}]];
 gradientcolorlist[colors_List,n_]:=Table[Blend[colors,x],{x,0,1,1/n}];
 
 (*Plot*)
